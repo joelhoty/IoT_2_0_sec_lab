@@ -1,0 +1,1780 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><title>RFID／NFC｜進階原理與通訊架構</title><meta property="og:title" content="RFID／NFC｜進階原理與通訊架構"><meta name="description" content="能重算資料格式與記憶體配置，區分認證、存取與授權機制，並限定研究結論。"><meta property="og:description" content="能重算資料格式與記憶體配置，區分認證、存取與授權機制，並限定研究結論。"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><style>@media screen{body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=overview] button.bespoke-marp-overview-close,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{appearance:none;background-color:initial;border:0;color:inherit;cursor:pointer;font-size:inherit;opacity:.8;outline:none;padding:0;transition:opacity .2s linear;-webkit-tap-highlight-color:transparent}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:disabled{cursor:not-allowed;opacity:.15!important}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover{opacity:1}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:active{opacity:.6}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:not(:disabled){transition:none}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-prev{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNNjggOTAgMjggNTBsNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-next{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJtMzIgOTAgNDAtNDAtNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNNDAgNzBIMjBWNTBtMjAgMEwyMCA3MG00MC00MGgyMHYyMG0tMjAgMCAyMC0yMCIgY2xhc3M9ImEiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen]{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNMjAgNTBoMjB2MjBtLTIwIDAgMjAtMjBtNDAgMEg2MFYzMG0yMCAwTDYwIDUwIiBjbGFzcz0iYSIvPjwvc3ZnPg==")}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNODcuOCA0Ny41Qzg5IDUwIDg3LjcgNTIgODUgNTJIMzVhOC43IDguNyAwIDAgMS03LjItNC41bC0xNS42LTMxQzExIDE0IDEyLjIgMTIgMTUgMTJoNTBhOC44IDguOCAwIDAgMSA3LjIgNC41ek02MCA1MnYzNm0tMTAgMGgyME00NSA0MmgyMCIvPjwvc3ZnPg==") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=overview] button.bespoke-marp-overview-close,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-bigger{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODBNNTIgOTBWMTAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-smaller{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=overview]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4O3J4OjVweDtyeTo1cHg7d2lkdGg6MjVweDtoZWlnaHQ6MjVweH08L3N0eWxlPjwvZGVmcz48cmVjdCB4PSIyMCIgeT0iMjAiIGNsYXNzPSJhIi8+PHJlY3QgeD0iNTUiIHk9IjIwIiBjbGFzcz0iYSIvPjxyZWN0IHg9IjIwIiB5PSI1NSIgY2xhc3M9ImEiLz48cmVjdCB4PSI1NSIgeT0iNTUiIGNsYXNzPSJhIi8+PC9zdmc+") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}}@keyframes __bespoke_marp_transition_reduced_outgoing__{0%{opacity:1}to{opacity:0}}@keyframes __bespoke_marp_transition_reduced_incoming__{0%{mix-blend-mode:plus-lighter;opacity:0}to{mix-blend-mode:plus-lighter;opacity:1}}.bespoke-marp-note,.bespoke-marp-osc,.bespoke-progress-parent{display:none;transition:none}@media screen{::view-transition-group(*){animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-timing-function:ease}::view-transition-new(*),::view-transition-old(*){animation-delay:0s;animation-direction:var(--marp-bespoke-transition-animation-direction,normal);animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-fill-mode:both;animation-name:var(--marp-bespoke-transition-animation-name,var(--marp-bespoke-transition-animation-name-fallback,__bespoke_marp_transition_no_animation__));mix-blend-mode:normal}::view-transition-old(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_outgoing__;animation-timing-function:ease}::view-transition-new(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_incoming__;animation-timing-function:ease}::view-transition-new(root),::view-transition-old(root){animation-timing-function:linear}::view-transition-new(__bespoke_marp_transition_osc__),::view-transition-old(__bespoke_marp_transition_osc__){animation-duration:0s!important;animation-name:__bespoke_marp_transition_osc__!important}::view-transition-new(__bespoke_marp_transition_osc__){opacity:0!important}.bespoke-marp-transition-warming-up::view-transition-group(*),.bespoke-marp-transition-warming-up::view-transition-new(*),.bespoke-marp-transition-warming-up::view-transition-old(*){animation-play-state:paused!important}body,html{height:100%;margin:0}body{background:#000;overflow:hidden}svg.bespoke-marp-slide{content-visibility:hidden;interactivity:inert;opacity:0;pointer-events:none;z-index:-1}svg.bespoke-marp-slide:not(.bespoke-marp-active) *{view-transition-name:none!important}svg.bespoke-marp-slide.bespoke-marp-active{content-visibility:visible;interactivity:auto;opacity:1;pointer-events:auto;z-index:0}svg.bespoke-marp-slide.bespoke-marp-active.bespoke-marp-active-ready *{animation-name:__bespoke_marp__!important}@supports not (content-visibility:hidden){svg.bespoke-marp-slide[data-bespoke-marp-load=hideable]{display:none}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable].bespoke-marp-active{display:block}}}@media screen and (prefers-reduced-motion:reduce){svg.bespoke-marp-slide *{view-transition-name:none!important}}@media screen{[data-bespoke-marp-fragment=inactive]{visibility:hidden}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent{inset:0;position:absolute}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc{background:#000000a6;border-radius:7px;bottom:50px;color:#fff;contain:paint;display:block;font-family:Helvetica,Arial,sans-serif;font-size:16px;left:50%;line-height:0;opacity:1;padding:12px;position:absolute;touch-action:manipulation;transform:translateX(-50%);transition:opacity .2s linear;-webkit-user-select:none;user-select:none;view-transition-name:__bespoke_marp_transition_osc__;white-space:nowrap;will-change:transform;z-index:1}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>:where(*){margin-left:6px}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>:where(*):where(:first-child){margin-left:0}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>span{opacity:.8}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page]{display:inline-block;min-width:140px;text-align:center}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=overview],:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev]{height:32px;line-height:32px;width:32px}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent.bespoke-marp-inactive{cursor:none}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc{opacity:0;pointer-events:none}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) svg.bespoke-marp-slide{height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent{background:#222;display:flex;height:5px;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent+:where(.bespoke-marp-parent){top:5px}body[data-bespoke-view=""] .bespoke-progress-parent .bespoke-progress-bar{background:#0288d1;flex:0 0 0;transition:flex-basis .2s cubic-bezier(0,1,1,1)}body[data-bespoke-view=next]{background:#0000}body[data-bespoke-view=presenter]{background:#161616}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container{display:grid;font-family:Helvetica,Arial,sans-serif;grid-template:"current dragbar next" minmax(140px,1fr) "current dragbar note" 2fr "info    dragbar note" 3em;grid-template-columns:minmax(3px,var(--bespoke-marp-presenter-split-ratio,66%)) 0 minmax(3px,1fr);height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent){grid-area:current;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent) :where(svg.bespoke-marp-slide){height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent) :where(svg.bespoke-marp-slide).bespoke-marp-active{filter:drop-shadow(0 3px 10px rgba(0,0,0,.5))}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container{background:#0288d1;cursor:col-resize;grid-area:dragbar;margin-left:-3px;opacity:0;position:relative;transition:opacity .4s linear .1s;width:6px;z-index:10}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container:hover{opacity:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container.active{opacity:1;transition-delay:0s}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container{background:#222;cursor:pointer;display:none;grid-area:next;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container iframe.bespoke-marp-presenter-next{background:#0000;border:0;display:block;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;interactivity:inert;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container{background:#222;color:#eee;grid-area:note;position:relative;z-index:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper{display:block;inset:0;position:absolute}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons{background:#000000a6;border-radius:4px;bottom:0;display:flex;gap:4px;margin:12px;opacity:0;padding:6px;pointer-events:none;position:absolute;right:0;transition:opacity .2s linear}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons:focus-within,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper:focus-within+.bespoke-marp-presenter-note-buttons,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container:hover .bespoke-marp-presenter-note-buttons{opacity:1;pointer-events:auto}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note{box-sizing:border-box;font-size:calc(1.1em*var(--bespoke-marp-note-font-scale, 1));height:calc(100% - 40px);margin:20px;overflow:auto;padding-right:3px;white-space:pre-wrap;width:calc(100% - 40px);word-wrap:break-word;scrollbar-color:#eeeeee80 #0000;scrollbar-width:thin}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar{width:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-track{background:#0000}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-thumb{background:#eeeeee80;border-radius:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note:empty{pointer-events:none}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:first-child{margin-top:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:last-child{margin-bottom:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container{align-items:center;box-sizing:border-box;color:#eee;display:flex;flex-wrap:nowrap;grid-area:info;justify-content:center;overflow:hidden;padding:0 10px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container :is(.bespoke-marp-presenter-info-page-area,.bespoke-marp-presenter-info-time,.bespoke-marp-presenter-info-timer){box-sizing:border-box;display:block;padding:0 10px;white-space:nowrap;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area{order:2;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page{display:inline-block;min-width:120px;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time{color:#999;order:1;text-align:left}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{color:#999;order:3;text-align:right}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer:hover{cursor:pointer}body[data-bespoke-view=overview]{background:#161616;overflow:auto}body[data-bespoke-view=overview] [data-bespoke-marp-fragment=inactive]{visibility:visible}body[data-bespoke-view=overview] .bespoke-marp-overview-header{backdrop-filter:blur(4px);background:#222222d9;box-shadow:0 3px 10px #00000080;box-sizing:border-box;display:flex;height:48px;inset:0 0 auto;justify-content:flex-end;padding:10px;position:fixed;z-index:1}body[data-bespoke-view=overview] button.bespoke-marp-overview-close{height:28px;line-height:28px;transform:rotate(45deg);width:28px}body[data-bespoke-view=overview] .bespoke-marp-parent{display:grid;gap:40px;grid-template-columns:repeat(auto-fit,minmax(0,240px));justify-content:space-around;padding:30px}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide{--bov-selected:#0000;--bov-focus:#161616;--bov-focus-outline:#0000;background-image:conic-gradient(#161616 0 0),conic-gradient(var(--bov-focus) 0 0),conic-gradient(var(--bov-focus-outline) 0 0),conic-gradient(var(--bov-selected) 0 0);background-position:5px 5px,3px 3px,2px 2px,0 0;background-repeat:no-repeat;background-size:calc(100% - 10px) calc(100% - 10px),calc(100% - 6px) calc(100% - 6px),calc(100% - 4px) calc(100% - 4px),100% 100%;content-visibility:visible;cursor:pointer;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));margin:-6px;padding:6px;interactivity:auto;opacity:1;outline:0;pointer-events:auto;scroll-margin-block:30px;width:100%;z-index:0}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide *,body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active *{pointer-events:none;interactivity:inert}body[data-bespoke-view=overview] .bespoke-marp-parent :is(svg.bespoke-marp-slide:active,svg.bespoke-marp-slide:focus-visible,svg.bespoke-marp-slide:hover){--bov-focus-outline:#161616}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:focus-visible,body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:hover{--bov-focus:#999}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:active{--bov-focus:#eee}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active{--bov-selected:#0288d1}body[data-bespoke-view=overview]:has(.bespoke-marp-overview-header) .bespoke-marp-parent{padding-top:78px}body[data-bespoke-view=overview]:has(.bespoke-marp-overview-header) .bespoke-marp-parent svg.bespoke-marp-slide{scroll-margin-top:78px}.bespoke-marp-overview{background:#000000a6;inset:0;opacity:0;pointer-events:none;position:fixed;transition:opacity .1s ease;z-index:10}.bespoke-marp-overview iframe{background:#222;border:0;display:block;height:100%;left:0;position:absolute;top:0;width:100%}.bespoke-marp-overview[data-open="1"]{opacity:1;pointer-events:auto}}@media print{.bespoke-marp-overview,.bespoke-marp-presenter-info-container,.bespoke-marp-presenter-next-container,.bespoke-marp-presenter-note-container{display:none}}</style><style>div#\:\$p > svg > foreignObject > section{width:1280px;height:720px;box-sizing:border-box;overflow:hidden;position:relative;scroll-snap-align:center center;-webkit-text-size-adjust:100%;text-size-adjust:100%}div#\:\$p > svg > foreignObject > section::after{bottom:0;content:attr(data-marpit-pagination);padding:inherit;pointer-events:none;position:absolute;right:0}div#\:\$p > svg > foreignObject > section:not([data-marpit-pagination])::after{display:none}div#\:\$p > svg > foreignObject > section :where(:is(h1, marp-h1)){font-size:2em;margin-block:0.67em}div#\:\$p > svg > foreignObject > section section:where(:is(h1, marp-h1)){--marpit-root-font-size: 2em}div#\:\$p > svg > foreignObject > section video::-webkit-media-controls{will-change:transform}@page {size:1280px 720px;margin:0}@media print{html, body{background-color:#fff;margin:0;page-break-inside:avoid;break-inside:avoid-page}div#\:\$p > svg > foreignObject > section{page-break-before:always;break-before:page}div#\:\$p > svg > foreignObject > section, div#\:\$p > svg > foreignObject > section *{-webkit-print-color-adjust:exact!important;animation-delay:0s!important;animation-duration:0s!important;color-adjust:exact!important;print-color-adjust:exact!important;transition:none!important}div#\:\$p > svg[data-marpit-svg]{display:block;height:100vh;width:100vw}}div#\:\$p > svg > foreignObject > :where(section){container-type:size}div#\:\$p > svg > foreignObject > section{--paper:#fafbf9;--ink:#182b36;--accent:#155e75;--line:#cad8dd;--sans:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;--mono:"SF Mono",Menlo,Consolas,monospace;width:1280px;height:720px;box-sizing:border-box;padding:38px 56px 56px;display:flex;flex-direction:column;justify-content:flex-start;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:27px;line-height:1.62;overflow:hidden}div#\:\$p > svg > foreignObject > section{--marpit-root-font-size:27px}div#\:\$p > svg > foreignObject > section *{box-sizing:border-box}div#\:\$p > svg > foreignObject > section :is(h2, marp-h2){font-size:36px;line-height:1.3;margin:8px 0 22px;letter-spacing:.005em;color:#123e52;flex-shrink:0}div#\:\$p > svg > foreignObject > section .kicker{font-size:17px;font-weight:600;color:#52707e;letter-spacing:.05em;line-height:1.4}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section.kicker{--marpit-root-font-size:17px}div#\:\$p > svg > foreignObject > section p{margin:0 0 .75em}div#\:\$p > svg > foreignObject > section p:last-child{margin-bottom:0}div#\:\$p > svg > foreignObject > section strong{color:#0f5967}div#\:\$p > svg > foreignObject > section a{color:#0b5f87;text-decoration:underline;text-underline-offset:3px}div#\:\$p > svg > foreignObject > section ul,div#\:\$p > svg > foreignObject > section ol{padding-left:1.25em;margin:.1em 0 .75em}div#\:\$p > svg > foreignObject > section li{margin:.28em 0}div#\:\$p > svg > foreignObject > section li::marker{color:#155e75;font-weight:600}div#\:\$p > svg > foreignObject > section code{font-family:var(--mono);font-size:.87em;background:#e9eff0;padding:.03em .18em;border-radius:3px;overflow-wrap:anywhere}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre){font-size:20px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;background:#e9eff0;padding:14px 18px;border-left:4px solid #4b8a9c;margin:.6em 0;max-width:100%}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre) code{font-size:inherit;background:transparent;padding:0}div#\:\$p > svg > foreignObject > section blockquote{font-size:23px;line-height:1.5;border-left:4px solid #4b8a9c;padding:8px 16px;margin:.6em 0;background:#eaf2f2}div#\:\$p > svg > foreignObject > section table{border-collapse:collapse;width:100%;font-size:22px;line-height:1.42;margin:.45em 0}div#\:\$p > svg > foreignObject > section th{font-size:20px;text-align:left;background:#e5edef;color:#254c5c}div#\:\$p > svg > foreignObject > section td,div#\:\$p > svg > foreignObject > section th{padding:7px 11px;border-bottom:1px solid var(--line);vertical-align:top}div#\:\$p > svg > foreignObject > section .content{min-height:0;flex:1;position:relative}div#\:\$p > svg > foreignObject > section .lesson-copy{max-width:1110px}div#\:\$p > svg > foreignObject > section.widget-slide .content,div#\:\$p > svg > foreignObject > section.figure-slide .content{display:grid;grid-template-columns:minmax(0,.43fr) minmax(0,.57fr);gap:30px;align-items:start}div#\:\$p > svg > foreignObject > section.widget-slide .content{grid-template-columns:minmax(0,.36fr) minmax(0,.64fr)}div#\:\$p > svg > foreignObject > section.widget-slide .lesson-copy,div#\:\$p > svg > foreignObject > section.figure-slide .lesson-copy{font-size:24px;line-height:1.56;min-width:0}div#\:\$p > svg > foreignObject > section.widget-slide div#\:\$p > svg > foreignObject > section section.lesson-copy, div#\:\$p > svg > foreignObject > section.figure-slide div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:24px}div#\:\$p > svg > foreignObject > section.widget-slide .demo,div#\:\$p > svg > foreignObject > section.figure-slide .demo{min-width:0;max-width:100%}div#\:\$p > svg > foreignObject > section.figure-slide .demo{height:100%;display:flex;align-items:flex-start;justify-content:center}div#\:\$p > svg > foreignObject > section.figure-slide .demo img{width:100%;max-height:445px;object-fit:contain;display:block}div#\:\$p > svg > foreignObject > section.case :is(h2, marp-h2){color:#713c35}div#\:\$p > svg > foreignObject > section.checkpoint :is(h2, marp-h2){color:#1c6156}div#\:\$p > svg > foreignObject > section.cover{background:#11394b;color:#eef7f8}div#\:\$p > svg > foreignObject > section.cover :is(h2, marp-h2){font-size:43px;line-height:1.35;color:#fff;margin:14px 0 25px}div#\:\$p > svg > foreignObject > section.cover .kicker{color:#9ddfd7}div#\:\$p > svg > foreignObject > section.cover .lesson-copy{font-size:26px;line-height:1.65;max-width:1100px}div#\:\$p > svg > foreignObject > section.cover div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:26px}div#\:\$p > svg > foreignObject > section.cover strong,div#\:\$p > svg > foreignObject > section.cover a{color:#a3e8db}div#\:\$p > svg > foreignObject > section.cover code{background:#285264;color:#fff}div#\:\$p > svg > foreignObject > section.cover blockquote{background:#214a5c;border-color:#8bd7cc;color:#e7f5f7;font-size:22px}div#\:\$p > svg > foreignObject > section>footer{position:absolute;left:56px;bottom:17px;max-width:1110px;color:#58717d;font-size:15px;line-height:1.25}div#\:\$p > svg > foreignObject > section.cover>footer{color:#b9d2da}div#\:\$p > svg > foreignObject > section::after{content:attr(data-marpit-pagination) " / " attr(data-marpit-pagination-total);position:absolute;right:26px;bottom:16px;font-size:15px;color:#58717d;padding:0}div#\:\$p > svg > foreignObject > section::after{--marpit-root-font-size:15px}div#\:\$p > svg > foreignObject > section.cover::after{color:#b9d2da}div#\:\$p > svg > foreignObject > section .widget{font-size:21px;line-height:1.42;background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section.widget{--marpit-root-font-size:21px}div#\:\$p > svg > foreignObject > section .widget p{margin:.3em 0 .55em}div#\:\$p > svg > foreignObject > section .widget label{display:inline-block;font-size:20px}div#\:\$p > svg > foreignObject > section .url label,div#\:\$p > svg > foreignObject > section .json label,div#\:\$p > svg > foreignObject > section .base64 label,div#\:\$p > svg > foreignObject > section .utf8 label{display:block;width:100%}div#\:\$p > svg > foreignObject > section .widget input[type=text],div#\:\$p > svg > foreignObject > section .widget textarea,div#\:\$p > svg > foreignObject > section .widget select{font:20px var(--mono);color:#163b4e;background:#f9fcfc;border:1px solid #8ca8b5;border-radius:5px;padding:7px;width:100%;max-width:100%;margin:4px 0}div#\:\$p > svg > foreignObject > section .widget textarea{font-size:19px;line-height:1.4;resize:none}div#\:\$p > svg > foreignObject > section .widget input[type=checkbox]{width:18px;height:18px;margin-right:5px;accent-color:#156f78}div#\:\$p > svg > foreignObject > section .widget input[type=range]{width:62%;accent-color:#156f78}div#\:\$p > svg > foreignObject > section .widget button{font:19px var(--sans);line-height:1.3;padding:7px 10px;margin:3px 4px 3px 0;border:1px solid #779dad;background:#f2f7f8;color:#173f50;border-radius:5px;cursor:pointer;white-space:normal}div#\:\$p > svg > foreignObject > section .widget button.pick,div#\:\$p > svg > foreignObject > section .widget button.on{background:#145e70;color:white}div#\:\$p > svg > foreignObject > section .widget .out{font-size:20px;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere;padding:8px 10px;background:#edf3f4;border-radius:5px;margin:.4em 0 0}div#\:\$p > svg > foreignObject > section .widget div#\:\$p > svg > foreignObject > section section.out{--marpit-root-font-size:20px}div#\:\$p > svg > foreignObject > section .widget .out p{white-space:normal}div#\:\$p > svg > foreignObject > section .widget .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}div#\:\$p > svg > foreignObject > section .widget .small{font-size:19px;line-height:1.4;color:#47636f}div#\:\$p > svg > foreignObject > section .widget div#\:\$p > svg > foreignObject > section section.small{--marpit-root-font-size:19px}div#\:\$p > svg > foreignObject > section .widget .box{font-size:20px;line-height:1.42;border-left:4px solid #4b8a9c;background:#eef5f6;padding:7px 10px;margin:.4em 0}div#\:\$p > svg > foreignObject > section .widget div#\:\$p > svg > foreignObject > section section.box{--marpit-root-font-size:20px}div#\:\$p > svg > foreignObject > section .widget .box.warn{border-color:#b26d28;background:#fff1dc}div#\:\$p > svg > foreignObject > section .widget .box.bad{border-color:#b65246;background:#fff0ed}div#\:\$p > svg > foreignObject > section .widget .box.ok{border-color:#36846a;background:#eaf6ed}div#\:\$p > svg > foreignObject > section .widget table{font-size:20px;line-height:1.3;table-layout:fixed;margin:.35em 0}div#\:\$p > svg > foreignObject > section .widget table th{font-size:18px}div#\:\$p > svg > foreignObject > section .widget td,div#\:\$p > svg > foreignObject > section .widget th{padding:4px 6px;overflow-wrap:anywhere}div#\:\$p > svg > foreignObject > section .widget .hot{font-weight:600;color:#9b3f32}div#\:\$p > svg > foreignObject > section .widget .tg{margin:3px 7px 3px 0}div#\:\$p > svg > foreignObject > section .widget .bytes{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}div#\:\$p > svg > foreignObject > section .widget .byte{display:inline-block;min-width:39px;padding:6px;border:1px solid #88a9b5;border-radius:4px;font:20px var(--mono);cursor:pointer}div#\:\$p > svg > foreignObject > section .widget .byte.sel{outline:3px solid #175d73}div#\:\$p > svg > foreignObject > section .widget .g1{background:#d8eee9}div#\:\$p > svg > foreignObject > section .widget .g2{background:#e5e6f4}div#\:\$p > svg > foreignObject > section .widget .g3{background:#f7e9c9}div#\:\$p > svg > foreignObject > section .widget .g4{background:#d7eaf1}div#\:\$p > svg > foreignObject > section .widget .g5{background:#ebe6de}div#\:\$p > svg > foreignObject > section .widget .chip{display:inline-block;font-size:18px;border:1px solid #adbdc4;border-radius:12px;padding:3px 8px}div#\:\$p > svg > foreignObject > section .widget div#\:\$p > svg > foreignObject > section section.chip{--marpit-root-font-size:18px}div#\:\$p > svg > foreignObject > section .widget .verdict{padding:1px 5px;font-weight:600;border-radius:3px}div#\:\$p > svg > foreignObject > section .widget .verdict.ok{background:#dff0e6;color:#146044}div#\:\$p > svg > foreignObject > section .widget .verdict.bad{background:#fbe5df;color:#973b28}div#\:\$p > svg > foreignObject > section .widget .verdict.warn{background:#fff0cd;color:#865215}div#\:\$p > svg > foreignObject > section #px-view{width:240px;height:240px;image-rendering:pixelated;display:block;margin:0 auto 9px;border:1px solid #cad8dd}div#\:\$p > svg > foreignObject > section #px-out{font-size:20px;line-height:1.4;white-space:pre-wrap}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section#px-out{--marpit-root-font-size:20px}div#\:\$p > svg > foreignObject > section .base64 #b64t-out table{display:none}div#\:\$p > svg > foreignObject > section .base64 .out{margin-bottom:9px}div#\:\$p > svg > foreignObject > section .url{padding:12px}div#\:\$p > svg > foreignObject > section .url p{margin:.2em 0 .3em}div#\:\$p > svg > foreignObject > section .url th,div#\:\$p > svg > foreignObject > section .url td{padding:3px 6px}div#\:\$p > svg > foreignObject > section .answer{display:none}div#\:\$p > svg > foreignObject > section .answer.show{display:block}div#\:\$p > svg > foreignObject > section .status-legend{font-size:24px;line-height:1.4;margin-top:12px;flex-shrink:0}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section.status-legend{--marpit-root-font-size:24px}div#\:\$p > svg > foreignObject > section .status-legend p{margin:0 0 .2em}div#\:\$p > svg > foreignObject > section.figure-wide .content{display:flex;flex-direction:column;gap:14px;align-items:stretch}div#\:\$p > svg > foreignObject > section.figure-wide .lesson-copy{font-size:24px;line-height:1.5;max-width:none;flex-shrink:0}div#\:\$p > svg > foreignObject > section.figure-wide div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:24px}div#\:\$p > svg > foreignObject > section.figure-wide .lesson-copy p{margin:0 0 .5em}div#\:\$p > svg > foreignObject > section.figure-wide .demo{min-height:0;flex:1;display:flex;justify-content:center;align-items:flex-start}div#\:\$p > svg > foreignObject > section.figure-wide .demo img{max-width:100%;width:100%;max-height:335px;object-fit:contain;display:block}div#\:\$p > svg > foreignObject > section.widget-slide.cache-explainer .content{grid-template-columns:minmax(0,.54fr) minmax(0,.46fr)}div#\:\$p > svg > foreignObject > section.widget-slide.wide-copy .content{grid-template-columns:minmax(0,.48fr) minmax(0,.52fr)}div#\:\$p > svg > foreignObject > section.widget-slide:has(#url-in) .content{grid-template-columns:minmax(0,.46fr) minmax(0,.54fr)}div#\:\$p > svg > foreignObject > section.widget-slide:has(#url-in) .lesson-copy p:first-child code{word-break:normal;overflow-wrap:normal}div#\:\$p > svg > foreignObject > section .url th,div#\:\$p > svg > foreignObject > section .url td{padding:0 6px}div#\:\$p > svg > foreignObject > section.sources .lesson-copy{font-size:20px;line-height:1.45;max-width:none}div#\:\$p > svg > foreignObject > section.sources div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:20px}div#\:\$p > svg > foreignObject > section.sources li{margin:.18em 0}div#\:\$p > svg > foreignObject > section.sources a{overflow-wrap:anywhere}div#\:\$p > svg > foreignObject > section.case.figure-slide .content{grid-template-columns:minmax(0,.58fr) minmax(0,.42fr);gap:24px}div#\:\$p > svg > foreignObject > section.case.figure-slide .lesson-copy{font-size:21px;line-height:1.5}div#\:\$p > svg > foreignObject > section.case.figure-slide div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:21px}div#\:\$p > svg > foreignObject > section.case.figure-slide .lesson-copy p{margin:0 0 .5em}div#\:\$p > svg > foreignObject > section.case:not(.figure-slide) .lesson-copy{font-size:23px;line-height:1.55}div#\:\$p > svg > foreignObject > section.case:not(.figure-slide) div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:23px}div#\:\$p > svg > foreignObject > section.sources .lesson-copy{font-size:16.5px;line-height:1.38}div#\:\$p > svg > foreignObject > section.sources div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:16.5px}div#\:\$p > svg > foreignObject > section.sources .lesson-copy ul{columns:2;column-gap:30px;margin:0}div#\:\$p > svg > foreignObject > section.sources .lesson-copy li{break-inside:avoid;margin:0 0 .35em}div#\:\$p > svg > foreignObject > section{--glow:#3fd0c0;--deep:#0b2433;--teal:#0e7c86;background-color:var(--paper);background-image:linear-gradient(90deg,#0e7c86,#3fd0c0),url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2228%22%20height%3D%2228%22%3E%3Ccircle%20cx%3D%222%22%20cy%3D%222%22%20r%3D%221.3%22%20fill%3D%22%23155e75%22%20fill-opacity%3D%22.09%22/%3E%3C/svg%3E");background-size:var(--progress,0%) 5px,28px 28px;background-position:left bottom,right top;background-repeat:no-repeat,repeat}div#\:\$p > svg > foreignObject > section :is(h2, marp-h2){position:relative;padding-left:20px;margin:10px 0 16px}div#\:\$p > svg > foreignObject > section :is(h2, marp-h2)::before{content:"";position:absolute;left:0;top:.14em;bottom:.14em;width:7px;border-radius:4px;background:linear-gradient(180deg,#3fd0c0,#0e7c86)}div#\:\$p > svg > foreignObject > section .kicker{display:inline-block;align-self:flex-start;font-family:var(--mono),var(--sans);font-size:15px;letter-spacing:.08em;color:#e9fbf8;background:linear-gradient(90deg,#0b2433,#155e75);padding:3px 14px 3px 12px;border-radius:999px;box-shadow:0 0 0 1px rgba(63,208,192,.35)}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section.kicker{--marpit-root-font-size:15px}div#\:\$p > svg > foreignObject > section strong{color:#0c6a76}div#\:\$p > svg > foreignObject > section th{background:#123e52;color:#effafa;border-bottom:2px solid #3fd0c0}div#\:\$p > svg > foreignObject > section tr:nth-child(even) td{background:rgba(21,94,117,.045)}div#\:\$p > svg > foreignObject > section blockquote{background:linear-gradient(90deg,#e3f3f1,#f3f9f8);border-left:5px solid #3fd0c0;border-radius:0 8px 8px 0}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre){border-left:5px solid #3fd0c0;border-radius:0 8px 8px 0;background:#0f2a38;color:#d9f4f0}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre) code{color:inherit}div#\:\$p > svg > foreignObject > section.figure-slide .demo img,div#\:\$p > svg > foreignObject > section.figure-wide .demo img{border-radius:16px;box-shadow:0 10px 26px rgba(11,36,51,.16),0 0 0 1px rgba(21,94,117,.12)}div#\:\$p > svg > foreignObject > section .widget{box-shadow:0 10px 26px rgba(11,36,51,.12);border-color:#b7d3d8;border-top:4px solid #3fd0c0}div#\:\$p > svg > foreignObject > section.case :is(h2, marp-h2)::before{background:linear-gradient(180deg,#f08a6c,#a8432f)}div#\:\$p > svg > foreignObject > section.checkpoint :is(h2, marp-h2)::before{background:linear-gradient(180deg,#5fd39a,#1c6156)}div#\:\$p > svg > foreignObject > section.tag-social::before,div#\:\$p > svg > foreignObject > section.tag-system::before,div#\:\$p > svg > foreignObject > section.checkpoint::before{position:absolute;top:30px;right:40px;font-size:16px;font-weight:700;letter-spacing:.06em;padding:5px 14px;border-radius:8px;line-height:1.3}div#\:\$p > svg > foreignObject > section.tag-social::before, div#\:\$p > svg > foreignObject > section.tag-system::before, div#\:\$p > svg > foreignObject > section.checkpoint::before{--marpit-root-font-size:16px}div#\:\$p > svg > foreignObject > section.tag-social::before{content:"⚠ 社交工程：騙人行動";color:#fff;background:linear-gradient(90deg,#c2513a,#e07a4f);box-shadow:0 4px 12px rgba(194,81,58,.3)}div#\:\$p > svg > foreignObject > section.tag-system::before{content:"⚙ 系統設計：信錯資料";color:#fff;background:linear-gradient(90deg,#5b4bb0,#7d6fd6);box-shadow:0 4px 12px rgba(91,75,176,.3)}div#\:\$p > svg > foreignObject > section.checkpoint::before{content:"✓ 隨堂判斷";color:#fff;background:linear-gradient(90deg,#1c6156,#2f9a7d)}div#\:\$p > svg > foreignObject > section.cover,div#\:\$p > svg > foreignObject > section.divider{color:#eef7f8;background-color:var(--deep);background-image:linear-gradient(90deg,#3fd0c0,#7ee8dc),url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22520%22%20height%3D%22720%22%20viewBox%3D%220%200%20520%20720%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%233fd0c0%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M520%2090H380l-40%2040v120l-50%2050H160%22/%3E%3Cpath%20d%3D%22M520%20210H430l-30%2030v160l40%2040h80%22/%3E%3Cpath%20d%3D%22M520%20330H470v190l-60%2060H250%22/%3E%3Cpath%20d%3D%22M300%200v60l40%2040h120l60%2060%22/%3E%3Cpath%20d%3D%22M520%20600H400l-40%2040v80%22/%3E%3Cpath%20d%3D%22M200%20720v-60l50-50h90%22/%3E%3Cpath%20d%3D%22M90%20300h70%22/%3E%3C/g%3E%3Cg%20fill%3D%22%233fd0c0%22%20fill-opacity%3D%22.55%22%3E%3Ccircle%20cx%3D%22160%22%20cy%3D%22300%22%20r%3D%226%22/%3E%3Ccircle%20cx%3D%2290%22%20cy%3D%22300%22%20r%3D%224%22/%3E%3Ccircle%20cx%3D%22440%22%20cy%3D%22440%22%20r%3D%226%22/%3E%3Ccircle%20cx%3D%22250%22%20cy%3D%22580%22%20r%3D%226%22/%3E%3Ccircle%20cx%3D%22460%22%20cy%3D%22100%22%20r%3D%225%22/%3E%3Ccircle%20cx%3D%22340%22%20cy%3D%22610%22%20r%3D%225%22/%3E%3Ccircle%20cx%3D%22380%22%20cy%3D%2290%22%20r%3D%224%22/%3E%3C/g%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%237ee8dc%22%20stroke-opacity%3D%22.18%22%3E%3Crect%20x%3D%22330%22%20y%3D%22470%22%20width%3D%2270%22%20height%3D%2270%22%20rx%3D%226%22/%3E%3Crect%20x%3D%22345%22%20y%3D%22485%22%20width%3D%2240%22%20height%3D%2240%22%20rx%3D%223%22/%3E%3C/g%3E%3C/svg%3E"),radial-gradient(ellipse at 85% 20%,#155e75 0%,rgba(21,94,117,0) 60%),linear-gradient(135deg,#071a26 0%,#0b2433 45%,#0f3f52 100%);background-size:var(--progress,0%) 5px,520px 720px,100% 100%,100% 100%;background-position:left bottom,right top,center,center;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat}div#\:\$p > svg > foreignObject > section.cover :is(h2, marp-h2){font-size:46px;text-shadow:0 0 22px rgba(63,208,192,.45);max-width:900px;padding-left:24px}div#\:\$p > svg > foreignObject > section.cover .kicker,div#\:\$p > svg > foreignObject > section.divider .kicker{background:rgba(63,208,192,.14);color:#9ff0e5;box-shadow:0 0 0 1px rgba(63,208,192,.5)}div#\:\$p > svg > foreignObject > section.cover .lesson-copy{max-width:840px;font-size:25px}div#\:\$p > svg > foreignObject > section.cover div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:25px}div#\:\$p > svg > foreignObject > section.cover strong{color:#7ee8dc}div#\:\$p > svg > foreignObject > section.divider{justify-content:center;padding-left:96px}div#\:\$p > svg > foreignObject > section.divider .unit-no{font:800 170px/1 var(--mono);color:transparent;-webkit-text-stroke:3px #3fd0c0;text-shadow:0 0 28px rgba(63,208,192,.35);letter-spacing:.02em}div#\:\$p > svg > foreignObject > section.divider .unit-label{font:600 18px var(--mono);letter-spacing:.3em;color:#7ee8dc;margin:18px 0 6px}div#\:\$p > svg > foreignObject > section.divider .unit-title{font-size:50px;font-weight:700;line-height:1.3;color:#fff;max-width:880px}div#\:\$p > svg > foreignObject > section.divider div#\:\$p > svg > foreignObject > section section.unit-title{--marpit-root-font-size:50px}div#\:\$p > svg > foreignObject > section.divider .unit-q{font-size:26px;line-height:1.5;color:#bfe9e3;margin-top:22px;max-width:840px;border-left:5px solid #3fd0c0;padding-left:18px}div#\:\$p > svg > foreignObject > section.divider div#\:\$p > svg > foreignObject > section section.unit-q{--marpit-root-font-size:26px}div#\:\$p > svg > foreignObject > section.divider .unit-meta{font-size:17px;color:#8fb7c0;margin-top:26px;font-family:var(--mono);letter-spacing:.05em}div#\:\$p > svg > foreignObject > section.divider div#\:\$p > svg > foreignObject > section section.unit-meta{--marpit-root-font-size:17px}div#\:\$p > svg > foreignObject > section.divider::after,div#\:\$p > svg > foreignObject > section.divider>footer{display:none}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]{columns:initial!important;display:block!important;padding:0!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]::before, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]::after, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"]::before, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"]::after{display:none!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container]{all:initial;display:flex;flex-direction:row;height:100%;overflow:hidden;width:100%}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container][data-marpit-advanced-background-direction="vertical"]{flex-direction:column}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"][data-marpit-advanced-background-split] > div[data-marpit-advanced-background-container]{width:var(--marpit-advanced-background-split, 50%)}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"][data-marpit-advanced-background-split="right"] > div[data-marpit-advanced-background-container]{margin-left:calc(100% - var(--marpit-advanced-background-split, 50%))}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container] > figure{all:initial;background-position:center;background-repeat:no-repeat;background-size:cover;flex:auto;margin:0}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container] > figure > figcaption{position:absolute;border:0;clip:rect(0, 0, 0, 0);height:1px;margin:-1px;overflow:hidden;padding:0;white-space:nowrap;width:1px}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"], div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="pseudo"]{background:transparent!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="pseudo"], div#\:\$p > svg[data-marpit-svg] > foreignObject[data-marpit-advanced-background="pseudo"]{pointer-events:none!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background-split]{width:100%;height:100%}
+</style></head><body><div class="bespoke-marp-osc"><button data-bespoke-marp-osc="prev" tabindex="-1" title="Previous slide">Previous slide</button><span data-bespoke-marp-osc="page"></span><button data-bespoke-marp-osc="next" tabindex="-1" title="Next slide">Next slide</button><button data-bespoke-marp-osc="fullscreen" tabindex="-1" title="Toggle fullscreen (f)">Toggle fullscreen</button><button data-bespoke-marp-osc="overview" tabindex="-1" title="Toggle overview view (o)">Toggle overview view</button><button data-bespoke-marp-osc="presenter" tabindex="-1" title="Open presenter view (p)">Open presenter view</button></div><div id=":$p"><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="1" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">RFID／NFC｜進階原理與通訊架構</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">01</div>
+<div class="unit-title">先補單位，再看型號與相容</div>
+<div class="unit-q">文字如何儲存，系統又如何判斷通行？</div>
+<div class="unit-meta">本單元 7 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §2.5–2.6、§4.2、§5.3、§6.4、§2.0、§9.1、§10.4" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="1" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §2.5–2.6、§4.2、§5.3、§6.4、§2.0、§9.1、§10.4;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">先補單位，再看型號與相容</div>
+<h2 id="%E6%96%87%E5%AD%97%E5%A6%82%E4%BD%95%E5%84%B2%E5%AD%98%E7%B3%BB%E7%B5%B1%E5%8F%88%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%B7%E9%80%9A%E8%A1%8C">文字如何儲存，系統又如何判斷通行？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>設備介紹與門禁都會交換資料，但要回答的問題不同。本篇先追蹤一段文字如何加上格式資訊、分組存入卡片，再分析認證、資料存取及通行權限如何分工。</p>
+<p>閱讀前應能分清公開資料、識別、認證與授權。接下來會先介紹 bit、byte 與十六進位，再比較具體產品。讀完應能逐欄解釋固定範例，並判斷「格式有效」「可讀寫」與「可通行」各需要什麼依據。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §2.5–2.6、§4.2、§5.3、§6.4、§2.0、§9.1、§10.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §2.0、§2.6、§6.4" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="2" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §2.0、§2.6、§6.4;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">先補單位，再看型號與相容</div>
+<h2 id="%E5%85%88%E8%AE%80%E6%87%82-bitbyte-%E8%88%87%E5%8D%81%E5%85%AD%E9%80%B2%E4%BD%8D%E8%A1%A8%E7%A4%BA%E6%B3%95">先讀懂 bit、byte 與十六進位表示法</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>一個位元（bit）只能是 0 或 1；八個位元組成一個位元組（byte），可表示 0 到 255。十六進位每位使用 0–9、A–F，因此兩位就能表示一個 byte。</p>
+<p>例如，十六進位 0D 是十進位 13；11 是十進位 17，不是十一。後面的資料列都以兩位十六進位表示一個 byte。讀取時要分清「寫出來的字元個數」和「所表示的資料長度」，才能正確加總欄位。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §2.0、§2.6、§6.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §2.2–2.3、§2.4、§2.6、§2.1.2、§2.1.4、§2.3.2" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="3" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §2.2–2.3、§2.4、§2.6、§2.1.2、§2.1.4、§2.3.2;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">先補單位，再看型號與相容</div>
+<h2 id="%E9%A0%BB%E6%AE%B5%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9A%E8%88%87-nfc-type-%E5%90%84%E5%9C%A8%E5%88%86%E9%A1%9E%E4%BB%80%E9%BA%BC">頻段、通訊協定與 NFC Type 各在分類什麼？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>以 NTAG213 為例：13.56 MHz 說明它使用的無線電頻率；Type A 的通訊規則，說明讀卡機如何尋卡、選卡並交換資料；NFC Type 2 則規定相容的資料存取方式。這三個名稱回答的是不同問題。</p>
+<p>Classic 也使用 13.56 MHz，卻不是 NTAG213 的頁面存取模型。因此，相同頻率不代表可以用同樣方式讀寫；NFC Type 的編號也不是安全分數。下一頁直接比較兩種產品如何分組儲存資料，讓分類回到實際差異。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §2.2–2.3、§2.4、§2.6、§2.1.2、§2.1.4、§2.3.2</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="RFID／NFC｜進階原理與通訊架構｜講義 §2.3.3；S24" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="4" style="--paginate:true;--footer:RFID／NFC｜進階原理與通訊架構｜講義 §2.3.3；S24;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">先補單位，再看型號與相容</div>
+<h2 id="rfid-%E7%B3%BB%E7%B5%B1%E6%9E%B6%E6%A7%8B%E4%B8%89%E5%80%8B%E9%A0%BB%E6%AE%B5%E5%90%84%E6%9C%89%E8%87%AA%E5%B7%B1%E7%9A%84%E6%A8%99%E6%BA%96">RFID 系統架構：三個頻段，各有自己的標準</h2>
+<div class="content">
+<div class="lesson-copy">
+<table>
+<thead>
+<tr>
+<th>頻段</th>
+<th>常見標準</th>
+<th>典型用途</th>
+<th>卡片能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>低頻 125 kHz</td>
+<td>各廠自訂格式</td>
+<td>舊式門禁扣、動物晶片</td>
+<td>多為固定卡號，沒有認證</td>
+</tr>
+<tr>
+<td>高頻 13.56 MHz</td>
+<td>ISO/IEC 14443、15693、NFC</td>
+<td>交通卡、門禁卡、手機感應</td>
+<td>可有記憶體、金鑰與加密</td>
+</tr>
+<tr>
+<td>超高頻 860–960 MHz</td>
+<td>ISO/IEC 18000-63（EPC Gen2）</td>
+<td>物流、倉儲、零售標籤</td>
+<td>以識別為主，讀距較遠</td>
+</tr>
+</tbody>
+</table>
+<p>讀卡機必須支援同一個頻段與標準才能通訊。只有固定卡號的卡，系統無從確認對方持有祕密，因此不適合作為需要保護的門禁憑證。</p>
+</div>
+</div>
+<footer>RFID／NFC｜進階原理與通訊架構｜講義 §2.3.3；S24</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-footer="RFID／NFC｜進階原理與通訊架構｜講義 §2.2.1；S24" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="5" style="--paginate:true;--footer:RFID／NFC｜進階原理與通訊架構｜講義 §2.2.1；S24;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">先補單位，再看型號與相容</div>
+<h2 id="nfc-%E7%9A%84%E4%B8%89%E7%A8%AE%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F%E8%AE%80%E5%AF%AB%E5%8D%A1%E7%89%87%E6%A8%A1%E6%93%AC%E9%BB%9E%E5%B0%8D%E9%BB%9E">NFC 的三種工作模式：讀寫、卡片模擬、點對點</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>NFC 是 13.56 MHz 高頻 RFID 的一部分，手機可以扮演不同角色：</p>
+<ul>
+<li><strong>讀寫模式</strong>：手機當讀卡機，讀取或寫入標籤，例如感應展品介紹</li>
+<li><strong>卡片模擬模式</strong>：手機扮演一張卡讓讀卡機讀取，例如手機感應付款</li>
+<li><strong>點對點模式</strong>：兩台裝置互相交換資料</li>
+</ul>
+<p>不同模式信任的對象不同：讀寫模式要問標籤內容可不可信；卡片模擬模式由手機的安全元件或支付 App 保護憑證，並由後端核對交易。</p>
+</div>
+</div>
+<footer>RFID／NFC｜進階原理與通訊架構｜講義 §2.2.1；S24</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §2.4、§2.6、§2.6、§4.3.1" data-class="figure-slide" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="figure-slide" data-marpit-pagination="6" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §2.4、§2.6、§2.6、§4.3.1;--class:figure-slide;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">先補單位，再看型號與相容</div>
+<h2 id="ntag213-%E7%9A%84%E9%A0%81%E8%88%87-classic-%E7%9A%84%E5%8D%80%E5%A1%8A%E6%9C%89%E4%BD%95%E4%B8%8D%E5%90%8C">NTAG213 的頁與 Classic 的區塊有何不同？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>NTAG213 的使用者容量是 144 bytes，以每頁（page）4 bytes 分組。Classic EV1 1K 則以每區塊（block）16 bytes 分組，並把區塊組成扇區（sector）。</p>
+<p>兩種產品的位址與管理方式不同：「page 4」不能直接當成「block 4」。Classic 的 1K 還包含原廠與管理資料；NTAG 的文字格式也有額外欄位，不能把標示容量全部當成正文長度。</p>
+</div>
+<div class="demo">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MDAiIGhlaWdodD0iNDkwIiB2aWV3Qm94PSIwIDAgNzAwIDQ5MCIgcm9sZT0iaW1nIj4KPHRpdGxlPk5UQUcyMTMg5Lul5q+P6aCBNGJ5dGVz5YiG57WE77ybQ2xhc3NpYyAxSyDku6Xmr4/ljYDloYoxNmJ5dGVz5YiG57WE77yM5Lim5ZCr5omH5Y2A566h55CG5Y2A44CCPC90aXRsZT4KPGRlZnM+PG1hcmtlciBpZD0iYXJyIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iMTAiIHJlZlg9IjgiIHJlZlk9IjMiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAsMCBMMCw2IEw5LDMgeiIgZmlsbD0iIzE3NmI3NCIvPjwvbWFya2VyPjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0OTAiIHJ4PSIxOCIgZmlsbD0iI2VlZjZmNSIvPgo8cmVjdCB4PSIzOCIgeT0iMjUuMCIgd2lkdGg9IjYyNCIgaGVpZ2h0PSI3NS41IiByeD0iMTIiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzNTAiIHk9IjU1LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgVEMsIFBpbmdGYW5nIFRDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTYzOTQzIj7lhYjlrprnvqnvvJrkuIDlgIsgYnl0ZSDmmK/lhavlgIsgYml0czwvdGV4dD4KPHBhdGggZD0iTTM1MCwxMDIuNSBMMzUwLDExNy41IiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnIpIi8+CjxyZWN0IHg9IjM4IiB5PSIxMjIuNSIgd2lkdGg9IjYyNCIgaGVpZ2h0PSI3NS41IiByeD0iMTIiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzNTAiIHk9IjE1Mi41IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIFRDLCBQaW5nRmFuZyBUQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzE2Mzk0MyI+TlRBRzIxM++8muavj+mggSA0IGJ5dGVzPC90ZXh0Pgo8dGV4dCB4PSIzNTAiIHk9IjE4MC41IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIFRDLCBQaW5nRmFuZyBUQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzE2Mzk0MyI+5L2/55So6ICF5Y2A5YWxIDE0NCBieXRlczwvdGV4dD4KPHBhdGggZD0iTTM1MCwyMDAuMCBMMzUwLDIxNS4wIiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnIpIi8+CjxyZWN0IHg9IjM4IiB5PSIyMjAuMCIgd2lkdGg9IjYyNCIgaGVpZ2h0PSI3NS41IiByeD0iMTIiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzNTAiIHk9IjI1MC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIFRDLCBQaW5nRmFuZyBUQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzE2Mzk0MyI+Q2xhc3NpYyBFVjEgMUvvvJrmr4/ljYDloYogMTYgYnl0ZXM8L3RleHQ+Cjx0ZXh0IHg9IjM1MCIgeT0iMjc4LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgVEMsIFBpbmdGYW5nIFRDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjMTYzOTQzIj7lm5vlgIvljYDloYrntYTmiJDmiYfljYDvvIzmnKvnq6/mmK/nrqHnkIbljYA8L3RleHQ+CjxwYXRoIGQ9Ik0zNTAsMjk3LjUgTDM1MCwzMTIuNSIgc3Ryb2tlPSIjMTc2Yjc0IiBzdHJva2Utd2lkdGg9IjMiIG1hcmtlci1lbmQ9InVybCgjYXJyKSIvPgo8cmVjdCB4PSIzOCIgeT0iMzE3LjUiIHdpZHRoPSI2MjQiIGhlaWdodD0iNzUuNSIgcng9IjEyIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjMTc2Yjc0IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMzUwIiB5PSIzNDcuNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBUQywgUGluZ0ZhbmcgVEMsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxNjM5NDMiPuebuOWQjOS9jeWdgOaVuOWtl++8jOS4jeS7o+ihqOebuOWQjOaTjeS9nOevhOWcjTwvdGV4dD4KPC9zdmc+Cg==" alt="NTAG213 以每頁4bytes分組；Classic 1K 以每區塊16bytes分組，並含扇區管理區。" />
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §2.4、§2.6、§2.6、§4.3.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §2.3.1" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="7" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §2.3.1;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">先補單位，再看型號與相容</div>
+<h2 id="%E5%BE%9E%E5%B0%8B%E5%8D%A1%E5%88%B0%E9%81%B8%E5%8D%A1%E5%85%88%E7%A2%BA%E5%AE%9A%E9%80%99%E6%AC%A1%E8%88%87%E8%AA%B0%E4%BA%A4%E6%8F%9B">從尋卡到選卡：先確定這次與誰交換</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>假設讀卡機的電磁場中同時有兩張 Type A 卡。讀卡機先尋找可回應的卡，再依防碰撞程序區分候選對象，最後透過 SELECT 選定其中一張，繼續這次交換。這套程序處理的是「現在要和哪張卡交換資料」。</p>
+<p>選定對象後，還要依產品要求完成認證、讀取和應用判斷；SELECT 本身沒有證明對方具有合法憑證。若使用者換了一張卡，就要重新建立本次對象，不能沿用上一張卡的成功狀態。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §2.3.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">RFID／NFC｜進階原理與通訊架構</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">02</div>
+<div class="unit-title">逐層追蹤文字格式與記憶體</div>
+<div class="unit-q">十個字元如何表示成十個 bytes？</div>
+<div class="unit-meta">本單元 8 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="8" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">逐層追蹤文字格式與記憶體</div>
+<h2 id="%E5%8D%81%E5%80%8B%E5%AD%97%E5%85%83%E5%A6%82%E4%BD%95%E8%A1%A8%E7%A4%BA%E6%88%90%E5%8D%81%E5%80%8B-bytes">十個字元如何表示成十個 bytes？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>固定範例使用文字 <code>LAB-NFC-01</code>。它有十個字元，而且每個都在 ASCII 範圍內，因此 UTF-8 編碼也占十個 bytes。</p>
+<p><code>4C 41 42 2D 4E 46 43 2D 30 31</code></p>
+<p>每個 byte 依序對應 L、A、B、連字號、N、F、C、連字號、0、1。中文使用 UTF-8 時，字元數通常不等於 byte 數；計算格式長度必須依實際編碼後的資料，不能一律把字數當容量。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="9" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">逐層追蹤文字格式與記憶體</div>
+<h2 id="%E6%96%87%E5%AD%97%E5%85%A7%E5%AE%B9%E9%82%84%E9%9C%80%E8%A6%81%E7%8B%80%E6%85%8B%E8%AA%9E%E8%A8%80%E8%88%87%E7%B7%A8%E7%A2%BC%E8%B3%87%E8%A8%8A">文字內容還需要狀態、語言與編碼資訊</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>NDEF 文字記錄的承載內容（payload），不只包含顯示的正文。它先放狀態 byte，再放語言碼，最後才放編碼後的文字。</p>
+<p>本例為 <code>02 65 6E</code> 加上十個正文 bytes：02 指定 UTF-8，並表示語言碼長度為二；65 6E 是 <code>en</code>。因此 payload 長度為 <code>1 + 2 + 10 = 13 bytes</code>，以十六進位寫為 0D。這裡的長度包含狀態和語言碼，不只是畫面上的字。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="10" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">逐層追蹤文字格式與記憶體</div>
+<h2 id="ndef-%E8%A8%98%E9%8C%84%E5%A6%82%E4%BD%95%E6%A8%99%E7%A4%BA%E5%85%A7%E5%AE%B9%E9%A1%9E%E5%9E%8B%E8%88%87%E9%95%B7%E5%BA%A6">NDEF 記錄如何標示內容類型與長度？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在 payload 前加上 <code>D1 01 0D 54</code>，就能描述這筆 NDEF 記錄。D1 是標頭旗標，01 表示類型欄位占一個 byte，0D 表示 payload 占十三個 bytes，54 則是文字類型 T。</p>
+<p>因此整筆記錄為 <code>4 + 13 = 17 bytes</code>，不是十三個。解析時先讀欄位定義，再依長度找邊界；若只搜尋看得懂的字母，就可能漏掉格式錯誤或把欄位誤當正文。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4" data-class="widget-slide" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="widget-slide" data-marpit-pagination="11" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4;--class:widget-slide;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">逐層追蹤文字格式與記憶體</div>
+<h2 id="%E5%86%8D%E5%8A%A0%E5%A4%96%E5%B1%A4%E6%A0%BC%E5%BC%8F%E5%AE%8C%E6%95%B4%E7%AF%84%E4%BE%8B%E7%82%BA%E4%BA%8C%E5%8D%81%E5%80%8B-bytes">再加外層格式，完整範例為二十個 bytes</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>TLV 是依類型、長度和值組織資料的方式。本例以 03 指出後面是 NDEF，以 11 表示記錄長度十七，再以 FE 作為結束標記。</p>
+<p>完整資料為 <code>1 + 1 + 17 + 1 = 20 bytes</code>。可在互動中追蹤各欄位如何組成固定文字；這只說明格式與長度，不提供加密、來源驗證或通行資格。把格式讀懂之後，仍要另行判斷內容是否可信。</p>
+</div>
+<div class="demo widget ndef">
+<p><b>點一個 byte，追蹤它數的是哪一層</b></p><button id="nd-pages">依 page 分組</button><div class="bytes" id="nd-bytes"></div><div id="nd-out" class="out">先點 03／11，再點 0D，解釋兩個長度。</div>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4" data-class="figure-slide" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="figure-slide" data-marpit-pagination="12" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4;--class:figure-slide;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">逐層追蹤文字格式與記憶體</div>
+<h2 id="%E6%A0%BC%E5%BC%8F%E9%82%8A%E7%95%8C%E8%88%87%E8%A8%98%E6%86%B6%E9%AB%94%E9%A0%81%E9%9D%A2%E4%B8%8D%E4%B8%80%E5%AE%9A%E9%87%8D%E5%90%88">格式邊界與記憶體頁面，不一定重合</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>把二十個 bytes 依序存入 NTAG213，每頁四個 bytes，共需五頁。格式欄位和頁面邊界沒有必然重合，例如語言碼 <code>en</code> 的兩個 bytes 就分在相鄰兩頁。</p>
+<p>讀取端必須先按順序取得完整資料，再依格式中的長度組合與解釋。若把每一頁各自當成一段文字，會把欄位切斷，也可能漏掉結尾。頁面是儲存分組，記錄則是資料格式。</p>
+</div>
+<div class="demo">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MDAiIGhlaWdodD0iNDkwIiB2aWV3Qm94PSIwIDAgNzAwIDQ5MCIgcm9sZT0iaW1nIj4KPHRpdGxlPuS6jOWNgeWAi2J5dGVz5oyJ5LqU6aCB5L+d5a2Y77yM5qC85byP5qyE5L2N6Leo6LaK6aCB6Z2i6YKK55WM44CCPC90aXRsZT4KPGRlZnM+PG1hcmtlciBpZD0iYXJyIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iMTAiIHJlZlg9IjgiIHJlZlk9IjMiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAsMCBMMCw2IEw5LDMgeiIgZmlsbD0iIzE3NmI3NCIvPjwvbWFya2VyPjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0OTAiIHJ4PSIxOCIgZmlsbD0iI2VlZjZmNSIvPgo8cmVjdCB4PSIzOCIgeT0iMjUuMCIgd2lkdGg9IjYyNCIgaGVpZ2h0PSI1Ni4wIiByeD0iMTIiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzNTAiIHk9IjU1LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgVEMsIFBpbmdGYW5nIFRDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTYzOTQzIj5wYWdlIDTvvJowMyAxMSBEMSAwMTwvdGV4dD4KPHBhdGggZD0iTTM1MCw4My4wIEwzNTAsOTguMCIgc3Ryb2tlPSIjMTc2Yjc0IiBzdHJva2Utd2lkdGg9IjMiIG1hcmtlci1lbmQ9InVybCgjYXJyKSIvPgo8cmVjdCB4PSIzOCIgeT0iMTAzLjAiIHdpZHRoPSI2MjQiIGhlaWdodD0iNTYuMCIgcng9IjEyIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjMTc2Yjc0IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMzUwIiB5PSIxMzMuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBUQywgUGluZ0ZhbmcgVEMsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxNjM5NDMiPnBhZ2UgNe+8mjBEIDU0IDAyIDY1ICAg4oaQIGVuIOeahCBlPC90ZXh0Pgo8cGF0aCBkPSJNMzUwLDE2MS4wIEwzNTAsMTc2LjAiIHN0cm9rZT0iIzE3NmI3NCIgc3Ryb2tlLXdpZHRoPSIzIiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KPHJlY3QgeD0iMzgiIHk9IjE4MS4wIiB3aWR0aD0iNjI0IiBoZWlnaHQ9IjU2LjAiIHJ4PSIxMiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzE3NmI3NCIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjM1MCIgeT0iMjExLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgVEMsIFBpbmdGYW5nIFRDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTYzOTQzIj5wYWdlIDbvvJo2RSA0QyA0MSA0MiAgIOKGkCBlbiDnmoQgbjwvdGV4dD4KPHBhdGggZD0iTTM1MCwyMzkuMCBMMzUwLDI1NC4wIiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnIpIi8+CjxyZWN0IHg9IjM4IiB5PSIyNTkuMCIgd2lkdGg9IjYyNCIgaGVpZ2h0PSI1Ni4wIiByeD0iMTIiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzNTAiIHk9IjI4OS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIFRDLCBQaW5nRmFuZyBUQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzE2Mzk0MyI+cGFnZSA377yaMkQgNEUgNDYgNDM8L3RleHQ+CjxwYXRoIGQ9Ik0zNTAsMzE3LjAgTDM1MCwzMzIuMCIgc3Ryb2tlPSIjMTc2Yjc0IiBzdHJva2Utd2lkdGg9IjMiIG1hcmtlci1lbmQ9InVybCgjYXJyKSIvPgo8cmVjdCB4PSIzOCIgeT0iMzM3LjAiIHdpZHRoPSI2MjQiIGhlaWdodD0iNTYuMCIgcng9IjEyIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjMTc2Yjc0IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMzUwIiB5PSIzNjcuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBUQywgUGluZ0ZhbmcgVEMsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxNjM5NDMiPnBhZ2UgOO+8mjJEIDMwIDMxIEZFPC90ZXh0Pgo8L3N2Zz4K" alt="二十個bytes按五頁保存，格式欄位跨越頁面邊界。" />
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§6.4.1、§6.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §2.6.1、§1.3 N02、§2.6、§4.5" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="13" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §2.6.1、§1.3 N02、§2.6、§4.5;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">逐層追蹤文字格式與記憶體</div>
+<h2 id="%E5%AE%B9%E9%87%8F%E6%8F%8F%E8%BF%B0%E8%83%BD%E5%91%8A%E8%A8%B4%E6%88%91%E5%80%91%E4%BB%80%E9%BA%BC%E4%B8%8D%E8%83%BD%E5%91%8A%E8%A8%B4%E6%88%91%E5%80%91%E4%BB%80%E9%BA%BC">容量描述能告訴我們什麼，不能告訴我們什麼？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>Type 2 標籤的容量描述（Capability Container，CC）提供格式版本、容量與存取描述。本例 <code>E1 10 12 00</code> 的第三個 byte 是十六進位 12，也就是十進位 18；每單位八個 bytes，得到 <code>18 × 8 = 144 bytes</code>。</p>
+<p>這與 NTAG213 的使用者容量相符，但 CC 不會解除真正的鎖定位元或密碼限制。讀到容量描述，不能單獨證明所有頁面都可寫；仍須核對型號、記憶體配置與實際保護狀態。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §2.6.1、§1.3 N02、§2.6、§4.5</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4.1" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="14" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4.1;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">逐層追蹤文字格式與記憶體</div>
+<h2 id="d1-%E5%A6%82%E4%BD%95%E5%90%8C%E6%99%82%E6%A8%99%E7%A4%BA%E7%AC%AC%E4%B8%80%E7%AD%86%E8%88%87%E6%9C%80%E5%BE%8C%E4%B8%80%E7%AD%86%E8%A8%98%E9%8C%84">D1 如何同時標示第一筆與最後一筆記錄？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>D1 的二進位表示為 <code>11010001</code>。由高位往低位看，MB 與 ME 都為 1，分別表示訊息的第一筆與最後一筆；本例只有一筆記錄，所以兩者可同時成立。</p>
+<p>SR 為 1，表示 payload 長度使用短記錄的一個 byte；CF=0 表示不是分塊記錄，IL=0 表示沒有識別碼長度欄位，TNF=1 則表示 NFC 已知類型。這些旗標描述記錄的組織，不是卡片容量或安全等級。長度仍要與後面的實際資料逐項核對。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4.1、§A2、§1.3.1、§10.4–10.5、§6.4" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="15" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4.1、§A2、§1.3.1、§10.4–10.5、§6.4;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">逐層追蹤文字格式與記憶體</div>
+<h2 id="%E5%88%A4%E6%96%B7%E5%85%A7%E5%AE%B9%E7%9B%B8%E5%90%8C%E6%A0%BC%E5%BC%8F%E6%9C%89%E6%95%88%E8%88%87%E4%BE%86%E6%BA%90%E5%8F%AF%E4%BF%A1%E6%98%AF%E5%90%8C%E4%B8%80%E4%BB%B6%E4%BA%8B%E5%97%8E">判斷：內容相同、格式有效與來源可信，是同一件事嗎？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>情境題：兩份資料都能找到 <code>LAB-NFC-01</code>，是否就能認定它們完全相同且可信？不能，因為其他格式欄位、長度或結尾仍可能不同。</p>
+<p>即使二十個 bytes 都相同且格式有效，也只支持這份內容一致。若資料原本可公開複製，副本仍可能完全有效；要判斷來源或目前對象，須有額外的來源驗證或動態認證。格式正確、內容相同與來源可信，是不同結論。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4.1、§A2、§1.3.1、§10.4–10.5、§6.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">RFID／NFC｜進階原理與通訊架構</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">03</div>
+<div class="unit-title">拆開認證、存取與通行機制</div>
+<div class="unit-q">Classic 管理區如何保存金鑰與存取條件？</div>
+<div class="unit-meta">本單元 11 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §4.3–4.4、§4.5、§2.6、§2.6、§4.3.1、§4.4、§4.1、§4.4、§8.4、§8.6" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="16" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §4.3–4.4、§4.5、§2.6、§2.6、§4.3.1、§4.4、§4.1、§4.4、§8.4、§8.6;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="classic-%E7%AE%A1%E7%90%86%E5%8D%80%E5%A6%82%E4%BD%95%E4%BF%9D%E5%AD%98%E9%87%91%E9%91%B0%E8%88%87%E5%AD%98%E5%8F%96%E6%A2%9D%E4%BB%B6">Classic 管理區如何保存金鑰與存取條件？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>Classic 的扇區末端有管理區，稱為 sector trailer。以 sector 1 為例，block 4、5、6 是資料區，block 7 保存六個 bytes 的 Key A、三個 bytes 的存取條件、一個管理 byte，以及六個 bytes 的 Key B。</p>
+<p>存取條件有特定編碼與互補位元，不是單一的全開開關。一般讀取看到的 Key A 遮蔽值，不是實際金鑰；不能把讀回的管理區當成完整金鑰備份。復原所需憑證必須另有可信紀錄。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §4.3–4.4、§4.5、§2.6、§2.6、§4.3.1、§4.4、§4.1、§4.4、§8.4、§8.6</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §4.3–4.4、§4.2.1、§4.3.1" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="17" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §4.3–4.4、§4.2.1、§4.3.1;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E9%80%9A%E9%81%8E%E6%8C%87%E5%AE%9A%E6%89%87%E5%8D%80%E8%AA%8D%E8%AD%89%E5%BE%8C%E7%82%BA%E4%BB%80%E9%BA%BC%E4%BB%8D%E5%8F%AF%E8%83%BD%E4%B8%8D%E8%83%BD%E5%AF%AB">通過指定扇區認證後，為什麼仍可能不能寫？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>對 Classic 指定扇區認證成功，只代表這次符合該認證步驟的要求。接下來可讀、可寫或可改管理區，仍由該區的存取條件決定；其他扇區也有自己的配置。</p>
+<p>例如，能讀 block 4 不表示能改 block 7，更不表示能改原廠區。分析操作結果時，先列出目標扇區、金鑰種類、區塊與動作，再對照存取條件。認證與資料權限分開說明，才能定位失敗的真正原因。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §4.3–4.4、§4.2.1、§4.3.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §4.2、§4.2.1" data-class="widget-slide wide-copy" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="widget-slide wide-copy" data-marpit-pagination="18" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §4.2、§4.2.1;--class:widget-slide wide-copy;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E6%96%B0%E7%9A%84%E6%8C%91%E6%88%B0%E5%A6%82%E4%BD%95%E8%AE%93%E5%9B%9E%E6%87%89%E5%B0%8D%E6%87%89%E5%88%B0%E9%80%99%E6%AC%A1%E4%BA%A4%E6%8F%9B">新的挑戰如何讓回應對應到這次交換？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>第一次驗證，驗證端送出挑戰 N1，卡片用金鑰算出回應 R1。第二次改送新的 N2，驗證端就要核對 N2 所需的回應；在正確協定與狀態檢查下，直接重送 R1 不會因上次成功而通過。請用互動比較新挑戰、舊回應與當次中繼。</p>
+<p>這是公開計算的概念模型，沒有實作正式密碼學，也不是 Classic 協定的逐位元重現。若金鑰已外洩，取得者仍可能依新挑戰產生有效回應；所以防止舊訊息重用，不能代替金鑰外洩後的更新處置。</p>
+</div>
+<div class="demo widget challenge">
+<div><button id="cr-new">產生新的挑戰 N</button><button id="cr-card">模型卡片回應</button></div><div><button id="cr-replay">重放舊回應</button><button id="cr-relay">中繼：轉給遠處合法端</button><button id="cr-leak">持有外洩 K：自己算</button></div><div id="cr-out" class="out"></div><p class="small">公開計算模型；比較新鮮性與在場性，不是真卡協定。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §4.2、§4.2.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §4.2、§5.3.4、§3.2、§4.2" data-class="widget-slide" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="widget-slide" data-marpit-pagination="19" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §4.2、§5.3.4、§3.2、§4.2;--class:widget-slide;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E6%8A%8A%E8%AA%8D%E8%AD%89%E6%92%A4%E9%8A%B7%E8%88%87%E7%9B%AE%E6%A8%99%E6%AC%8A%E9%99%90%E7%B5%84%E6%88%90%E9%80%9A%E8%A1%8C%E5%88%A4%E6%96%B7">把認證、撤銷與目標權限組成通行判斷</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>把一次通行拆開看：先取得本次有效讀取與認證結果，再核對可信權限和撤銷狀態。若卡片只獲准到一、二、三樓，要求八樓就應被拒絕；撤銷後也應拒絕新的通行。</p>
+<p>互動可改變認證、撤銷與目標樓層，觀察不同條件如何影響結果。它是教學用判斷模型，假設輸入已由可信元件建立；自行輸入「已認證」的文字，不能因此變成真實憑證。</p>
+</div>
+<div class="demo widget authorization">
+<div id="ev-presets"></div><div id="ev-toggles"></div><div class="cols"><div><b>只查識別</b><div class="out" id="ev-weak"></div></div><div><b>檢查完整證據</b><div class="out" id="ev-good"></div></div></div>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §4.2、§5.3.4、§3.2、§4.2</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §5.3.2、§1.3 N06、§5.3.2" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="20" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §5.3.2、§1.3 N06、§5.3.2;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E5%AE%8C%E6%95%B4%E7%9A%84%E5%8D%A1%E8%99%9F%E6%9F%A5%E8%A9%A2%E8%A1%A8%E7%82%BA%E4%BB%80%E9%BA%BC%E4%B8%8D%E8%83%BD%E5%8F%96%E4%BB%A3%E8%AA%8D%E8%AD%89">完整的卡號查詢表，為什麼不能取代認證？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>假設系統以卡號查表，找到持有人、樓層與有效期限。這份表即使資料完整，仍只回答「這個識別值對應哪筆紀錄」，沒有證明目前來源持有合法憑證。</p>
+<p>若另一來源能透過系統接受的介面提供相同識別值與必要交換，便會查到相同紀錄。增加表格欄位不能補上本次認證。這也不表示一般標籤的原廠 UID 可用文字寫入改變，實體可行性仍須另外驗證。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §5.3.2、§1.3 N06、§5.3.2</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §5.3.3、§10.2、§1.3 N07、§5.3.3" data-class="widget-slide wide-copy" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="widget-slide wide-copy" data-marpit-pagination="21" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §5.3.3、§10.2、§1.3 N07、§5.3.3;--class:widget-slide wide-copy;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E6%9C%AA%E9%A9%97%E8%AD%89%E7%9A%84%E6%A8%93%E5%B1%A4%E6%AC%84%E4%BD%8D%E7%82%BA%E4%BB%80%E9%BA%BC%E4%B8%8D%E8%83%BD%E7%95%B6%E6%8E%88%E6%AC%8A%E5%91%BD%E4%BB%A4">未驗證的樓層欄位，為什麼不能當授權命令？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>假設卡片中有 <code>floors=1,2,3</code>。若電梯直接相信這個可修改欄位，有人把八樓加入後，系統就可能把原本沒有的資格當成有效權限；風險成立的關鍵是可改、未驗證，而且直接採用。</p>
+<p>互動左側照單全收卡內宣告，右側則依可信權限判斷。請比較加入八樓前後的結果：可信規則不能只因欄位多了八樓就擴權，還要核對來源、允許範圍與目前狀態。後面的資料簽章頁會再解釋，驗證資料來源和確認本次持鑰者為何也不同。</p>
+</div>
+<div class="demo widget card_fields">
+<label>卡片宣告<input type="text" id="w2-field" value="floors=1,2,3" /></label><label>本次目標樓層<select id="w2-floor"><option>1</option><option>2</option><option selected>3</option><option>8</option></select></label><div><button data-w2="floors=1,2,3">正常欄位</button><button data-w2="floors=1,2,3,8">加入 8 樓</button><button data-w2="floors=8,,9">錯誤格式</button></div><label class="tg"><input type="checkbox" id="w2-auth" checked />模型假設：登錄與本次認證成立</label><div class="cols"><div><b>相信卡內欄位</b><div class="out" id="w2-weak"></div></div><div><b>查可信權限</b><div class="out" id="w2-good"></div></div></div>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §5.3.3、§10.2、§1.3 N07、§5.3.3</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §4.1、§4.5、§A5、§5.3.4、§4.1、§4.1、§4.4、§8.4、§8.6" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="22" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §4.1、§4.5、§A5、§5.3.4、§4.1、§4.1、§4.4、§8.4、§8.6;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E6%8F%9B%E9%87%91%E9%91%B0%E5%92%8C%E6%92%A4%E9%8A%B7%E8%B3%87%E6%A0%BC%E5%88%86%E5%88%A5%E6%94%B9%E8%AE%8A%E5%93%AA%E5%80%8B%E5%88%A4%E6%96%B7">換金鑰和撤銷資格，分別改變哪個判斷？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>撤銷資格是在政策中停止接受某項通行身分，不一定改變卡內金鑰。因此，卡片可能仍完成認證，但系統查到已撤銷狀態後，仍應拒絕通行。</p>
+<p>換金鑰則改變指定認證材料，影響範圍要看哪些卡片與設備共用它。發新卡也不會自動刪除舊資格。處理外洩或遺失時，應分別確認憑證更新、資格撤銷及設備同步，不能只做其中一項就宣稱全部生效。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §4.1、§4.5、§A5、§5.3.4、§4.1、§4.1、§4.4、§8.4、§8.6</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §A7、nfc_arduino/README.md「快取限制」、§A7、§5.3.4、§1.3 N08、§5.3.4、§5.3.4、§4.1" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="23" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §A7、nfc_arduino/README.md「快取限制」、§A7、§5.3.4、§1.3 N08、§5.3.4、§5.3.4、§4.1;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E9%9B%A2%E7%B7%9A%E4%BD%BF%E7%94%A8%E8%88%8A%E6%AC%8A%E9%99%90%E8%B3%87%E6%96%99%E5%A6%82%E4%BD%95%E5%B9%B3%E8%A1%A1%E9%A2%A8%E9%9A%AA%E8%88%87%E5%8F%AF%E7%94%A8%E6%80%A7">離線使用舊權限資料，如何平衡風險與可用性？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>快取是設備先前取得、暫時保存的資料副本。讀卡機斷線後，若繼續使用舊權限，可能在管理端已撤銷之後仍接受舊資格。</p>
+<p>限制舊資料可使用的時間，能縮短這段風險窗口；但資料過期又無法更新時，也可能拒絕合法使用者。期限、可信時間來源與斷線處置需要共同設計，沒有適用所有系統的固定秒數。即使資料尚未過期，也要完成其他必要的認證與權限檢查。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §A7、nfc_arduino/README.md「快取限制」、§A7、§5.3.4、§1.3 N08、§5.3.4、§5.3.4、§4.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §1.3.1 N05、§A7；來源 S23、§1.1、§5.3.1、§1.3 N05、§5.3.4、§8.12、§1.3.1、§10.4–10.5" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="24" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §1.3.1 N05、§A7；來源 S23、§1.1、§5.3.1、§1.3 N05、§5.3.4、§8.12、§1.3.1、§10.4–10.5;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E9%A9%97%E8%AD%89%E7%B5%90%E6%9E%9C%E5%82%B3%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E5%85%83%E4%BB%B6%E6%99%82%E9%82%84%E8%A6%81%E6%AA%A2%E6%9F%A5%E4%BB%80%E9%BA%BC">驗證結果傳到另一個元件時，還要檢查什麼？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>讀卡機把「認證成功」傳給控制器時，控制器要知道：訊息是否來自指定設備、內容是否被改動，以及是否屬於這次卡片和要求。只收到一個成功欄位，便無法回答這三個問題。</p>
+<p>一種保護方式是訊息驗證碼（MAC）：發送端用受控金鑰為訊息產生驗證資料，接收端依約定方法核對。系統還須把本次識別、卡片與要求一起納入檢查，避免舊結果或別卡結果被誤用。這些機制要正確配置才有效；卡片端加密不會自動保護這段連線。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §1.3.1 N05、§A7；來源 S23、§1.1、§5.3.1、§1.3 N05、§5.3.4、§8.12、§1.3.1、§10.4–10.5</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §5.4–5.5、§1.3 N04、§5.5、§1.3 N03、§4.3、§5.4、§5.9、§7.0" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="25" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §5.4–5.5、§1.3 N04、§5.5、§1.3 N03、§4.3、§5.4、§5.9、§7.0;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E9%87%8D%E6%94%BE%E4%B8%AD%E7%B9%BC%E8%88%87%E9%87%91%E9%91%B0%E5%A4%96%E6%B4%A9%E7%82%BA%E4%BB%80%E9%BA%BC%E9%9C%80%E8%A6%81%E4%B8%8D%E5%90%8C%E9%98%B2%E8%AD%B7">重放、中繼與金鑰外洩，為什麼需要不同防護？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>重放再次送出舊訊息，新挑戰與正確狀態檢查可讓舊回應失效。中繼卻轉送這次交換，合法卡片可能真的回答，所以單靠新挑戰未必阻止轉送。</p>
+<p>金鑰外洩則讓取得者可能自行完成協定，還需要憑證更新等處置。普通通訊逾時只能限制等待時間，不等於經過驗證的距離證明。選防護前應分清攻擊者重用了舊回應、轉送當次交換，還是已持有有效金鑰。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §5.4–5.5、§1.3 N04、§5.5、§1.3 N03、§4.3、§5.4、§5.9、§7.0</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §2.1.4、§2.3.2" data-class="figure-slide" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="figure-slide" data-marpit-pagination="26" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §2.1.4、§2.3.2;--class:figure-slide;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">拆開認證、存取與通行機制</div>
+<h2 id="%E6%8E%A5%E6%94%B6%E5%88%B0%E5%91%BD%E4%BB%A4%E5%8D%A1%E7%89%87%E6%93%8D%E4%BD%9C%E6%88%90%E5%8A%9F%E8%88%87%E5%85%81%E8%A8%B1%E9%80%9A%E8%A1%8C%E5%B7%AE%E5%9C%A8%E5%93%AA%E8%A3%A1">接收到命令、卡片操作成功與允許通行，差在哪裡？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>主機先向讀取模組送出命令，模組確認收到後，才進一步與卡片交換。卡片操作回傳成功後，應用系統仍須根據認證、撤銷與權限決定是否提供服務。</p>
+<p>因此，「命令已接收」「卡片操作成功」與「允許通行」是三種結果。例如模組已收到讀取命令，仍可能因沒有卡片而失敗；資料讀回成功，也可能因權限不符拒絕開門。判讀訊息必須先知道它屬於哪一層。</p>
+</div>
+<div class="demo">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MDAiIGhlaWdodD0iNDkwIiB2aWV3Qm94PSIwIDAgNzAwIDQ5MCIgcm9sZT0iaW1nIj4KPHRpdGxlPuS4u+apn+WRveS7pOiiq+aOpeaUtiDihpIg5Y2h54mH5pON5L2c5Zue5YKz57WQ5p6cIOKGkiDmh4nnlKjmqqLmn6XmrIrpmZDvvJrlkITlsaTmiJDlip/kuI3ku6Pmm7/kuIvkuIDlsaTjgII8L3RpdGxlPgo8ZGVmcz48bWFya2VyIGlkPSJhcnIiIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iOCIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCwwIEwwLDYgTDksMyB6IiBmaWxsPSIjMTc2Yjc0Ii8+PC9tYXJrZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ5MCIgcng9IjE4IiBmaWxsPSIjZWVmNmY1Ii8+CjxyZWN0IHg9IjM4IiB5PSIyNS4wIiB3aWR0aD0iNjI0IiBoZWlnaHQ9Ijc1LjUiIHJ4PSIxMiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzE3NmI3NCIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjM1MCIgeT0iNTUuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBUQywgUGluZ0ZhbmcgVEMsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxNjM5NDMiPuS4u+apn+WRveS7pOiiq+aooee1hOaOpeaUtjwvdGV4dD4KPHRleHQgeD0iMzUwIiB5PSI4My4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIFRDLCBQaW5nRmFuZyBUQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzE2Mzk0MyI+5Y+q56K66KqN5ZG95Luk5YKz6YGe5Yiw6YCZ5LiA5bGkPC90ZXh0Pgo8cGF0aCBkPSJNMzUwLDEwMi41IEwzNTAsMTE3LjUiIHN0cm9rZT0iIzE3NmI3NCIgc3Ryb2tlLXdpZHRoPSIzIiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KPHJlY3QgeD0iMzgiIHk9IjEyMi41IiB3aWR0aD0iNjI0IiBoZWlnaHQ9Ijc1LjUiIHJ4PSIxMiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzE3NmI3NCIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjM1MCIgeT0iMTUyLjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgVEMsIFBpbmdGYW5nIFRDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTYzOTQzIj7ljaHniYfmk43kvZzlm57lgrPntZDmnpw8L3RleHQ+Cjx0ZXh0IHg9IjM1MCIgeT0iMTgwLjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgVEMsIFBpbmdGYW5nIFRDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjMTYzOTQzIj7ku43lj6/og73nhKHljaHjgIHoroDlj5bmiJboqo3orYnlpLHmlZc8L3RleHQ+CjxwYXRoIGQ9Ik0zNTAsMjAwLjAgTDM1MCwyMTUuMCIgc3Ryb2tlPSIjMTc2Yjc0IiBzdHJva2Utd2lkdGg9IjMiIG1hcmtlci1lbmQ9InVybCgjYXJyKSIvPgo8cmVjdCB4PSIzOCIgeT0iMjIwLjAiIHdpZHRoPSI2MjQiIGhlaWdodD0iNzUuNSIgcng9IjEyIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjMTc2Yjc0IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMzUwIiB5PSIyNTAuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBUQywgUGluZ0ZhbmcgVEMsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxNjM5NDMiPuaHieeUqOezu+e1seaguOWwjeaSpOmKt+iIh+ebruaomeasiumZkDwvdGV4dD4KPHBhdGggZD0iTTM1MCwyOTcuNSBMMzUwLDMxMi41IiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnIpIi8+CjxyZWN0IHg9IjM4IiB5PSIzMTcuNSIgd2lkdGg9IjYyNCIgaGVpZ2h0PSI3NS41IiByeD0iMTIiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMxNzZiNzQiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzNTAiIHk9IjM0Ny41IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIFRDLCBQaW5nRmFuZyBUQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzE2Mzk0MyI+57O757Wx5L2c5Ye65YWB6Kix5oiW5ouS57WV6YCa6KGM55qE5rG65a6aPC90ZXh0Pgo8L3N2Zz4K" alt="主機命令被接收 → 卡片操作回傳結果 → 應用檢查權限：各層成功不代替下一層。" />
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §2.1.4、§2.3.2</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">RFID／NFC｜進階原理與通訊架構</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">04</div>
+<div class="unit-title">用研究與推導限定結論</div>
+<div class="unit-q">線圈方向與附近金屬，為什麼會影響感應？</div>
+<div class="unit-meta">本單元 5 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §2.1.1、§2.1.3、§5.6、§2.1.1" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="27" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §2.1.1、§2.1.3、§5.6、§2.1.1;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">用研究與推導限定結論</div>
+<h2 id="%E7%B7%9A%E5%9C%88%E6%96%B9%E5%90%91%E8%88%87%E9%99%84%E8%BF%91%E9%87%91%E5%B1%AC%E7%82%BA%E4%BB%80%E9%BA%BC%E6%9C%83%E5%BD%B1%E9%9F%BF%E6%84%9F%E6%87%89">線圈方向與附近金屬，為什麼會影響感應？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>把卡片線圈轉向，穿過線圈的磁場情況也會改變，可能使卡片較難取得足夠電力。用來描述穿過線圈之磁場的量稱為磁通；磁通隨時間改變，才會在線圈產生感應電壓。附近金屬也可能改變磁場與感應情況。</p>
+<p>理想關係為 <code>v = −N × dΦ/dt</code>：v 是感應電壓，N 是線圈圈數，Φ 是磁通，dΦ/dt 表示磁通隨時間的變化率。這能幫助理解方向與場變化，卻不能單獨算出成品保證讀距；實際還有天線調諧、供電、接收靈敏度和環境。沒有回應時，先用不同位置與已知正常設備對照，不直接推斷遭攻擊。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §2.1.1、§2.1.3、§5.6、§2.1.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §1.3.1 N04、§5.7；來源 S06、§4.2.1、§5.7；來源 S05、S06、S07、§1.3.1、§10.4–10.5" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="28" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §1.3.1 N04、§5.7；來源 S06、§4.2.1、§5.7；來源 S05、S06、S07、§1.3.1、§10.4–10.5;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">用研究與推導限定結論</div>
+<h2 id="%E6%AD%B7%E5%8F%B2%E7%A0%94%E7%A9%B6%E7%A9%B6%E7%AB%9F%E6%B8%AC%E8%A9%A6%E4%BA%86%E5%93%AA%E4%BA%9B%E7%94%A2%E5%93%81%E8%88%87%E6%A2%9D%E4%BB%B6">歷史研究究竟測試了哪些產品與條件？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>研究結論要連同受測對象閱讀。下面三項研究，分別指出密碼系統設計、金鑰配置，以及當次訊息轉送的問題，並不是同一種「卡片複製」。</p>
+<table><thead><tr><th>研究</th><th>受測對象</th><th>研究支持的發現</th></tr></thead><tbody><tr><td>2008 Classic</td><td>特定歷史 MIFARE Classic 晶片</td><td>亂數與認證協定存在設計弱點，安全性不只由金鑰長度決定。</td></tr><tr><td>2020 DST80</td><td>採用 DST80 密碼演算法的特定汽車防盜系統</td><td>金鑰配置與實作問題可能削弱原本預期的保護。</td></tr><tr><td>2011 PKES</td><td>被動進入與啟動系統；八家廠商、十套系統</td><td>當次訊號可被轉送，車輛能和遠處合法鑰匙完成交換。</td></tr></tbody></table>
+<p>2011 年的十套系統包含九款車型，以及一套僅在實驗室測試的售後系統。轉送成功不等於破解金鑰；這些歷史結果也不能直接當成所有現行產品都有相同問題的證據。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §1.3.1 N04、§5.7；來源 S06、§4.2.1、§5.7；來源 S05、S06、S07、§1.3.1、§10.4–10.5</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §3.3、§5.7–5.8、§10.2" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="29" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §3.3、§5.7–5.8、§10.2;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">用研究與推導限定結論</div>
+<h2 id="%E8%B3%87%E6%96%99%E5%8F%AF%E4%BF%A1%E4%BA%A4%E6%8F%9B%E5%AE%89%E5%85%A8%E8%88%87%E4%BA%A4%E6%98%93%E6%88%90%E7%AB%8B%E6%98%AF%E5%90%8C%E4%B8%80%E4%BB%B6%E4%BA%8B%E5%97%8E">資料可信、交換安全與交易成立，是同一件事嗎？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>假設發行者替卡片的資格資料加上靜態數位簽章。讀取端可用對應的驗證資料，檢查來源和內容是否被改動；但資料與簽章仍可能一起被複製。因此，簽章有效不能單獨證明目前這張實體卡持有金鑰。</p>
+<p>若要保護這次讀卡交換，還要依協定保護交換中的訊息，核對金鑰、目前連線的狀態，以及訊息對應的應用和要求。只驗過一份靜態資料，不能代替這些本次檢查；有「安全訊息」名稱也不代表已正確配置。</p>
+<p>支付是另一個具體例子：系統需要依協定驗證本次交易資料與狀態所對應的動態交易證明。讀到卡片可見欄位，不代表能產生一筆會被接受的新交易。支付的判斷仍須依實際產品、協定及完整驗證流程，不能以課堂門禁結果代替。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §3.3、§5.7–5.8、§10.2</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§4.3.1、§A7、§6.4.1、§A2、§4.2.1、§4.3.1、§1.3.1、§10.4–10.5" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="30" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§4.3.1、§A7、§6.4.1、§A2、§4.2.1、§4.3.1、§1.3.1、§10.4–10.5;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">用研究與推導限定結論</div>
+<h2 id="%E7%B6%9C%E5%90%88%E5%88%A4%E6%96%B7%E8%B3%87%E6%96%99%E5%AE%8C%E6%95%B4%E5%8F%AF%E5%AF%AB%E8%88%87%E5%8F%AF%E9%80%9A%E8%A1%8C%E9%9C%80%E8%A6%81%E5%93%AA%E4%BA%9B%E4%BE%9D%E6%93%9A">綜合判斷：資料完整、可寫與可通行，需要哪些依據？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>情境題：固定資料完整相同，而且指定扇區認證成功，能否推論可寫所有區塊並進入任意樓層？不能。內容、存取與通行是不同的判斷。</p>
+<p>完整比對支持指定內容一致；可否寫入仍須核對目標區的存取條件；通行則還要檢查可信權限與撤銷狀態。作答時要把每個結論連到相應證據，並列出尚未取得的依據，避免把局部成功擴大為整套系統安全的保證。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §6.4、§4.3.1、§A7、§6.4.1、§A2、§4.2.1、§4.3.1、§1.3.1、§10.4–10.5</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-paginate="true" data-footer="RFID/NFC｜進階原理與通訊架構｜完整講義 §9.1、§10.1–10.3、§1.3.1、§10.4–10.5、§9.1、§10" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="31" style="--paginate:true;--footer:RFID/NFC｜進階原理與通訊架構｜完整講義 §9.1、§10.1–10.3、§1.3.1、§10.4–10.5、§9.1、§10;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="31"><div class="kicker">用研究與推導限定結論</div>
+<h2 id="%E6%8A%8A%E6%A0%BC%E5%BC%8F%E8%88%87%E6%A9%9F%E5%88%B6%E5%B8%B6%E5%85%A5%E5%AF%A6%E4%BD%9C%E4%BF%9D%E7%95%99%E4%B8%8D%E5%90%8C%E5%B1%A4%E6%AC%A1%E7%9A%84%E7%B5%90%E8%AB%96">把格式與機制帶入實作，保留不同層次的結論</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>進入實作後，可以把這些區分變成可觀察的結果：比較完整資料、指定扇區的正確與錯誤金鑰，以及同一卡片對不同樓層的通行判斷。</p>
+<p>實作篇會先定義本課器材、樣品和操作範圍，再說明命令、預期輸出及異常處理。請分開記錄程式是否編譯、是否上傳、實際卡片有何回應，以及模型如何判斷；電腦上的模型通過，不能代替射頻與真卡結果。</p>
+</div>
+</div>
+<footer>RFID/NFC｜進階原理與通訊架構｜完整講義 §9.1、§10.1–10.3、§1.3.1、§10.4–10.5、§9.1、§10</footer>
+</section>
+<script>!function(){"use strict";const t={h1:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:()=>HTMLSpanElement},pre:{proto:()=>HTMLElement,style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},e="data-marp-auto-scaling-wrapper",i="data-marp-auto-scaling-svg",n="data-marp-auto-scaling-container";class s extends HTMLElement{container;containerSize;containerObserver;svg;svgComputedStyle;svgPreserveAspectRatio="xMinYMid meet";wrapper;wrapperSize;wrapperObserver;constructor(){super();const t=t=>([e])=>{const{width:i,height:n}=e.contentRect;this[t]={width:i,height:n},this.updateSVGRect()};this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(t("containerSize")),this.wrapperObserver=new ResizeObserver((...e)=>{t("wrapperSize")(...e),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`\n<style>\n  svg[${i}] { display: block; width: 100%; height: auto; vertical-align: top; }\n  span[${n}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }\n</style>\n<div ${e}>\n  <svg part="svg" ${i}>\n    <foreignObject><span ${n}><slot></slot></span></foreignObject>\n  </svg>\n</div>\n    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${e}]`)??void 0;const t=this.svg;this.svg=this.wrapper?.querySelector(`svg[${i}]`)??void 0,this.svg!==t&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${n}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:t}=this;t&&(t.style.display="inline",requestAnimationFrame(()=>{t.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(t){const e=()=>{const i=(()=>{const e=t.getPropertyValue("--preserve-aspect-ratio");if(e)return e.trim();return`x${(({textAlign:t,direction:e})=>{if(t.endsWith("left"))return"Min";if(t.endsWith("right"))return"Max";if("start"===t||"end"===t){let i="rtl"===e;return"end"===t&&(i=!i),i?"Max":"Min"}return"Mid"})(t)}YMid meet`})();i!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=i,this.updateSVGRect()),t===this.svgComputedStyle&&requestAnimationFrame(e)};e()}updateSVGRect(){let t=Math.ceil(this.containerSize?.width??0);const e=Math.ceil(this.containerSize?.height??0);void 0!==this.dataset.downscaleOnly&&(t=Math.max(t,this.wrapperSize?.width??0));const i=this.svg?.querySelector(":scope > foreignObject");if(i?.setAttribute("width",`${t}`),i?.setAttribute("height",`${e}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${t} ${e}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=t<=0||e<=0?"0":""),this.container){const t=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=t.startsWith("xmid")||t.startsWith("xmax")?"auto":"0",this.container.style.marginRight=t.startsWith("xmi")?"auto":"0"}}}const r=(t,{attrs:e={},style:i})=>class extends t{constructor(...t){super(...t);for(const[t,i]of Object.entries(e))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(t){if(!(t instanceof Error&&"NotSupportedError"===t.name))throw t}return this.shadowRoot}_update(){const t=this._shadow();if(t){const e=i?`<style>:host { ${i} }</style>`:"";let n="<slot></slot>";const{autoScaling:s}=this.dataset;if(void 0!==s){n=`<marp-auto-scaling exportparts="svg:auto-scaling" ${"downscale-only"===s?"data-downscale-only":""}>${n}</marp-auto-scaling>`}t.innerHTML=e+n}}};let o;const a=()=>o??(o=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),o),l=Symbol();let c;const d="marpitSVGPolyfill:setZoomFactor,",h=Symbol(),g=Symbol();const p=()=>{const t="Apple Computer, Inc."===navigator.vendor,e=t?[v]:[],i={then:e=>(t?(async()=>{if(void 0===c){const t=document.createElement("canvas");t.width=10,t.height=10;const e=t.getContext("2d"),i=new Image(10,10),n=new Promise(t=>{i.addEventListener("load",()=>t())});i.crossOrigin="anonymous",i.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await n,e.drawImage(i,0,0),c=e.getImageData(5,5,1,1).data[3]<128}return c})().then(t=>{null==e||e(t?[v]:[])}):null==e||e([]),i)};return Object.assign(e,i)};let m,u;function v(t){const e="object"==typeof t&&t.target||document,i="object"==typeof t?t.zoom:t;window[g]||(Object.defineProperty(window,g,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:e})=>{if(e===window.origin)try{if(t&&"string"==typeof t&&t.startsWith(d)){const[,e]=t.split(","),i=Number.parseFloat(e);Number.isNaN(i)||(u=i)}}catch(t){console.error(t)}}));let n=!1;Array.from(e.querySelectorAll("svg[data-marpit-svg]"),t=>{var e,s,r,o;t.style.transform||(t.style.transform="translateZ(0)");const a=i||u||t.currentScale||1;m!==a&&(m=a,n=a);const l=t.getBoundingClientRect(),{length:c}=t.children;for(let i=0;i<c;i+=1){const n=t.children[i];if(n.getScreenCTM){const t=n.getScreenCTM();if(t){const i=null!==(s=null===(e=n.x)||void 0===e?void 0:e.baseVal.value)&&void 0!==s?s:0,c=null!==(o=null===(r=n.y)||void 0===r?void 0:r.baseVal.value)&&void 0!==o?o:0,d=n.children.length;for(let e=0;e<d;e+=1){const s=n.children[e];if("SECTION"===s.tagName){const{style:e}=s;e.transformOrigin||(e.transformOrigin=`${-i}px ${-c}px`),e.transform=`scale(${a}) matrix(${t.a}, ${t.b}, ${t.c}, ${t.d}, ${t.e-l.left}, ${t.f-l.top}) translateZ(0.0001px)`;break}}}}}}),!1!==n&&Array.from(e.querySelectorAll("iframe"),({contentWindow:t})=>{null==t||t.postMessage(`${d}${n}`,"null"===window.origin?"*":window.origin)})}function w({once:t=!1,target:e=document}={}){const i=function(t=document){if(t[h])return t[h];let e=!0;const i=()=>{e=!1,delete t[h]};Object.defineProperty(t,h,{configurable:!0,value:i});let n=[],s=!1;(async()=>{try{n=await p()}finally{s=!0}})();const r=()=>{for(const e of n)e({target:t});s&&0===n.length||e&&window.requestAnimationFrame(r)};return r(),i}(e);return t?(i(),()=>{}):i}m=1,u=void 0;const b=Symbol(),y=(e=document)=>{if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");if(((e=document)=>{const i=window[l];i||customElements.define("marp-auto-scaling",s);for(const n of Object.keys(t)){const s=`marp-${n}`,o=t[n].proto();a()&&o!==HTMLElement?i||customElements.define(s,r(o,{style:t[n].style}),{extends:n}):(i||customElements.define(s,r(HTMLElement,t[n])),e.querySelectorAll(`${n}[is="${s}"]`).forEach(t=>{t.outerHTML=t.outerHTML.replace(new RegExp(`^<${n}`,"i"),`<${s}`).replace(new RegExp(`</${n}>$`,"i"),`</${s}>`)}))}window[l]=!0})(e),e[b])return e[b];const i=w({target:e}),n=()=>{i(),delete e[b]},o=Object.assign(n,{cleanup:n,update:()=>y(e)});return Object.defineProperty(e,b,{configurable:!0,value:o}),o},f=document.currentScript;y(f?f.getRootNode():document)}();
+</script></foreignObject></svg></div><div class="bespoke-marp-note" data-index="1" tabindex="0"><p>page-id: N2-D01</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D01&quot;,
+  &quot;title&quot;: &quot;文字如何儲存，系統又如何判斷通行？&quot;,
+  &quot;unit&quot;: &quot;D11-U1&quot;,
+  &quot;phase&quot;: &quot;單位與相容性&quot;,
+  &quot;concept&quot;: &quot;格式解析與存取決策的兩條深入路徑&quot;,
+  &quot;question&quot;: &quot;本篇如何分開追蹤文字儲存與通行判斷？&quot;,
+  &quot;judgment&quot;: &quot;能說出本篇要解釋格式長度、記憶體與認證／授權。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;本篇先追蹤一段文字如何加上格式資訊並存入卡片，再分析卡片認證、資料存取及通行權限為何需要分開判斷。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D01&quot;,
+    &quot;N-D02&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§2.5–2.6、§4.2、§5.3、§6.4&quot;,
+    &quot;§2.0、§9.1、§10.4&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-B09&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：本篇如何分開追蹤文字儲存與通行判斷？ 讀後判斷：能說出本篇要解釋格式長度、記憶體與認證／授權。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D01&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D01&quot;,
+    &quot;N-D02&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="2" tabindex="0"><p>page-id: N2-D02</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D02&quot;,
+  &quot;title&quot;: &quot;先讀懂 bit、byte 與十六進位表示法&quot;,
+  &quot;unit&quot;: &quot;D11-U1&quot;,
+  &quot;phase&quot;: &quot;單位與相容性&quot;,
+  &quot;concept&quot;: &quot;8 bits 為 1 byte，兩位十六進位表示一個 byte&quot;,
+  &quot;question&quot;: &quot;0D 與 11 分別表示多少長度？&quot;,
+  &quot;judgment&quot;: &quot;能將十六進位長度轉成13與17，避免當成文字。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;一個位元（bit）是 0 或 1，八個位元組成一個位元組（byte）；兩位十六進位數字可表示一個 byte，例如 0D 表示十進位的 13。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D03&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§2.0、§2.6、§6.4&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D01&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：0D 與 11 分別表示多少長度？ 讀後判斷：能將十六進位長度轉成13與17，避免當成文字。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D02&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D03&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="3" tabindex="0"><p>page-id: N2-D03</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D03&quot;,
+  &quot;title&quot;: &quot;頻段、通訊協定與 NFC Type 各在分類什麼？&quot;,
+  &quot;unit&quot;: &quot;D11-U1&quot;,
+  &quot;phase&quot;: &quot;單位與相容性&quot;,
+  &quot;concept&quot;: &quot;以同一產品區分頻段、交換規則與存取規範&quot;,
+  &quot;question&quot;: &quot;以NTAG213為例，頻段、通訊協定與NFC Type分別描述什麼？&quot;,
+  &quot;judgment&quot;: &quot;能分清三種分類，且不把相同頻率或Type編號當成安全分數。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;以 NTAG213 為例：13.56 MHz 說明它使用的無線電頻率；Type A 的通訊規則，說明讀卡機如何尋卡、選卡並交換資料；NFC Type 2 則規定相容的資料存取方式。這三個名稱回答的是不同問題。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-B07&quot;,
+    &quot;N-B09&quot;,
+    &quot;N-B06&quot;,
+    &quot;N-D25&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§2.2–2.3&quot;,
+    &quot;§2.4、§2.6&quot;,
+    &quot;§2.1.2&quot;,
+    &quot;§2.1.4、§2.3.2&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D02&quot;,
+    &quot;N2-B04&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：以NTAG213為例，頻段、通訊協定與NFC Type分別描述什麼？ 讀後判斷：能分清三種分類，且不把相同頻率或Type編號當成安全分數。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D03&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-B07&quot;,
+    &quot;N-B09&quot;,
+    &quot;N-B06&quot;,
+    &quot;N-D25&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="4" tabindex="0"><p>page-id: N2-D04</p><p>問題：RFID 依頻段可以分成哪幾類？
+概念：頻段、標準與卡片能力共同決定用途與安全等級。
+讀完能做的判斷：能依頻段判斷卡片大致的能力。
+來源：§2.3.3；S24 NFC Forum</p></div><div class="bespoke-marp-note" data-index="5" tabindex="0"><p>page-id: N2-D05</p><p>問題：手機使用 NFC 時可能扮演哪些角色？
+概念：三種模式的信任對象不同。
+讀完能做的判斷：能依情境判斷手機扮演的角色。
+來源：§2.2.1；S24 NFC Forum</p></div><div class="bespoke-marp-note" data-index="6" tabindex="0"><p>page-id: N2-D06</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D04&quot;,
+  &quot;title&quot;: &quot;NTAG213 的頁與 Classic 的區塊有何不同？&quot;,
+  &quot;unit&quot;: &quot;D11-U1&quot;,
+  &quot;phase&quot;: &quot;單位與相容性&quot;,
+  &quot;concept&quot;: &quot;NTAG page 與 Classic block／sector 的不同記憶體分組&quot;,
+  &quot;question&quot;: &quot;同樣是位置4，為什麼不能照抄存取方式？&quot;,
+  &quot;judgment&quot;: &quot;在先有byte概念下理解144／4與16／sector，並分清管理區。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;NTAG213 的使用者容量為 144 bytes，每頁（page）4 bytes；Classic EV1 1K 每區塊（block）16 bytes，並以扇區（sector）分組管理，其中也包含管理資料，不能把 1K 全當成一般文字空間。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-B09&quot;,
+    &quot;N-D12&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§2.4、§2.6&quot;,
+    &quot;§2.6、§4.3.1&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;figure-slide&quot;,
+  &quot;diagram&quot;: {
+    &quot;asset_key&quot;: &quot;nfc_memory&quot;,
+    &quot;caption&quot;: &quot;NTAG213 以每頁4bytes分組；Classic 1K 以每區塊16bytes分組，並含扇區管理區。&quot;,
+    &quot;role&quot;: &quot;先定義單位，再比較不同地址模型。&quot;,
+    &quot;format&quot;: &quot;self_contained_svg&quot;,
+    &quot;constraint&quot;: &quot;圖旁保留完整事件解說；圖中文字與正文同樣進行台灣繁體中文審閱。&quot;,
+    &quot;path&quot;: &quot;assets/nfc_advanced_memory.svg&quot;
+  },
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D02&quot;,
+    &quot;N2-D03&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：同樣是位置4，為什麼不能照抄存取方式？ 讀後判斷：在先有byte概念下理解144／4與16／sector，並分清管理區。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D04&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-B09&quot;,
+    &quot;N-D12&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="7" tabindex="0"><p>page-id: N2-D07</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D05&quot;,
+  &quot;title&quot;: &quot;從尋卡到選卡：先確定這次與誰交換&quot;,
+  &quot;unit&quot;: &quot;D11-U1&quot;,
+  &quot;phase&quot;: &quot;單位與相容性&quot;,
+  &quot;concept&quot;: &quot;尋卡、防碰撞與選卡建立本次交換對象&quot;,
+  &quot;question&quot;: &quot;兩張卡同時出現時，讀卡機如何選定本次對象？&quot;,
+  &quot;judgment&quot;: &quot;能說明選定一張卡與確認其合法憑證是兩件事。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;假設讀卡機的電磁場中同時有兩張 Type A 卡。讀卡機先尋找可回應的卡，再依防碰撞程序區分候選對象，最後透過 SELECT 選定其中一張，繼續這次交換。這套程序處理的是「現在要和哪張卡交換資料」。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-B08&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§2.3.1&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D03&quot;,
+    &quot;N2-B07&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：兩張卡同時出現時，讀卡機如何選定本次對象？ 讀後判斷：能說明選定一張卡與確認其合法憑證是兩件事。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D05&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-B08&quot;
+  ],
+  &quot;teacher_notes&quot;: [
+    &quot;較長的識別資料可能分層處理；此處核心只追蹤本次選卡對象，分層UID細節回查完整教材b06 §4.1。&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="9" tabindex="0"><p>page-id: N2-D08</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D06&quot;,
+  &quot;title&quot;: &quot;十個字元如何表示成十個 bytes？&quot;,
+  &quot;unit&quot;: &quot;D11-U2&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;ASCII 正文與字元編碼&quot;,
+  &quot;question&quot;: &quot;LAB-NFC-01 為什麼是10bytes，中文是否也如此？&quot;,
+  &quot;judgment&quot;: &quot;知道ASCII例子不可直接外推中文字元數。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;範例文字 LAB-NFC-01 的十個字元都在 ASCII 範圍內，所以共占十個 bytes；中文使用 UTF-8 時，字元數與 byte 數通常不同。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-B11&quot;,
+    &quot;N-D04&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§6.4&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D02&quot;,
+    &quot;N2-B05&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：LAB-NFC-01 為什麼是10bytes，中文是否也如此？ 讀後判斷：知道ASCII例子不可直接外推中文字元數。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D06&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-B11&quot;,
+    &quot;N-D04&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="10" tabindex="0"><p>page-id: N2-D09</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D07&quot;,
+  &quot;title&quot;: &quot;文字內容還需要狀態、語言與編碼資訊&quot;,
+  &quot;unit&quot;: &quot;D11-U2&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;Text Record payload 的13bytes組成&quot;,
+  &quot;question&quot;: &quot;為什麼payload不只有顯示的十個字元？&quot;,
+  &quot;judgment&quot;: &quot;能計算1狀態＋2語言＋10正文＝13bytes。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;文字記錄的承載內容（payload）包含一個狀態 byte、語言碼 en 的兩個 bytes，以及十個正文 bytes，所以本例共為十三個 bytes。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D05&quot;,
+    &quot;N-B11&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§6.4、§6.4.1&quot;,
+    &quot;§6.4&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D06&quot;,
+    &quot;N2-B05&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：為什麼payload不只有顯示的十個字元？ 讀後判斷：能計算1狀態＋2語言＋10正文＝13bytes。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D07&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D05&quot;,
+    &quot;N-B11&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="11" tabindex="0"><p>page-id: N2-D10</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D08&quot;,
+  &quot;title&quot;: &quot;NDEF 記錄如何標示內容類型與長度？&quot;,
+  &quot;unit&quot;: &quot;D11-U2&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;D1 01 0D 54 與17byte記錄&quot;,
+  &quot;question&quot;: &quot;長度0D是否包含前面四個bytes？&quot;,
+  &quot;judgment&quot;: &quot;能定位類型與payload長度並計算4＋13＝17。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;在十三個 payload bytes 前加上 D1 01 0D 54 後，記錄共為十七個 bytes；其中 0D 只計算 payload，54 則表示文字類型。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D06&quot;,
+    &quot;N-B11&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§6.4、§6.4.1&quot;,
+    &quot;§6.4&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D07&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：長度0D是否包含前面四個bytes？ 讀後判斷：能定位類型與payload長度並計算4＋13＝17。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D08&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D06&quot;,
+    &quot;N-B11&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="12" tabindex="0"><p>page-id: N2-D11</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D09&quot;,
+  &quot;title&quot;: &quot;再加外層格式，完整範例為二十個 bytes&quot;,
+  &quot;unit&quot;: &quot;D11-U2&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;TLV外層與10→13→17→20的分層長度&quot;,
+  &quot;question&quot;: &quot;11和0D各數哪一層？&quot;,
+  &quot;judgment&quot;: &quot;能逐層重算而不重複計數。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;TLV 是依類型、長度和值組織資料的方式，本例以 03、11 和結尾 FE 包住十七個 bytes 的 NDEF 記錄，完整資料因此共有二十個 bytes。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D07&quot;,
+    &quot;N-B11&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§6.4、§6.4.1&quot;,
+    &quot;§6.4&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;widget-slide&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: &quot;ndef&quot;,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D08&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：11和0D各數哪一層？ 讀後判斷：能逐層重算而不重複計數。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D09&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D07&quot;,
+    &quot;N-B11&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="13" tabindex="0"><p>page-id: N2-D12</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D10&quot;,
+  &quot;title&quot;: &quot;格式邊界與記憶體頁面，不一定重合&quot;,
+  &quot;unit&quot;: &quot;D11-U2&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;20bytes跨五個4byte頁面&quot;,
+  &quot;question&quot;: &quot;語言碼跨頁時，讀取端如何解釋？&quot;,
+  &quot;judgment&quot;: &quot;能按格式長度解讀，不把每頁當一句文字。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;這二十個 bytes 在 NTAG213 中占五頁，語言碼 en 甚至會分在兩頁，讀取端必須依格式長度組合內容，不能把每一頁當成獨立文字。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D08&quot;,
+    &quot;N-B11&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§6.4、§6.4.1&quot;,
+    &quot;§6.4&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;figure-slide&quot;,
+  &quot;diagram&quot;: {
+    &quot;asset_key&quot;: &quot;nfc_format_pages&quot;,
+    &quot;caption&quot;: &quot;二十個bytes按五頁保存，格式欄位跨越頁面邊界。&quot;,
+    &quot;role&quot;: &quot;讓同一組資料可逐位追蹤，與格式分層圖互補。&quot;,
+    &quot;format&quot;: &quot;self_contained_svg&quot;,
+    &quot;constraint&quot;: &quot;圖旁保留完整事件解說；圖中文字與正文同樣進行台灣繁體中文審閱。&quot;,
+    &quot;path&quot;: &quot;assets/nfc_advanced_format_pages.svg&quot;
+  },
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D04&quot;,
+    &quot;N2-D09&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：語言碼跨頁時，讀取端如何解釋？ 讀後判斷：能按格式長度解讀，不把每頁當一句文字。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D10&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D08&quot;,
+    &quot;N-B11&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="14" tabindex="0"><p>page-id: N2-D13</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D11&quot;,
+  &quot;title&quot;: &quot;容量描述能告訴我們什麼，不能告訴我們什麼？&quot;,
+  &quot;unit&quot;: &quot;D11-U2&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;CC容量計算與實際保護狀態&quot;,
+  &quot;question&quot;: &quot;E1 10 12 00為何對應144bytes，是否保證可寫？&quot;,
+  &quot;judgment&quot;: &quot;分開容量描述、頁範圍與實際寫入限制。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;Type 2 標籤的容量描述（CC）範例 E1 10 12 00 中，12 是十進位 18，以八個 bytes 為單位得到 144 bytes，但容量描述不會解除實際鎖定或密碼限制。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D09&quot;,
+    &quot;N-B19&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§2.6.1&quot;,
+    &quot;§1.3 N02、§2.6、§4.5&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D04&quot;,
+    &quot;N2-D10&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：E1 10 12 00為何對應144bytes，是否保證可寫？ 讀後判斷：分開容量描述、頁範圍與實際寫入限制。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D11&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D09&quot;,
+    &quot;N-B19&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="15" tabindex="0"><p>page-id: N2-D14</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D12&quot;,
+  &quot;title&quot;: &quot;D1 如何同時標示第一筆與最後一筆記錄？&quot;,
+  &quot;unit&quot;: &quot;D11-U2&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;NDEF旗標與短記錄欄位&quot;,
+  &quot;question&quot;: &quot;只有一筆記錄時，MB與ME可否同時為1？&quot;,
+  &quot;judgment&quot;: &quot;能解讀D1，知道SR不代表整張卡容量。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;D1 的位元旗標同時表示訊息的第一筆與最後一筆，因為本例只有一筆記錄；短記錄旗標則說明長度欄位的表示方式，不是宣告卡片容量。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D10&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§6.4.1&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;extension&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D08&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：只有一筆記錄時，MB與ME可否同時為1？ 讀後判斷：能解讀D1，知道SR不代表整張卡容量。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D12&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D10&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="16" tabindex="0"><p>page-id: N2-D15</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D13&quot;,
+  &quot;title&quot;: &quot;判斷：內容相同、格式有效與來源可信，是同一件事嗎？&quot;,
+  &quot;unit&quot;: &quot;D11-U2&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;資料一致、格式解析與來源驗證的不同判斷&quot;,
+  &quot;question&quot;: &quot;只比正文相同，可以保證完整格式嗎？&quot;,
+  &quot;judgment&quot;: &quot;能指出長度及其他欄位未驗證，不能跳到可信來源。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;正文的十個 bytes 相同，不能證明其他格式欄位正確；即使整份資料格式有效，也仍需另外判斷資料來源是否可信。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D11&quot;,
+    &quot;N-B30&quot;,
+    &quot;N-B11&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§6.4.1、§A2&quot;,
+    &quot;§1.3.1、§10.4–10.5&quot;,
+    &quot;§6.4&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D08&quot;,
+    &quot;N2-D09&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：只比正文相同，可以保證完整格式嗎？ 讀後判斷：能指出長度及其他欄位未驗證，不能跳到可信來源。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D13&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D11&quot;,
+    &quot;N-B30&quot;,
+    &quot;N-B11&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="18" tabindex="0"><p>page-id: N2-D16</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D14&quot;,
+  &quot;title&quot;: &quot;Classic 管理區如何保存金鑰與存取條件？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;sector trailer 及KeyA/B與access bits&quot;,
+  &quot;question&quot;: &quot;為什麼不能把管理區當文字空間？&quot;,
+  &quot;judgment&quot;: &quot;能定位6＋3＋1＋6配置與KeyA遮蔽，不把零當備份。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;Classic 扇區的管理區（sector trailer）包含 Key A、存取條件及 Key B；一般讀取看見的 Key A 遮蔽值不是實際金鑰，不能拿來當復原備份。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-B14&quot;,
+    &quot;N-B15&quot;,
+    &quot;N-D13&quot;,
+    &quot;N-B33&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§4.3–4.4&quot;,
+    &quot;§4.5、§2.6&quot;,
+    &quot;§2.6、§4.3.1、§4.4&quot;,
+    &quot;§4.1、§4.4、§8.4、§8.6&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D02&quot;,
+    &quot;N2-D04&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：為什麼不能把管理區當文字空間？ 讀後判斷：能定位6＋3＋1＋6配置與KeyA遮蔽，不把零當備份。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D14&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-B14&quot;,
+    &quot;N-B15&quot;,
+    &quot;N-D13&quot;,
+    &quot;N-B33&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="19" tabindex="0"><p>page-id: N2-D17</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D15&quot;,
+  &quot;title&quot;: &quot;通過指定扇區認證後，為什麼仍可能不能寫？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;格式與記憶體推導&quot;,
+  &quot;concept&quot;: &quot;認證範圍與晶片存取條件&quot;,
+  &quot;question&quot;: &quot;認證block4所屬sector，是否代表所有區域可寫？&quot;,
+  &quot;judgment&quot;: &quot;分清產品實際相互認證、sector範圍與存取條件。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;對 Classic 的某個扇區認證成功後，可讀寫哪些區塊仍由存取條件決定，也不會因此取得其他扇區的權限。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-B14&quot;,
+    &quot;N-D14&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§4.3–4.4&quot;,
+    &quot;§4.2.1、§4.3.1&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D14&quot;,
+    &quot;N2-B07&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：認證block4所屬sector，是否代表所有區域可寫？ 讀後判斷：分清產品實際相互認證、sector範圍與存取條件。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D15&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-B14&quot;,
+    &quot;N-D14&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="20" tabindex="0"><p>page-id: N2-D18</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D16&quot;,
+  &quot;title&quot;: &quot;新的挑戰如何讓回應對應到這次交換？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;用兩次不同挑戰追蹤回應的新鮮性&quot;,
+  &quot;question&quot;: &quot;為何第一次挑戰的回應，不能直接拿來回答第二次挑戰？&quot;,
+  &quot;judgment&quot;: &quot;能對照N1/R1與N2/R2，說明舊回應和有效金鑰外洩的差別。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;第一次驗證，驗證端送出挑戰 N1，卡片用金鑰算出回應 R1。第二次改送新的 N2，驗證端就要核對 N2 所需的回應；在正確協定與狀態檢查下，直接重送 R1 不會因上次成功而通過。請用互動比較新挑戰、舊回應與當次中繼。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D16&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§4.2、§4.2.1&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;widget-slide wide-copy&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: &quot;challenge&quot;,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-B07&quot;,
+    &quot;N2-D02&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：為何第一次挑戰的回應，不能直接拿來回答第二次挑戰？ 讀後判斷：能對照N1/R1與N2/R2，說明舊回應和有效金鑰外洩的差別。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D16&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D16&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="21" tabindex="0"><p>page-id: N2-D19</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D17&quot;,
+  &quot;title&quot;: &quot;把認證、撤銷與目標權限組成通行判斷&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;可信證據與目標樓層的授權條件&quot;,
+  &quot;question&quot;: &quot;同一資格為何可到3樓卻不能到8樓？&quot;,
+  &quot;judgment&quot;: &quot;一次改一條件，能解釋拒絕原因而非全歸認證。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;同一張卡片即使通過本次認證，若可信紀錄只允許 1、2、3 樓，系統仍應拒絕 8 樓，並在資格撤銷後拒絕新的通行。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D17&quot;,
+    &quot;N-B13&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§4.2、§5.3.4&quot;,
+    &quot;§3.2、§4.2&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;widget-slide&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: &quot;authorization&quot;,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-B08&quot;,
+    &quot;N2-D16&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：同一資格為何可到3樓卻不能到8樓？ 讀後判斷：一次改一條件，能解釋拒絕原因而非全歸認證。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D17&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D17&quot;,
+    &quot;N-B13&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="22" tabindex="0"><p>page-id: N2-D20</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D18&quot;,
+  &quot;title&quot;: &quot;完整的卡號查詢表，為什麼不能取代認證？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;相同識別輸入查到同一紀錄&quot;,
+  &quot;question&quot;: &quot;權限表欄位齊全，是否補上持有憑證的證明？&quot;,
+  &quot;judgment&quot;: &quot;能保留相同識別輸入前提，不宣稱一般UID可改。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;兩個來源若能透過系統接受的介面提供相同卡號，就會查到同一筆紀錄；增加權限表欄位，仍沒有補上本次持有憑證的證明。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D18&quot;,
+    &quot;N-B24&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§5.3.2&quot;,
+    &quot;§1.3 N06、§5.3.2&quot;
+  ],
+  &quot;case_ids&quot;: [
+    &quot;N06&quot;
+  ],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-B06&quot;,
+    &quot;N2-B07&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：權限表欄位齊全，是否補上持有憑證的證明？ 讀後判斷：能保留相同識別輸入前提，不宣稱一般UID可改。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D18&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D18&quot;,
+    &quot;N-B24&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="23" tabindex="0"><p>page-id: N2-D21</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D19&quot;,
+  &quot;title&quot;: &quot;未驗證的樓層欄位，為什麼不能當授權命令？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;把可修改宣告與可信授權資料分開&quot;,
+  &quot;question&quot;: &quot;系統採信卡內樓層宣告，與使用可信權限時會有什麼差異？&quot;,
+  &quot;judgment&quot;: &quot;能依互動比較加入八樓後兩種規則為何得到不同結果。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;假設卡片中有 `floors=1,2,3`。若電梯直接相信這個可修改欄位，有人把八樓加入後，系統就可能把原本沒有的資格當成有效權限；風險成立的關鍵是可改、未驗證，而且直接採用。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D19&quot;,
+    &quot;N-B25&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§5.3.3、§10.2&quot;,
+    &quot;§1.3 N07、§5.3.3&quot;
+  ],
+  &quot;case_ids&quot;: [
+    &quot;N07&quot;
+  ],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;widget-slide wide-copy&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: &quot;card_fields&quot;,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-B08&quot;,
+    &quot;N2-D17&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：系統採信卡內樓層宣告，與使用可信權限時會有什麼差異？ 讀後判斷：能依互動比較加入八樓後兩種規則為何得到不同結果。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D19&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D19&quot;,
+    &quot;N-B25&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="24" tabindex="0"><p>page-id: N2-D22</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D20&quot;,
+  &quot;title&quot;: &quot;換金鑰和撤銷資格，分別改變哪個判斷？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;認證材料與服務接受狀態獨立&quot;,
+  &quot;question&quot;: &quot;已撤銷卡仍能認證，是否代表撤銷失敗？&quot;,
+  &quot;judgment&quot;: &quot;能以應用拒絕判斷撤銷而非要求卡片金鑰自動改變。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;撤銷資格不一定改變卡內金鑰，所以卡片可能仍通過認證，但系統取得已撤銷狀態後，應拒絕新的通行要求。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D15&quot;,
+    &quot;N-D20&quot;,
+    &quot;N-B33&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§4.1、§4.5、§A5&quot;,
+    &quot;§5.3.4、§4.1&quot;,
+    &quot;§4.1、§4.4、§8.4、§8.6&quot;
+  ],
+  &quot;case_ids&quot;: [
+    &quot;N08&quot;
+  ],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D15&quot;,
+    &quot;N2-D17&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：已撤銷卡仍能認證，是否代表撤銷失敗？ 讀後判斷：能以應用拒絕判斷撤銷而非要求卡片金鑰自動改變。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D20&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D15&quot;,
+    &quot;N-D20&quot;,
+    &quot;N-B33&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="25" tabindex="0"><p>page-id: N2-D23</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D21&quot;,
+  &quot;title&quot;: &quot;離線使用舊權限資料，如何平衡風險與可用性？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;快取有效期限與斷線取捨的一般機制&quot;,
+  &quot;question&quot;: &quot;期限越短是否就沒有代價？&quot;,
+  &quot;judgment&quot;: &quot;能說明舊權限窗口與合法使用者斷線受阻的取捨，不套本課60秒例外。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;快取是先前取得的資料副本，限制使用期限可縮短舊資格仍被接受的時間，但設備斷線時，也可能讓合法使用者無法通行。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D21&quot;,
+    &quot;N-D22&quot;,
+    &quot;N-B26&quot;,
+    &quot;N-D20&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§A7、nfc_arduino/README.md「快取限制」&quot;,
+    &quot;§A7、§5.3.4&quot;,
+    &quot;§1.3 N08、§5.3.4&quot;,
+    &quot;§5.3.4、§4.1&quot;
+  ],
+  &quot;case_ids&quot;: [
+    &quot;N08&quot;
+  ],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D20&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：期限越短是否就沒有代價？ 讀後判斷：能說明舊權限窗口與合法使用者斷線受阻的取捨，不套本課60秒例外。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D21&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D21&quot;,
+    &quot;N-D22&quot;,
+    &quot;N-B26&quot;,
+    &quot;N-D20&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="26" tabindex="0"><p>page-id: N2-D24</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D22&quot;,
+  &quot;title&quot;: &quot;驗證結果傳到另一個元件時，還要檢查什麼？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;訊息驗證與本次對象綁定共同保護結果傳遞&quot;,
+  &quot;question&quot;: &quot;控制器如何避免把偽造、舊的或別張卡的成功結果當成本次證據？&quot;,
+  &quot;judgment&quot;: &quot;能說明保護內容未改與核對本次卡片/要求各有用途。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;讀卡機把「認證成功」傳給控制器時，控制器要知道：訊息是否來自指定設備、內容是否被改動，以及是否屬於這次卡片和要求。只收到一個成功欄位，便無法回答這三個問題。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D23&quot;,
+    &quot;N-B04&quot;,
+    &quot;N-B23&quot;,
+    &quot;N-B30&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§1.3.1 N05、§A7；來源 S23&quot;,
+    &quot;§1.1、§5.3.1&quot;,
+    &quot;§1.3 N05、§5.3.4、§8.12&quot;,
+    &quot;§1.3.1、§10.4–10.5&quot;
+  ],
+  &quot;case_ids&quot;: [
+    &quot;N05&quot;
+  ],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-B13&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：控制器如何避免把偽造、舊的或別張卡的成功結果當成本次證據？ 讀後判斷：能說明保護內容未改與核對本次卡片/要求各有用途。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D22&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D23&quot;,
+    &quot;N-B04&quot;,
+    &quot;N-B23&quot;,
+    &quot;N-B30&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="27" tabindex="0"><p>page-id: N2-D25</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D23&quot;,
+  &quot;title&quot;: &quot;重放、中繼與金鑰外洩，為什麼需要不同防護？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;舊回應、當次轉送與自行產生回應的差異&quot;,
+  &quot;question&quot;: &quot;新的挑戰為什麼不能單獨解決中繼或外洩金鑰？&quot;,
+  &quot;judgment&quot;: &quot;能依攻擊者能力選措施，不把普通逾時當距離證明。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;新的挑戰可使舊回應不再適用，卻不能單獨阻止當次訊息被中繼，也不能讓已外洩的金鑰重新保密；普通逾時同樣不是距離證明。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D24&quot;,
+    &quot;N-B21&quot;,
+    &quot;N-B20&quot;,
+    &quot;N-B32&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§5.4–5.5&quot;,
+    &quot;§1.3 N04、§5.5&quot;,
+    &quot;§1.3 N03、§4.3、§5.4&quot;,
+    &quot;§5.9、§7.0&quot;
+  ],
+  &quot;case_ids&quot;: [
+    &quot;N03&quot;,
+    &quot;N04&quot;
+  ],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D16&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：新的挑戰為什麼不能單獨解決中繼或外洩金鑰？ 讀後判斷：能依攻擊者能力選措施，不把普通逾時當距離證明。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D23&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D24&quot;,
+    &quot;N-B21&quot;,
+    &quot;N-B20&quot;,
+    &quot;N-B32&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="28" tabindex="0"><p>page-id: N2-D26</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D24&quot;,
+  &quot;title&quot;: &quot;接收到命令、卡片操作成功與允許通行，差在哪裡？&quot;,
+  &quot;unit&quot;: &quot;D11-U3&quot;,
+  &quot;phase&quot;: &quot;認證與授權機制&quot;,
+  &quot;concept&quot;: &quot;主機介面、射頻交換及應用決策的三層成功&quot;,
+  &quot;question&quot;: &quot;為何收到命令確認後仍可能沒有通行？&quot;,
+  &quot;judgment&quot;: &quot;能定位確認訊息不等於卡片操作或授權成功。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;讀取模組確認收到主機命令後，仍須與卡片交換資料，應用系統再檢查權限，因此命令已接收不能直接解釋成操作成功或允許通行。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D25&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§2.1.4、§2.3.2&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;figure-slide&quot;,
+  &quot;diagram&quot;: {
+    &quot;asset_key&quot;: &quot;nfc_three_successes&quot;,
+    &quot;caption&quot;: &quot;主機命令被接收 → 卡片操作回傳結果 → 應用檢查權限：各層成功不代替下一層。&quot;,
+    &quot;role&quot;: &quot;解釋三種成功與可能失敗的層級。&quot;,
+    &quot;format&quot;: &quot;self_contained_svg&quot;,
+    &quot;constraint&quot;: &quot;圖旁保留完整事件解說；圖中文字與正文同樣進行台灣繁體中文審閱。&quot;,
+    &quot;path&quot;: &quot;assets/nfc_advanced_three_successes.svg&quot;
+  },
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-B01&quot;,
+    &quot;N2-D15&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：為何收到命令確認後仍可能沒有通行？ 讀後判斷：能定位確認訊息不等於卡片操作或授權成功。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D24&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D25&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="30" tabindex="0"><p>page-id: N2-D27</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D25&quot;,
+  &quot;title&quot;: &quot;線圈方向與附近金屬，為什麼會影響感應？&quot;,
+  &quot;unit&quot;: &quot;D11-U4&quot;,
+  &quot;phase&quot;: &quot;研究與綜合判斷&quot;,
+  &quot;concept&quot;: &quot;磁通變化產生感應電壓與理想模型的界線&quot;,
+  &quot;question&quot;: &quot;線圈方向如何影響感應，為什麼仍不能只用一條公式保證讀取距離？&quot;,
+  &quot;judgment&quot;: &quot;能連結線圈方向、穿過線圈的磁場變化及感應結果，且不宣稱公式直接給成品讀距。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;把卡片線圈轉向，穿過線圈的磁場情況也會改變，可能使卡片較難取得足夠電力。用來描述穿過線圈之磁場的量稱為磁通；磁通隨時間改變，才會在線圈產生感應電壓。附近金屬也可能改變磁場與感應情況。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D26&quot;,
+    &quot;N-B05&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§2.1.1、§2.1.3、§5.6&quot;,
+    &quot;§2.1.1&quot;
+  ],
+  &quot;case_ids&quot;: [
+    &quot;N09&quot;
+  ],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;extension&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-B02&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：線圈方向如何影響感應，為什麼仍不能只用一條公式保證讀取距離？ 讀後判斷：能連結線圈方向、穿過線圈的磁場變化及感應結果，且不宣稱公式直接給成品讀距。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D25&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D26&quot;,
+    &quot;N-B05&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="31" tabindex="0"><p>page-id: N2-D28</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D26&quot;,
+  &quot;title&quot;: &quot;歷史研究究竟測試了哪些產品與條件？&quot;,
+  &quot;unit&quot;: &quot;D11-U4&quot;,
+  &quot;phase&quot;: &quot;研究與綜合判斷&quot;,
+  &quot;concept&quot;: &quot;以受測對象與實際發現限定研究結論&quot;,
+  &quot;question&quot;: &quot;三項歷史研究分別對哪些受測系統觀察到什麼問題？&quot;,
+  &quot;judgment&quot;: &quot;能把研究發現連回受測產品、年代及條件，不推廣至所有現行產品。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;研究結論要連同受測對象閱讀。下面三項研究，分別指出密碼系統設計、金鑰配置，以及當次訊息轉送的問題，並不是同一種「卡片複製」。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-B22&quot;,
+    &quot;N-D27&quot;,
+    &quot;N-B30&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§1.3.1 N04、§5.7；來源 S06&quot;,
+    &quot;§4.2.1、§5.7；來源 S05、S06、S07&quot;,
+    &quot;§1.3.1、§10.4–10.5&quot;
+  ],
+  &quot;case_ids&quot;: [
+    &quot;N03&quot;,
+    &quot;N04&quot;
+  ],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;extension&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D16&quot;,
+    &quot;N2-D23&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：三項歷史研究分別對哪些受測系統觀察到什麼問題？ 讀後判斷：能把研究發現連回受測產品、年代及條件，不推廣至所有現行產品。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D26&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-B22&quot;,
+    &quot;N-D27&quot;,
+    &quot;N-B30&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="32" tabindex="0"><p>page-id: N2-D29</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D27&quot;,
+  &quot;title&quot;: &quot;資料可信、交換安全與交易成立，是同一件事嗎？&quot;,
+  &quot;unit&quot;: &quot;D11-U4&quot;,
+  &quot;phase&quot;: &quot;研究與綜合判斷&quot;,
+  &quot;concept&quot;: &quot;保護對象不同，能支持的結論也不同&quot;,
+  &quot;question&quot;: &quot;確認卡片資料來源，為何不能直接證明當次交換或新支付交易有效？&quot;,
+  &quot;judgment&quot;: &quot;能分清資料簽章、當次訊息保護及支付交易證明各自驗證什麼。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;假設發行者替卡片的資格資料加上靜態數位簽章。讀取端可用對應的驗證資料，檢查來源和內容是否被改動；但資料與簽章仍可能一起被複製。因此，簽章有效不能單獨證明目前這張實體卡持有金鑰。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D28&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§3.3、§5.7–5.8、§10.2&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;extension&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D16&quot;,
+    &quot;N2-D19&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：確認卡片資料來源，為何不能直接證明當次交換或新支付交易有效？ 讀後判斷：能分清資料簽章、當次訊息保護及支付交易證明各自驗證什麼。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D27&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D28&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="33" tabindex="0"><p>page-id: N2-D30</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D28&quot;,
+  &quot;title&quot;: &quot;綜合判斷：資料完整、可寫與可通行，需要哪些依據？&quot;,
+  &quot;unit&quot;: &quot;D11-U4&quot;,
+  &quot;phase&quot;: &quot;研究與綜合判斷&quot;,
+  &quot;concept&quot;: &quot;分別檢查格式、存取條件與權限&quot;,
+  &quot;question&quot;: &quot;完整資料相同且認證成功，是否一定能寫入或開門？&quot;,
+  &quot;judgment&quot;: &quot;能指出仍須查存取條件、可信權限和有效狀態。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;完整資料相同只支持內容一致，指定扇區認證成功也不代表可寫入所有區塊或進入任意樓層，仍須各自檢查存取條件與通行規則。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D29&quot;,
+    &quot;N-D11&quot;,
+    &quot;N-D14&quot;,
+    &quot;N-B30&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§6.4、§4.3.1、§A7&quot;,
+    &quot;§6.4.1、§A2&quot;,
+    &quot;§4.2.1、§4.3.1&quot;,
+    &quot;§1.3.1、§10.4–10.5&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D13&quot;,
+    &quot;N2-D15&quot;,
+    &quot;N2-D17&quot;,
+    &quot;N2-D20&quot;,
+    &quot;N2-D21&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：完整資料相同且認證成功，是否一定能寫入或開門？ 讀後判斷：能指出仍須查存取條件、可信權限和有效狀態。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D28&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D29&quot;,
+    &quot;N-D11&quot;,
+    &quot;N-D14&quot;,
+    &quot;N-B30&quot;
+  ]
+}</p></div><div class="bespoke-marp-note" data-index="34" tabindex="0"><p>page-id: N2-D31</p><p>author-notes:
+{
+  &quot;id&quot;: &quot;N2-D29&quot;,
+  &quot;title&quot;: &quot;把格式與機制帶入實作，保留不同層次的結論&quot;,
+  &quot;unit&quot;: &quot;D11-U4&quot;,
+  &quot;phase&quot;: &quot;研究與綜合判斷&quot;,
+  &quot;concept&quot;: &quot;深入推導與實際操作證據的銜接&quot;,
+  &quot;question&quot;: &quot;實作應分別驗證哪幾類結果？&quot;,
+  &quot;judgment&quot;: &quot;能將資料、認證及授權分開記錄，研究只用於其條件。&quot;,
+  &quot;rewrite_sentence&quot;: &quot;接著可在實作中比較完整資料、指定扇區的認證與不同通行結果，並把程式建置、模型輸出和實際卡片觀察分開記錄。&quot;,
+  &quot;source_page_ids&quot;: [
+    &quot;N-D30&quot;,
+    &quot;N-B30&quot;,
+    &quot;N-B34&quot;
+  ],
+  &quot;source_b06_sections&quot;: [
+    &quot;§9.1、§10.1–10.3&quot;,
+    &quot;§1.3.1、§10.4–10.5&quot;,
+    &quot;§9.1、§10&quot;
+  ],
+  &quot;case_ids&quot;: [],
+  &quot;activity_ids&quot;: [],
+  &quot;scope&quot;: &quot;core&quot;,
+  &quot;layout&quot;: &quot;explain&quot;,
+  &quot;diagram&quot;: null,
+  &quot;widget&quot;: null,
+  &quot;source_placement&quot;: &quot;頁尾列出完整講義章節與必要來源，正文不放編務備註。&quot;,
+  &quot;prerequisites&quot;: [
+    &quot;N2-D28&quot;
+  ],
+  &quot;transition&quot;: &quot;本頁問題：實作應分別驗證哪幾類結果？ 讀後判斷：能將資料、認證及授權分開記錄，研究只用於其條件。&quot;,
+  &quot;source_b10_ids&quot;: [
+    &quot;N10-D29&quot;
+  ],
+  &quot;source_b09_ids&quot;: [
+    &quot;N-D30&quot;,
+    &quot;N-B30&quot;,
+    &quot;N-B34&quot;
+  ]
+}</p></div><script>/*!! License: https://unpkg.com/@marp-team/marp-cli@4.5.1/lib/bespoke.js.LICENSE.txt */
+!function(){"use strict";function e(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}var t,n,r=(n||(n=1,t={from:function(e,t){var n,r=1===(e.parent||e).nodeType?e.parent||e:document.querySelector(e.parent||e),o=[].filter.call("string"==typeof e.slides?r.querySelectorAll(e.slides):e.slides||r.children,function(e){return"SCRIPT"!==e.nodeName}),i={},a=function(e,t){return(t=t||{}).index=o.indexOf(e),t.slide=e,t},s=function(e,t){i[e]=(i[e]||[]).filter(function(e){return e!==t})},l=function(e,t){return(i[e]||[]).reduce(function(e,n){return e&&!1!==n(t)},!0)},c=function(e,t){o[e]&&(n&&l("deactivate",a(n,t)),n=o[e],l("activate",a(n,t)))},d=function(e,t){var r=o.indexOf(n)+e;l(e>0?"next":"prev",a(n,t))&&c(r,t)},u={off:s,on:function(e,t){return(i[e]||(i[e]=[])).push(t),s.bind(null,e,t)},fire:l,slide:function(e,t){if(!arguments.length)return o.indexOf(n);l("slide",a(o[e],t))&&c(e,t)},next:d.bind(null,1),prev:d.bind(null,-1),parent:r,slides:o,destroy:function(e){l("destroy",a(n,e)),i={}}};return(t||[]).forEach(function(e){e(u)}),n||c(0),u}}),t),o=e(r);const i=document.body,a=(...e)=>history.replaceState(...e),s="",l="presenter",c="next",d="overview",u=["",l,d,c],f="bespoke-marp-",m=`data-${f}`,g=(e,{protocol:t,host:n,pathname:r,hash:o}=location)=>{const i=e.toString();return`${t}//${n}${r}${i?"?":""}${i}${o}`},p=()=>i.dataset.bespokeView,v=e=>new URLSearchParams(location.search).get(e),h=(e,t={})=>{const n={location,setter:a,...t},r=new URLSearchParams(n.location.search);for(const t of Object.keys(e)){const n=e[t];"string"==typeof n?r.set(t,n):r.delete(t)}try{n.setter({...window.history.state??{}},"",g(r,n.location))}catch(e){console.error(e)}},w=(()=>{const e="bespoke-marp";try{return localStorage.setItem(e,e),localStorage.removeItem(e),!0}catch{return!1}})(),y=e=>{try{return localStorage.getItem(e)}catch{return null}},b=(e,t)=>{try{return localStorage.setItem(e,t),!0}catch{return!1}},k=e=>{try{return localStorage.removeItem(e),!0}catch{return!1}},x=(e,t)=>{const n="aria-hidden";t?e.setAttribute(n,"true"):e.removeAttribute(n)},E=e=>{e.parent.classList.add(`${f}parent`),e.slides.forEach(e=>e.classList.add(`${f}slide`)),e.on("activate",t=>{const n=`${f}active`,r=t.slide,o=r.classList,i=!o.contains(n);if(e.slides.forEach(e=>{e.classList.remove(n),x(e,!0)}),o.add(n),x(r,!1),i){const e=`${n}-ready`;o.add(e),document.body.clientHeight,o.remove(e)}})},$=e=>{let t=0,n=0;Object.defineProperty(e,"fragments",{enumerable:!0,value:e.slides.map(e=>[null,...e.querySelectorAll("[data-marpit-fragment]")])});const r=r=>void 0!==e.fragments[t][n+r],o=(r,o)=>{t=r,n=o,e.fragments.forEach((e,t)=>{e.forEach((e,n)=>{if(null==e)return;const i=t<r||t===r&&n<=o;e.setAttribute(`${m}fragment`,(i?"":"in")+"active");const a=`${m}current-fragment`;t===r&&n===o?e.setAttribute(a,"current"):e.removeAttribute(a)})}),e.fragmentIndex=o;const i={slide:e.slides[r],index:r,fragments:e.fragments[r],fragmentIndex:o};e.fire("fragment",i)};e.on("next",({fragment:i=!0})=>{if(i){if(r(1))return o(t,n+1),!1;const i=t+1;e.fragments[i]&&o(i,0)}else{const r=e.fragments[t].length;if(n+1<r)return o(t,r-1),!1;const i=e.fragments[t+1];i&&o(t+1,i.length-1)}}),e.on("prev",({fragment:i=!0})=>{if(r(-1)&&i)return o(t,n-1),!1;const a=t-1;e.fragments[a]&&o(a,e.fragments[a].length-1)}),e.on("slide",({index:t,fragment:n})=>{let r=0;if(void 0!==n){const o=e.fragments[t];if(o){const{length:e}=o;r=-1===n?e-1:Math.min(Math.max(n,0),e-1)}}o(t,r)}),o(0,0)},L=document,S=()=>!(!L.fullscreenEnabled&&!L.webkitFullscreenEnabled),P=()=>!(!L.fullscreenElement&&!L.webkitFullscreenElement),_=e=>{e.fullscreen=()=>{S()&&(async()=>{P()?(L.exitFullscreen||L.webkitExitFullscreen)?.call(L):((e=L.body)=>{(e.requestFullscreen||e.webkitRequestFullscreen)?.call(e)})()})()},document.addEventListener("keydown",t=>{"f"!==t.key&&"F11"!==t.key||t.altKey||t.ctrlKey||t.metaKey||!S()||(e.fullscreen(),t.preventDefault())})},O=`${f}inactive`,T=(e=2e3)=>({parent:t,fire:n})=>{const r=t.classList,o=e=>n(`marp-${e?"":"in"}active`);let i;const a=()=>{i&&clearTimeout(i),i=setTimeout(()=>{r.add(O),o()},e),r.contains(O)&&(r.remove(O),o(!0))};for(const e of["mousedown","mousemove","touchend"])document.addEventListener(e,a);setTimeout(a,0)},I=["AUDIO","BUTTON","INPUT","SELECT","TEXTAREA","VIDEO"],M=e=>{e.parent.addEventListener("keydown",e=>{if(!e.target)return;const t=e.target;(I.includes(t.nodeName)||"true"===t.contentEditable)&&e.stopPropagation()})},A=e=>{window.addEventListener("load",()=>{for(const t of e.slides){const e=t.querySelector("marp-auto-scaling, [data-auto-scaling], [data-marp-fitting]");t.setAttribute(`${m}load`,e?"":"hideable")}})},C=({interval:e=250}={})=>t=>{document.addEventListener("keydown",e=>{if(" "===e.key&&e.shiftKey)t.prev();else if("ArrowLeft"===e.key||"ArrowUp"===e.key||"PageUp"===e.key)t.prev({fragment:!e.shiftKey});else if(" "!==e.key||e.shiftKey)if("ArrowRight"===e.key||"ArrowDown"===e.key||"PageDown"===e.key)t.next({fragment:!e.shiftKey});else if("End"===e.key)t.slide(t.slides.length-1,{fragment:-1});else{if("Home"!==e.key)return;t.slide(0)}else t.next();e.preventDefault()});let n,r,o=0;t.parent.addEventListener("wheel",i=>{let a=!1;const s=(e,t)=>{e&&(a=a||((e,t)=>((e,t)=>{const n="X"===t?"Width":"Height";return e[`client${n}`]<e[`scroll${n}`]})(e,t)&&((e,t)=>{const{overflow:n}=e,r=e[`overflow${t}`];return"auto"===n||"scroll"===n||"auto"===r||"scroll"===r})(getComputedStyle(e),t))(e,t)),e?.parentElement&&s(e.parentElement,t)};if(0!==i.deltaX&&s(i.target,"X"),0!==i.deltaY&&s(i.target,"Y"),a)return;i.preventDefault();const l=Math.sqrt(i.deltaX**2+i.deltaY**2);if(void 0!==i.wheelDelta){if(void 0===i.webkitForce&&Math.abs(i.wheelDelta)<40)return;if(i.deltaMode===i.DOM_DELTA_PIXEL&&l<4)return}else if(i.deltaMode===i.DOM_DELTA_PIXEL&&l<12)return;r&&clearTimeout(r),r=setTimeout(()=>{n=0},e);const c=Date.now()-o<e,d=l<=n;if(n=l,c||d)return;let u;(i.deltaX>0||i.deltaY>0)&&(u="next"),(i.deltaX<0||i.deltaY<0)&&(u="prev"),u&&(t[u](),o=Date.now())})},D=(e=`.${f}osc`)=>{const t=document.querySelector(e);if(!t)return()=>{};const n=(e,n)=>{t.querySelectorAll(`[${m}osc=${JSON.stringify(e)}]`).forEach(n)};if(S()||n("fullscreen",e=>e.style.display="none"),!w){const e=(e,t)=>{e.disabled=!0,e.title=`${t} is disabled due to restricted localStorage.`};n("presenter",t=>e(t,"Presenter view")),n("overview",t=>e(t,"Overview view"))}return e=>{t.addEventListener("click",t=>{if(t.target instanceof HTMLElement){const{bespokeMarpOsc:n}=t.target.dataset;n&&t.target.blur();const r={fragment:!t.shiftKey};"next"===n?e.next(r):"prev"===n?e.prev(r):"fullscreen"===n?e?.fullscreen():"presenter"===n?e.openPresenterView():"overview"===n&&e.toggleOverviewView()}}),e.parent.appendChild(t),e.on("activate",({index:t})=>{n("page",n=>n.textContent=`Page ${t+1} of ${e.slides.length}`)}),e.on("fragment",({index:t,fragments:r,fragmentIndex:o})=>{n("prev",e=>e.disabled=0===t&&0===o),n("next",n=>n.disabled=t===e.slides.length-1&&o===r.length-1)}),e.on("marp-active",()=>x(t,!1)),e.on("marp-inactive",()=>x(t,!0)),S()&&(e=>{for(const t of["","webkit"])L.addEventListener(t+"fullscreenchange",e)})(()=>n("fullscreen",e=>e.classList.toggle("exit",S()&&P())))}},N=e=>{if(e.syncKey&&"string"==typeof e.syncKey)return!0;throw new Error("The current instance of Bespoke.js is incompatible with Marp bespoke sync plugin.")},B=(e={})=>{const t=e.key||window.history.state?.marpBespokeSyncKey||Math.random().toString(36).slice(2),n=`bespoke-marp-sync-${t}`;var r;r={marpBespokeSyncKey:t},h({},{setter:(e,...t)=>a({...e,...r},...t)});const o=()=>{const e=y(n);return e?JSON.parse(e):Object.create(null)},i=e=>{const t=o(),r={...t,...e(t)};return b(n,JSON.stringify(r)),r},s=()=>{window.removeEventListener("pageshow",s),i(e=>({reference:(e.reference||0)+1}))};return e=>{s(),Object.defineProperty(e,"syncKey",{value:t,enumerable:!0});let r=!0;setTimeout(()=>{e.on("fragment",e=>{r&&i(()=>({index:e.index,fragmentIndex:e.fragmentIndex}))})},0),window.addEventListener("storage",t=>{if(t.key===n&&t.oldValue&&t.newValue){const n=JSON.parse(t.oldValue),o=JSON.parse(t.newValue);if(n.index!==o.index||n.fragmentIndex!==o.fragmentIndex)try{r=!1,e.slide(o.index,{fragment:o.fragmentIndex,forSync:!0})}finally{r=!0}}});const a=()=>{const{reference:e}=o();void 0===e||e<=1?k(n):i(()=>({reference:e-1}))};window.addEventListener("pagehide",e=>{e.persisted&&window.addEventListener("pageshow",s),a()}),e.on("destroy",a)}},K=e=>{w&&document.addEventListener("keydown",t=>{("o"!==t.key||t.altKey||t.ctrlKey||t.metaKey)&&"Escape"!==t.key||(t.preventDefault(),e())})};let q=null;const V=({closeOnSelect:e=!0}={})=>t=>{N(t);const n=n=>{const r=(()=>{if(!q||!q.isConnected){q=document.createElement("div"),q.className=`${f}overview`,q.inert=!0;const n=document.createElement("iframe");n.src=(()=>{const n=new URLSearchParams(location.search);return n.set("view","overview"),n.set("sync",t.syncKey),e&&n.set("closeOnSelect","1"),g(n)})(),q.append(n),document.body.append(q)}return q})(),o=n??!r.dataset.open;setTimeout(()=>{if(r.dataset.open=o?"1":"",r.inert=!o,t.skipTransition=o,o){const e=r.querySelector("iframe");try{e?.contentWindow?.focus()}catch{e?.focus()}}else window.focus()},0)};Object.defineProperties(t,{toggleOverviewView:{enumerable:!0,value:n}}),window.addEventListener("message",e=>{e.origin===window.origin&&"closeOverview"===e.data&&n(!1)}),K(n)},j=e=>{const{title:t}=document;document.title="[Overview]"+(t?` - ${t}`:"");const n=!!v("closeOnSelect"),r=()=>{window.parent.postMessage("closeOverview","null"===window.origin?"*":window.origin)};if(e.slides.forEach((t,o)=>{t.tabIndex=0;const i=()=>{e.slide(o,{fragment:-1}),n&&r()};t.addEventListener("click",i),t.addEventListener("keydown",e=>{"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),i())})}),window.addEventListener("keydown",t=>{const n=e.slide(),r=t=>{const r=t=>{const n=e.slides[t].getBoundingClientRect();return[Math.round((n.left+n.right)/2),Math.round((n.top+n.bottom)/2)]};let o=null,i=n;do{const e=r(i);if(o){if(Math.abs(e[0]-o[0])<2)return i}else o=e;i+=t}while(i>=0&&i<e.slides.length);return n};if("ArrowLeft"===t.key)e.slide(Math.max(n-1,0),{fragment:-1});else if("ArrowRight"===t.key)e.slide(Math.min(n+1,e.slides.length-1),{fragment:-1});else if("ArrowUp"===t.key)e.slide(r(-1),{fragment:-1});else if("ArrowDown"===t.key)e.slide(r(1),{fragment:-1});else if("End"===t.key)e.slide(e.slides.length-1,{fragment:-1});else{if("Home"!==t.key)return;e.slide(0,{fragment:-1})}t.preventDefault();const o=e.slide();e.slides[o]?.focus?.(),e.slides[o]?.scrollIntoView?.({behavior:"smooth",block:"nearest"})}),e.on("slide",({index:t})=>{e.slides[t]?.scrollIntoView?.({behavior:"smooth",block:"nearest"})}),window.parent!==window){K(r);const e=document.createElement("header");e.className=`${f}overview-header`;const t=document.createElement("button");t.className=`${f}overview-close`,t.type="button",t.title="Close overview",t.textContent=t.title,t.addEventListener("click",r),e.append(t),document.body.prepend(e)}},F=()=>{const e=p();return{[s]:V(),[l]:V({closeOnSelect:!1}),[d]:j}[e]},U=e=>{window.addEventListener("message",t=>{if(t.origin!==window.origin)return;const[n,r]=t.data.split(":");if("navigate"===n){const[t,n]=r.split(",");let o=Number.parseInt(t,10),i=Number.parseInt(n,10)+1;i>=e.fragments[o].length&&(o+=1,i=0),e.slide(o,{fragment:i})}})};var R,X,H,W,J,Y,z,G={exports:{}},Q=(R||(R=1,G.exports=(X=["area","base","br","col","command","embed","hr","img","input","keygen","link","meta","param","source","track","wbr"],H=function(e){return String(e).replace(/[&<>"']/g,function(e){return"&"+W[e]+";"})},W={"&":"amp","<":"lt",">":"gt",'"':"quot","'":"apos"},J="dangerouslySetInnerHTML",Y={className:"class",htmlFor:"for"},z={},function(e,t){var n=[],r="";t=t||{};for(var o=arguments.length;o-- >2;)n.push(arguments[o]);if("function"==typeof e)return t.children=n.reverse(),e(t);if(e){if(r+="<"+e,t)for(var i in t)!1!==t[i]&&null!=t[i]&&i!==J&&(r+=" "+(Y[i]?Y[i]:H(i))+'="'+H(t[i])+'"');r+=">"}if(-1===X.indexOf(e)){if(t[J])r+=t[J].__html;else for(;n.length;){var a=n.pop();if(a)if(a.pop)for(var s=a.length;s--;)n.push(a[s]);else r+=!0===z[a]?a:H(a)}r+=e?"</"+e+">":""}return z[r]=!0,r})),G.exports),Z=e(Q);const ee=({children:e})=>Z(null,null,...e),te=`${f}presenter-`,ne={container:`${te}container`,dragbar:`${te}dragbar-container`,next:`${te}next`,nextContainer:`${te}next-container`,noteContainer:`${te}note-container`,noteWrapper:`${te}note-wrapper`,noteButtons:`${te}note-buttons`,infoContainer:`${te}info-container`,infoPageArea:`${te}info-page-area`,infoPage:`${te}info-page`,infoPagePrev:`${te}info-page-prev`,infoPageNext:`${te}info-page-next`,noteButtonsBigger:`${te}note-bigger`,noteButtonsSmaller:`${te}note-smaller`,infoTime:`${te}info-time`,infoTimer:`${te}info-timer`},re=e=>{const{title:t}=document;document.title="[Presenter view]"+(t?` - ${t}`:"");const n={},r=e=>(n[e]=n[e]||document.querySelector(`.${e}`),n[e]);document.body.appendChild((e=>{const t=document.createElement("div");return t.className=ne.container,t.appendChild(e),t.insertAdjacentHTML("beforeend",Z(ee,null,Z("div",{class:ne.nextContainer},Z("iframe",{class:ne.next,src:"?view=next"})),Z("div",{class:ne.dragbar}),Z("div",{class:ne.noteContainer},Z("div",{class:ne.noteWrapper}),Z("div",{class:ne.noteButtons},Z("button",{class:ne.noteButtonsSmaller,tabindex:"-1",title:"Smaller notes font size"},"Smaller notes font size"),Z("button",{class:ne.noteButtonsBigger,tabindex:"-1",title:"Bigger notes font size"},"Bigger notes font size"))),Z("div",{class:ne.infoContainer},Z("div",{class:ne.infoPageArea},Z("button",{class:ne.infoPagePrev,tabindex:"-1",title:"Previous"},"Previous"),Z("button",{class:ne.infoPage}),Z("button",{class:ne.infoPageNext,tabindex:"-1",title:"Next"},"Next")),Z("time",{class:ne.infoTime,title:"Current time"}),Z("time",{class:ne.infoTimer,title:"Timer"})))),t})(e.parent)),(e=>{let t=!1;r(ne.dragbar).addEventListener("mousedown",()=>{t=!0,r(ne.dragbar).classList.add("active")}),window.addEventListener("mouseup",()=>{t=!1,r(ne.dragbar).classList.remove("active")}),window.addEventListener("mousemove",e=>{if(!t)return;const n=e.clientX/document.documentElement.clientWidth*100;r(ne.container).style.setProperty("--bespoke-marp-presenter-split-ratio",`${Math.max(0,Math.min(100,n))}%`)}),r(ne.nextContainer).addEventListener("click",()=>e.next());const n=r(ne.next),o=(i=n,(e,t)=>i.contentWindow?.postMessage(`navigate:${e},${t}`,"null"===window.origin?"*":window.origin));var i;n.addEventListener("load",()=>{r(ne.nextContainer).classList.add("active"),o(e.slide(),e.fragmentIndex),e.on("fragment",({index:e,fragmentIndex:t})=>o(e,t))});const a=document.querySelectorAll(".bespoke-marp-note");a.forEach(e=>{e.addEventListener("keydown",e=>e.stopPropagation()),r(ne.noteWrapper).appendChild(e)}),e.on("activate",()=>a.forEach(t=>t.classList.toggle("active",t.dataset.index==e.slide())));let s=0;const l=e=>{s=Math.max(-5,s+e),r(ne.noteContainer).style.setProperty("--bespoke-marp-note-font-scale",(1.2**s).toFixed(4))},c=()=>l(1),d=()=>l(-1),u=r(ne.noteButtonsBigger),f=r(ne.noteButtonsSmaller);u.addEventListener("click",()=>{u.blur(),c()}),f.addEventListener("click",()=>{f.blur(),d()}),document.addEventListener("keydown",e=>{"+"===e.key&&c(),"-"===e.key&&d()},!0);const m=r(ne.infoPage);e.on("activate",({index:t})=>{m.textContent=`${t+1} / ${e.slides.length}`}),m.addEventListener("click",()=>{m.blur(),e.toggleOverviewView()});const g=r(ne.infoPagePrev),p=r(ne.infoPageNext);g.addEventListener("click",t=>{g.blur(),e.prev({fragment:!t.shiftKey})}),p.addEventListener("click",t=>{p.blur(),e.next({fragment:!t.shiftKey})}),e.on("fragment",({index:t,fragments:n,fragmentIndex:r})=>{g.disabled=0===t&&0===r,p.disabled=t===e.slides.length-1&&r===n.length-1});let v=new Date;const h=()=>{const e=new Date,t=e=>`${Math.floor(e)}`.padStart(2,"0"),n=e.getTime()-v.getTime(),o=t(n/1e3%60),i=t(n/1e3/60%60),a=t(n/36e5%24);r(ne.infoTime).textContent=e.toLocaleTimeString(),r(ne.infoTimer).textContent=`${a}:${i}:${o}`};h(),setInterval(h,250),r(ne.infoTimer).addEventListener("click",()=>{v=new Date})})(e)},oe=e=>{N(e),Object.defineProperties(e,{openPresenterView:{enumerable:!0,value:ie},presenterUrl:{enumerable:!0,get:ae}}),w&&document.addEventListener("keydown",t=>{"p"!==t.key||t.altKey||t.ctrlKey||t.metaKey||(t.preventDefault(),e.openPresenterView())})};function ie(){const{max:e,floor:t}=Math,n=e(t(.85*window.innerWidth),640),r=e(t(.85*window.innerHeight),360);return window.open(this.presenterUrl,te+this.syncKey,`width=${n},height=${r},menubar=no,toolbar=no`)}function ae(){const e=new URLSearchParams(location.search);return e.set("view","presenter"),e.set("sync",this.syncKey),g(e)}const se=e=>{const t=p();return t===c&&e.appendChild(document.createElement("span")),{[s]:oe,[l]:re,[c]:U}[t]},le=e=>{e.on("activate",t=>{document.querySelectorAll(".bespoke-progress-parent > .bespoke-progress-bar").forEach(n=>{n.style.flexBasis=100*t.index/(e.slides.length-1)+"%"})})},ce=e=>{const t=Number.parseInt(e,10);return Number.isNaN(t)?null:t},de=(e={})=>{const t={history:!0,...e};return e=>{let n=!0;const r=e=>{const t=n;try{return n=!0,e()}finally{n=t}},o=(t={fragment:!0})=>{let n=t.fragment?ce(v("f")||""):null;((t,n)=>{const{min:r,max:o}=Math,{fragments:i,slides:a}=e,s=o(0,r(t,a.length-1)),l=o(0,r(n||0,i[s].length-1));s===e.slide()&&l===e.fragmentIndex||e.slide(s,{fragment:l})})((()=>{if(location.hash){const[t]=location.hash.slice(1).split(":~:");if(/^\d+$/.test(t))return(ce(t)??1)-1;const r=document.getElementById(t)||document.querySelector(`a[name="${CSS.escape(t)}"]`);if(r){const{length:t}=e.slides;for(let o=0;o<t;o+=1)if(e.slides[o].contains(r)){const t=e.fragments?.[o],i=r.closest("[data-marpit-fragment]");if(t&&i){const e=t.indexOf(i);e>=0&&(n=e)}return o}}}return 0})(),n)};e.on("fragment",({index:e,fragmentIndex:r})=>{n||h({f:0===r||r.toString()},{location:{...location,hash:`#${e+1}`},setter:(...e)=>t.history?history.pushState(...e):history.replaceState(...e)})}),setTimeout(()=>{o(),window.addEventListener("hashchange",()=>r(()=>{o({fragment:!1}),h({f:void 0})})),window.addEventListener("popstate",()=>{n||r(()=>o())}),n=!1},0)}},{PI:ue,abs:fe,sqrt:me,atan2:ge}=Math,pe={passive:!0},ve=({slope:e=-.7,swipeThreshold:t=30}={})=>n=>{let r;const o=n.parent,i=e=>{const t=o.getBoundingClientRect();return{x:e.pageX-(t.left+t.right)/2,y:e.pageY-(t.top+t.bottom)/2}};o.addEventListener("touchstart",({touches:e})=>{r=1===e.length?i(e[0]):void 0},pe),o.addEventListener("touchmove",e=>{if(r)if(1===e.touches.length){e.preventDefault();const t=i(e.touches[0]),n=t.x-r.x,o=t.y-r.y;r.delta=me(fe(n)**2+fe(o)**2),r.radian=ge(n,o)}else r=void 0}),o.addEventListener("touchend",o=>{if(r){if(r.delta&&r.delta>=t&&r.radian){const t=(r.radian-e+ue)%(2*ue)-ue;n[t<0?"next":"prev"](),o.stopPropagation()}r=void 0}},pe)},he=new Map;he.clear(),he.set("none",{backward:{both:void 0,incoming:void 0,outgoing:void 0},forward:{both:void 0,incoming:void 0,outgoing:void 0}});const we={both:"",outgoing:"outgoing-",incoming:"incoming-"},ye={forward:"",backward:"-backward"},be=e=>`--marp-bespoke-transition-animation-${e}`,ke=e=>`--marp-transition-${e}`,xe=be("name"),Ee=be("duration"),$e=e=>new Promise(t=>{const n={},r=document.createElement("div"),o=e=>{r.remove(),t(e)};r.addEventListener("animationstart",()=>o(n)),Object.assign(r.style,{animationName:e,animationDuration:"1s",animationFillMode:"both",animationPlayState:"paused",position:"absolute",pointerEvents:"none"}),document.body.appendChild(r);const i=getComputedStyle(r).getPropertyValue(ke("duration"));i&&Number.parseFloat(i)>=0&&(n.defaultDuration=i),((e,t)=>{requestAnimationFrame(()=>{e.style.animationPlayState="running",requestAnimationFrame(()=>t(void 0))})})(r,o)}),Le=async e=>he.has(e)?he.get(e):(e=>{const t={},n=[];for(const[r,o]of Object.entries(we))for(const[i,a]of Object.entries(ye)){const s=`marp-${o}transition${a}-${e}`;n.push($e(s).then(e=>{t[i]=t[i]||{},t[i][r]=e?{...e,name:s}:void 0}))}return Promise.all(n).then(()=>t)})(e).then(t=>(he.set(e,t),t)),Se=e=>Object.values(e).flatMap(Object.values).every(e=>!e),Pe=(e,{type:t,backward:n})=>{const r=e[n?"backward":"forward"],o=(()=>{const e=r[t],n=e=>({[xe]:e.name});if(e)return n(e);if(r.both){const e=n(r.both);return"incoming"===t&&(e[be("direction")]="reverse"),e}})();return!o&&n?Pe(e,{type:t,backward:!1}):o||{[xe]:"__bespoke_marp_transition_no_animation__"}},_e=e=>{if(e)try{const t=JSON.parse(e);if((e=>{if("object"!=typeof e)return!1;const t=e;return"string"==typeof t.name&&(void 0===t.duration||"string"==typeof t.duration)})(t))return t}catch{}},Oe="_tSId",Te="_tA",Ie="bespoke-marp-transition-warming-up",Me=window.matchMedia("(prefers-reduced-motion: reduce)"),Ae="__bespoke_marp_transition_reduced_outgoing__",Ce="__bespoke_marp_transition_reduced_incoming__",De={forward:{both:void 0,incoming:{name:Ce},outgoing:{name:Ae}},backward:{both:void 0,incoming:{name:Ce},outgoing:{name:Ae}}},Ne=e=>{if(!document.startViewTransition)return;const t=t=>(void 0!==t&&(e._tD=t),e._tD);let n;t(!1),((...e)=>{CSS.registerProperty({name:ke("duration"),syntax:"<time>",inherits:!0,initialValue:"-1s"});const t=[...new Set(e).values()];return Promise.all(t.map(e=>Le(e))).then()})(...Array.from(document.querySelectorAll("section[data-transition], section[data-transition-back]")).flatMap(e=>[e.dataset.transition,e.dataset.transitionBack].flatMap(e=>{const t=_e(e);return[t?.name,t?.builtinFallback?`__builtin__${t.name}`:void 0]}).filter(e=>!!e))).then(()=>{document.querySelectorAll("style").forEach(e=>{e.innerHTML=e.innerHTML.replace(/--marp-transition-duration:[^;}]*[;}]/g,e=>e.slice(0,-1)+"!important"+e.slice(-1))})});const r=(n,{back:r,cond:o})=>i=>{const a=t();if(a)return!!i[Te]||!("object"!=typeof a||(a.skipTransition(),!i.forSync));if(e.skipTransition)return!0;if(!o(i))return!0;const s=e.slides[e.slide()],l=()=>i.back??r,c="data-transition"+(l()?"-back":""),d=s.querySelector(`section[${c}]`);if(!d)return!0;const u=_e(d.getAttribute(c)??void 0);return!u||((async(e,{builtinFallback:t=!0}={})=>{let n=await Le(e);if(Se(n)){if(!t)return;return n=await Le(`__builtin__${e}`),Se(n)?void 0:n}return n})(u.name,{builtinFallback:u.builtinFallback}).then(e=>{if(!e){t(!0);try{n(i)}finally{t(!1)}return}let r=e;Me.matches&&(console.warn("Use a constant animation to transition because preferring reduced motion by viewer has detected."),r=De);const o=document.getElementById(Oe);o&&o.remove();const a=document.createElement("style");a.id=Oe,document.head.appendChild(a),((e,t)=>{const n=[`:root{${ke("direction")}:${t.backward?-1:1};}`,":root:has(.bespoke-marp-inactive){cursor:none;}"],r=t=>{const n=e[t].both?.defaultDuration||e[t].outgoing?.defaultDuration||e[t].incoming?.defaultDuration;return"forward"===t?n:n||r("forward")},o=t.duration||r(t.backward?"backward":"forward");void 0!==o&&n.push(`::view-transition-group(*){${Ee}:${o};}`);const i=e=>Object.entries(e).map(([e,t])=>`${e}:${t};`).join("");return n.push(`::view-transition-old(root){${i(Pe(e,{...t,type:"outgoing"}))}}`,`::view-transition-new(root){${i(Pe(e,{...t,type:"incoming"}))}}`),n})(r,{backward:l(),duration:u.duration}).forEach(e=>a.sheet?.insertRule(e));const s=document.documentElement.classList;s.add(Ie);let c=!1;const d=()=>{c||(n(i),c=!0,s.remove(Ie))},f=()=>{t(!1),a.remove(),s.remove(Ie)};try{t(!0);const e=document.startViewTransition(d);t(e),e.finished.finally(f)}catch(e){console.error(e),d(),f()}}),!1)};e.on("prev",r(t=>e.prev({...t,[Te]:!0}),{back:!0,cond:e=>e.index>0&&!((e.fragment??1)&&n.fragmentIndex>0)})),e.on("next",r(t=>e.next({...t,[Te]:!0}),{cond:t=>t.index+1<e.slides.length&&!(n.fragmentIndex+1<n.fragments.length)})),setTimeout(()=>{e.on("slide",r(t=>e.slide(t.index,{...t,[Te]:!0}),{cond:t=>{const n=e.slide();return t.index!==n&&(t.back=t.index<n,!0)}}))},0),e.on("fragment",e=>{n=e})};let Be;const Ke=()=>(void 0===Be&&(Be="wakeLock"in navigator&&navigator.wakeLock),Be),qe=async()=>{const e=Ke();if(e)try{return await e.request("screen")}catch(e){console.warn(e)}return null},Ve=async()=>{if(!Ke())return;let e;const t=()=>{e&&"visible"===document.visibilityState&&qe()};for(const e of["visibilitychange","fullscreenchange"])document.addEventListener(e,t);return e=await qe(),e};((e=document.getElementById(":$p"))=>{(()=>{const e=v("view");i.dataset.bespokeView=u.some(t=>t&&t===e)?e:""})();const t=(e=>{const t=v(e);return h({[e]:void 0}),t})("sync")||void 0;o.from(e,((...e)=>{const t=u.findIndex(e=>p()===e);return e.map(([e,n])=>e[t]&&n).filter(e=>e)})([[1,1,1,0],B({key:t})],[[1,1,0,1],se(e)],[[1,1,0,0],M],[[1,1,1,1],E],[[1,0,0,0],T()],[[1,1,1,1],A],[[1,1,1,1],de({history:!1})],[[1,1,0,0],C()],[[1,1,1,0],_],[[1,0,0,0],le],[[1,1,0,0],ve()],[[1,0,0,0],D()],[[1,1,1,0],F()],[[1,0,0,0],Ne],[[1,1,1,1],$],[[1,1,1,0],Ve]))})()}();</script><script>
+// 互動簡報共用行為（b08，Marp bespoke 模板）：選擇題、揭曉按鈕、焦點處理。
+// 換頁、片段（逐步揭示）、總覽（o）、講者模式（p）、全螢幕（f）由 Marp 提供。
+(() => {
+  // 頁面底部進度條：依頁碼設定 --progress（靜態，不做動畫）。分隔頁沿用下一頁的位置。
+  const secs = [...document.querySelectorAll('section[id]')];
+  secs.forEach((s, i) => s.style.setProperty('--progress', ((i + 1) / secs.length * 100).toFixed(2) + '%'));
+  document.querySelectorAll('.quiz').forEach(q => {
+    q.querySelectorAll('.opts button').forEach(b => b.addEventListener('click', () => {
+      q.querySelectorAll('.opts button').forEach(x => x.classList.remove('right', 'wrong'));
+      b.classList.add(b.dataset.k === q.dataset.answer ? 'right' : 'wrong');
+      q.querySelectorAll('.fb').forEach(f => f.classList.toggle('show', f.dataset.k === b.dataset.k || f.dataset.k === '*'));
+    }));
+  });
+  document.querySelectorAll('[data-reveal]').forEach(b => {
+    b.dataset.label = b.textContent;
+    b.addEventListener('click', () => {
+      const t = document.getElementById(b.dataset.reveal);
+      t.classList.toggle('show');
+      b.textContent = t.classList.contains('show') ? (b.dataset.hide || '隱藏') : b.dataset.label;
+    });
+  });
+  // Marp 會把按鈕、勾選框、下拉選單上的按鍵留給元件本身；操作完就放開焦點，方向鍵與空白鍵才能繼續換頁。
+  // 文字輸入框保留焦點（方向鍵用來移動游標），按 Esc 放開。
+  const release = () => { const a = document.activeElement; if (a && a !== document.body) a.blur(); };
+  document.addEventListener('click', e => { if (e.target.closest('button')) release(); });
+  document.addEventListener('change', e => { if (e.target.matches('input[type=checkbox], input[type=radio], select')) release(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && e.target.matches('input, textarea, select')) release(); }, true);
+  // 換頁後，焦點若還留在已離開畫面的元件上就放開。
+  new MutationObserver(() => {
+    const a = document.activeElement;
+    if (a && a !== document.body && !a.closest('.bespoke-marp-active')) a.blur();
+  }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+})();
+
+</script>
+<script>
+// RFID／NFC 互動簡報的互動元件。全部是教學模型，不是卡片協定；輸出一律用 textContent。
+// 證據、卡內欄位與快取的判斷，與 nfc_arduino/libraries/SecIoT_NFC/src/access_policy.h 相同。
+(() => {
+  const $ = id => document.getElementById(id);
+  const el = (tag, text, cls) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; };
+  function choices(container, items, onPick, start) {
+    const buttons = Object.keys(items).map(name => {
+      const b = el('button', name);
+      b.addEventListener('click', () => { buttons.forEach(x => x.classList.toggle('pick', x === b)); onPick(name, items[name]); });
+      container.append(b); return b;
+    });
+    buttons[start || 0].click();
+  }
+
+  // 讀不到內容時，依觀察先檢查什麼（教材 §2.3、§5.6）。
+  if ($('dg-btns')) {
+    const cases = {
+      '找不到 PN532': ['供電、地、介面跳線、程式初始化', '卡片一定壞了'],
+      '完全沒有卡片回應': ['頻段、協定、放置方式、一次一張、讀寫器支援範圍', '一定有加密'],
+      '有 UID，沒有文字': ['資料格式、軟體支援、NDEF 是否有效', '卡片一定損壞'],
+      '認證失敗': ['本次卡片、sector、Key A／B、金鑰值、是否重新選卡', '持有人一定沒有任何權限'],
+      '認證成功，寫入失敗': ['存取條件、目標地址、寫入保護', '金鑰正確就應能寫整張卡'],
+    };
+    choices($('dg-btns'), cases, (name, [check, not]) => {
+      const out = $('dg-out'); out.textContent = '';
+      out.append(el('p', `先檢查：${check}`, 'box ok'), el('p', `不要直接推論：${not}`, 'box bad'));
+    });
+  }
+
+  // 卡片上的六個層次（教材 §2.5）。
+  if ($('ly-btns')) {
+    const layers = {
+      '選卡與識別': ['UID', '區分目前通訊的對象', '識別碼與長度'],
+      '記憶體管理': ['容量資訊、鎖定或存取設定', '約束資料如何使用', '文件與部分可讀設定'],
+      '使用者資料': ['教學文字、設備編號', '承載應用內容', '寫入前後的 bytes'],
+      '資料格式': ['NDEF', '讓接收端知道如何解釋內容', '文字或 URI 記錄'],
+      '存取控制': ['密碼、金鑰、access bits', '限制或驗證操作', '認證與讀寫的成功／失敗'],
+      '應用授權': ['可信權限表中的樓層、時段、撤銷狀態', '控制器決定能否使用服務；不一定存於卡內', '應用的允許／拒絕'],
+    };
+    choices($('ly-btns'), layers, (name, [ex, job, see]) => {
+      const out = $('ly-out'); out.textContent = '';
+      const t = el('table');
+      [['例子', ex], ['功能', job], ['可觀察到什麼', see]].forEach(([k, v]) => { const tr = el('tr'); tr.append(el('th', k), el('td', v)); t.append(tr); });
+      out.append(t, el('p', '六項是不同責任：UID、記憶體與格式在卡片讀取路徑；權限表可在控制器或後端。讀出一項不代表其他項都成立。', 'small'));
+    });
+  }
+
+  // page 與 block 的記憶體配置示意。
+  if ($('mm-grid')) {
+    const ntag = [
+      [0, '原廠識別（UID 前段）', 'g5'], [1, '原廠識別（UID 後段）', 'g5'], [2, '識別與鎖定位元', 'g5'], [3, 'Capability Container（CC）', 'g5'],
+      [4, 'A2：NDEF 文字（TLV 開頭）', 'g1'], [5, 'A2：NDEF 文字', 'g1'], [6, 'A2：NDEF 文字', 'g1'], [7, 'A2：NDEF 文字', 'g1'], [8, 'A2：NDEF 文字（含結束 FE）', 'g1'],
+      [9, 'A7：樓層欄位 floors=…', 'g3'], [10, 'A7：樓層欄位', 'g3'], [11, 'A7：樓層欄位', 'g3'], [12, 'A7：樓層欄位', 'g3'],
+    ];
+    const classic = [
+      [4, 'block 4：一般資料區，A4 寫入 LAB-CLASSIC-01（16 bytes）', 'g1'], [5, 'block 5：資料區（本課不使用）', ''], [6, 'block 6：資料區（本課不使用）', ''],
+      [7, 'block 7：sector trailer：Key A、access bits、管理資料、Key B。只由教師示範', 'g5'],
+    ];
+    const draw = (rows, unit, label) => {
+      const g = $('mm-grid'); g.textContent = '';
+      rows.forEach(([n, desc, cls]) => {
+        const row = el('div'); row.className = 'bytes';
+        const head = el('span', `${label} ${n}`, 'byte ' + cls); head.title = desc;
+        row.append(head);
+        for (let i = 0; i < unit; i++) row.append(el('span', '··', 'byte ' + cls));
+        row.addEventListener('click', () => { $('mm-out').textContent = `${label} ${n}（${unit} bytes）：${desc}`; });
+        g.append(row);
+      });
+    };
+    const pick = which => {
+      $('mm-ntag').classList.toggle('on', which === 'ntag'); $('mm-classic').classList.toggle('on', which !== 'ntag');
+      $('mm-grid').classList.toggle('one', which !== 'ntag');
+      if (which === 'ntag') draw(ntag, 4, 'page'); else draw(classic, 16, 'block');
+      $('mm-out').textContent = '點一列看說明';
+    };
+    $('mm-ntag').addEventListener('click', () => pick('ntag')); $('mm-classic').addEventListener('click', () => pick('classic'));
+    pick('ntag');
+  }
+
+  // NDEF 逐 byte 追蹤（教材 §6.4 的 20 bytes）。
+  if ($('nd-bytes')) {
+    const text = 'LAB-NFC-01';
+    const bytes = [
+      ['03', 'g5', 'TLV 標記 03：後面是一段 NDEF 訊息'], ['11', 'g5', 'TLV 長度 11（十六進位）＝ 17：接下來取 17 bytes'],
+      ['D1', 'g4', '記錄標頭：唯一的一筆記錄（第一筆也是最後一筆）、短記錄、已知類型'], ['01', 'g4', '類型長度 1 byte'],
+      ['0D', 'g4', 'payload 長度 0D ＝ 13 bytes'], ['54', 'g2', "記錄類型 54 ＝ ASCII 'T'：Text Record"],
+      ['02', 'g3', '狀態：UTF-8，語言碼長 2'], ['65', 'g3', "語言碼 'e'"], ['6E', 'g3', "語言碼 'n'"],
+      ...[...text].map(c => [c.charCodeAt(0).toString(16).toUpperCase(), 'g1', `正文 '${c}'`]),
+      ['FE', 'g5', '結束 TLV：不是正文的一部分'],
+    ];
+    let byPage = false;
+    const draw = () => {
+      const box = $('nd-bytes'); box.textContent = '';
+      bytes.forEach(([h, cls, desc], i) => {
+        if (byPage && i % 4 === 0) box.append(el('span', `page ${4 + i / 4}`, 'chip'));
+        const b = el('span', h, `byte ${cls}`);
+        b.addEventListener('click', () => {
+          box.querySelectorAll('.byte').forEach(x => x.classList.remove('sel')); b.classList.add('sel');
+          $('nd-out').textContent = `第 ${i + 1} 個 byte（page ${4 + Math.floor(i / 4)}）：${h}\n${desc}`;
+        });
+        box.append(b);
+      });
+    };
+    $('nd-pages').addEventListener('click', () => { byPage = !byPage; $('nd-pages').classList.toggle('on', byPage); draw(); });
+    draw();
+  }
+
+  // 挑戰與回應（示意模型：教學雜湊，不是卡片演算法）。
+  if ($('cr-new')) {
+    const K = 'K-LAB';
+    const tag = (k, n) => { let h = 0x811c9dc5; for (const c of `${k}|${n}`) { h ^= c.charCodeAt(0); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(16).padStart(8, '0').toUpperCase(); };
+    const fresh = () => Math.floor(Math.random() * 0xffffffff).toString(16).padStart(8, '0').toUpperCase();
+    let nonce = null, used = new Set();
+    const yesterday = { n: 'N1-OLD', r: tag(K, 'N1-OLD') };
+    const log = lines => { $('cr-out').textContent = lines.join('\n'); };
+    const verify = (r, who) => {
+      if (!nonce) return log(['驗證端還沒出題：先按「產生新的挑戰 N」。']);
+      const duplicate = used.has(nonce), matches = r === tag(K, nonce);
+      const ok = matches && !duplicate;
+      const lines = [`本次挑戰 N = ${nonce}`, `${who}送出 R = ${r}`, ok ? '✓ 模型比對通過：回應符合本次 N'
+        : duplicate ? '✗ 本次挑戰已使用：請先產生新的 N，再比較另一種情況' : '✗ 回應不符合本次 N：拒絕'];
+      if (ok) used.add(nonce);
+      return lines;
+    };
+    $('cr-new').addEventListener('click', () => { nonce = fresh(); log([`驗證端產生新的挑戰 N = ${nonce}`, '（N 不需保密，但每次都要新的）']); });
+    $('cr-card').addEventListener('click', () => { if (!nonce) return verify(); log(verify(tag(K, nonce), '身邊的真卡用 K ')); });
+    $('cr-replay').addEventListener('click', () => { const l = verify(yesterday.r, '重放者把昨天（N1）的回應 '); if (l) log([...l, '重放：舊回應不符合這次的挑戰']); });
+    $('cr-relay').addEventListener('click', () => { if (!nonce) return verify(); log([...verify(tag(K, nonce), '中繼者轉送給遠處的真卡，帶回 '), '中繼：回應可能正確，但卡不一定在讀寫器旁；中繼者不需要知道 K']); });
+    $('cr-leak').addEventListener('click', () => { if (!nonce) return verify(); log([...verify(tag(K, nonce), '取得外洩 K 的人自己算出 '), '金鑰外洩：不需要真卡；新的挑戰擋不住，要撤銷與換發']); });
+    log(['先按「驗證端產生新的挑戰 N」。']);
+  }
+
+  // 弱模型 W2 與改善模型（parseFloorsField／weakFieldAllow）。
+  if ($('w2-field')) {
+    const parse = text => {
+      if (!text.startsWith('floors=')) return null;
+      const body = text.slice(7);
+      if (!/^[0-9](,[0-9])*$/.test(body)) return null;
+      return new Set(body.split(',').map(Number));
+    };
+    const run = () => {
+      const field = $('w2-field').value, floor = +$('w2-floor').value, floors = parse(field);
+      $('w2-weak').textContent = floors === null ? '拒絕：卡內欄位格式不符，不猜'
+        : floors.has(floor) ? `放行 ${floor} 樓\n（卡片說可以，就相信）` : `拒絕：卡內欄位沒有 ${floor} 樓`;
+      const auth = $('w2-auth').checked, trusted = new Set([1, 2, 3]);
+      $('w2-good').textContent = !auth ? '拒絕：不是已登錄的 Classic D，或本次認證失敗'
+        : trusted.has(floor) ? `放行 ${floor} 樓\n（依可信權限表，不看卡內欄位）` : `拒絕：可信權限表不允許 ${floor} 樓\n（卡內寫什麼都不採用）`;
+    };
+    ['w2-field', 'w2-floor', 'w2-auth'].forEach(id => $(id).addEventListener('input', run));
+    $('w2-auth').addEventListener('change', run);
+    document.querySelectorAll('[data-w2]').forEach(b => b.addEventListener('click', () => { $('w2-field').value = b.dataset.w2; $('w2-floor').value = '8'; run(); }));
+    run();
+  }
+
+  // 證據與決策（authorization_model.h 的 weakAllow／improvedAllow，與 access_demo 的拒絕原因順序）。
+  if ($('ev-toggles')) {
+    const keys = [['currentRead', '本次有效讀取'], ['registered', '憑證已登錄'], ['authenticated', '本次認證成功'], ['revoked', '已撤銷'], ['targetAllowed', '有目標權限']];
+    const state = {};
+    keys.forEach(([k, label]) => {
+      const l = el('label', '', 'tg'); const c = el('input'); c.type = 'checkbox'; c.id = `ev-${k}`;
+      c.addEventListener('change', () => { state[k] = c.checked; run(); });
+      l.append(c, document.createTextNode(label)); $('ev-toggles').append(l);
+    });
+    const set = v => keys.forEach(([k], i) => { state[k] = v[i]; $(`ev-${k}`).checked = v[i]; });
+    const presets = {
+      '一切正常': [1, 1, 1, 0, 1], '相同 UID 但無法認證': [1, 1, 0, 0, 1], '已撤銷': [1, 1, 1, 1, 1],
+      '要求沒有權限的樓層': [1, 1, 1, 0, 0], '沒有本次感應，只有上次成功': [0, 1, 1, 0, 1],
+    };
+    function run() {
+      const e = state;
+      const weak = e.currentRead && e.registered;
+      const good = e.currentRead && e.registered && e.authenticated && !e.revoked && e.targetAllowed;
+      const missing = !e.currentRead ? 'NO_CURRENT_TAG（沒有本次感應）' : !e.authenticated ? 'AUTH_FAILED（本次認證失敗）'
+        : !e.registered ? 'CREDENTIAL_UNKNOWN（憑證未登錄）' : e.revoked ? 'REVOKED（已撤銷）'
+        : !e.targetAllowed ? 'FLOOR_NOT_ALLOWED（沒有目標權限）' : 'ALL_EVIDENCE_PRESENT';
+      $('ev-weak').textContent = weak ? 'DOOR_OPEN　放行' : 'DOOR_DENIED　拒絕';
+      $('ev-good').textContent = good ? 'DOOR_OPEN　放行' : `DOOR_DENIED　拒絕\n原因：${missing}`;
+    }
+    choices($('ev-presets'), presets, (name, v) => { set(v.map(Boolean)); run(); });
+  }
+
+  // 撤銷與離線快取（cacheFresh：60 秒內可用，過期就拒絕）。
+  if ($('ca-online')) {
+    const run = () => {
+      const online = $('ca-online').checked, now = $('ca-now').checked, cached = $('ca-cached').checked, age = +$('ca-age').value;
+      $('ca-age-v').textContent = age;
+      let lines;
+      if (online) lines = [`向後端查詢：目前${now ? '已撤銷' : '有效'}`, now ? '→ 本次因撤銷拒絕' : '→ 名單狀態允許（其他認證／權限先假設成立）'];
+      else if (age <= 60) {
+        lines = [`後端連不到，使用 ${age} 秒前的快取（仍在 60 秒期限內）`, `快取記錄：${cached ? '已撤銷' : '有效'}`, cached ? '→ 拒絕' : '→ 放行'];
+        if (now && !cached) lines.push('⚠ 後端其實已撤銷，但控制器還不知道：掛失尚未在這台設備生效');
+      } else lines = [`後端連不到，快取已 ${age} 秒，超過 60 秒期限`, '→ 拒絕（不沿用上次的允許）'];
+      $('ca-out').textContent = lines.join('\n');
+    };
+    ['ca-online', 'ca-now', 'ca-cached'].forEach(id => $(id).addEventListener('change', run));
+    $('ca-age').addEventListener('input', run); run();
+  }
+})();
+
+</script>
+</body></html>

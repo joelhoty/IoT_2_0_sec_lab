@@ -1,0 +1,31 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>找出主要網域</title><link rel="stylesheet" href="../lab.css"></head><body>
+<main><h1>找出主要網域</h1>
+<p>把掃到的網址貼進來（只在你的手機上分析，不會連線）。從主機名稱<b>最右邊往左讀</b>：先找到公共後綴，再多取一段，就是真正擁有這個網站的「主要網域」。</p>
+<form id="f" class="card" autocomplete="off"><label>網址</label><input type="text" id="u"><button>分析</button>
+<p class="hint">試試看：<a href="#" data-u="https://school.edu.tw.login-check.example/verify">開頭像學校</a>｜<a href="#" data-u="https://joelhoty.github.io/IoT_2_0_sec_lab/">本課網站</a>｜<a href="#" data-u="https://someone-else.github.io/pay/">別人的 github.io</a></p></form>
+<section id="r" class="reveal card"><table id="tb"></table><div id="v"></div>
+<p class="hint">本工具只認得教學清單內的後綴（含 <code>gov.tw</code>、<code>edu.tw</code>、<code>com</code>、<code>github.io</code> 等）；不在清單內就不猜測。完整規則見講義 §2.8.1、實作篇 B4。</p></section>
+<a class="back" href="../index.html">← 回掃碼體驗室</a></main>
+<script src="../lab.js"></script><script>
+LAB.banner('..');
+const run = text => {
+  let url; try { url = new URL(text.trim()); } catch { document.getElementById('v').innerHTML = '<div class="verdict warn">這不是完整的網址（需要 https:// 開頭）</div>'; document.getElementById('tb').replaceChildren(); LAB.show('r'); return; }
+  const host = url.hostname, md = LAB.mainDomain(host);
+  const tb = document.getElementById('tb'); tb.replaceChildren();
+  [['通訊協定', url.protocol.replace(':', '')], ['主機名稱', host], ['主要網域', md || '（不在教學清單，無法判斷）'], ['路徑與參數', url.pathname + url.search]].forEach(([k, v]) => {
+    const tr = tb.insertRow(); tr.insertCell().textContent = k; const td = tr.insertCell(); td.textContent = v; td.className = 'mono'; });
+  const v = document.getElementById('v');
+  const firstLooksLike = host.split('.').slice(0, -2).join('.');
+  v.innerHTML = '';
+  const d = document.createElement('div');
+  if (!md) { d.className = 'verdict warn'; d.textContent = '無法判斷擁有者，先不要輸入任何資料。'; }
+  else if (md.endsWith('github.io')) { d.className = 'verdict warn'; d.textContent = `擁有者是 GitHub 上的帳號「${md.split('.')[0]}」。github.io 底下每個帳號都是不同的網站，同平台不代表同一人。`; }
+  else if (/\b(edu|gov)\.tw\b/.test(firstLooksLike) && !/\.(edu|gov)\.tw$/.test(host)) { d.className = 'verdict bad'; d.textContent = `開頭雖然出現學校或政府字樣，真正的主要網域是 ${md}，不是學校或政府。`; }
+  else { d.className = 'verdict ok'; d.textContent = `主要網域是 ${md}。接著確認這是不是你預期的單位。`; }
+  v.append(d); LAB.show('r');
+};
+document.getElementById('f').addEventListener('submit', e => { e.preventDefault(); run(document.getElementById('u').value); });
+document.querySelectorAll('[data-u]').forEach(a => a.onclick = e => { e.preventDefault(); document.getElementById('u').value = a.dataset.u; run(a.dataset.u); });
+const start = LAB.param('u'); if (start) { document.getElementById('u').value = start; run(start); }
+</script></body></html>

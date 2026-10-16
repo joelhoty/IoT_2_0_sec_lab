@@ -1,0 +1,841 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><title>QR Code｜實作｜v2.0</title><meta property="og:title" content="QR Code｜實作｜v2.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><style>@media screen{body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=overview] button.bespoke-marp-overview-close,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{appearance:none;background-color:initial;border:0;color:inherit;cursor:pointer;font-size:inherit;opacity:.8;outline:none;padding:0;transition:opacity .2s linear;-webkit-tap-highlight-color:transparent}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:disabled{cursor:not-allowed;opacity:.15!important}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover{opacity:1}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:active{opacity:.6}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:not(:disabled){transition:none}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-prev{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNNjggOTAgMjggNTBsNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-next{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJtMzIgOTAgNDAtNDAtNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNNDAgNzBIMjBWNTBtMjAgMEwyMCA3MG00MC00MGgyMHYyMG0tMjAgMCAyMC0yMCIgY2xhc3M9ImEiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen]{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNMjAgNTBoMjB2MjBtLTIwIDAgMjAtMjBtNDAgMEg2MFYzMG0yMCAwTDYwIDUwIiBjbGFzcz0iYSIvPjwvc3ZnPg==")}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNODcuOCA0Ny41Qzg5IDUwIDg3LjcgNTIgODUgNTJIMzVhOC43IDguNyAwIDAgMS03LjItNC41bC0xNS42LTMxQzExIDE0IDEyLjIgMTIgMTUgMTJoNTBhOC44IDguOCAwIDAgMSA3LjIgNC41ek02MCA1MnYzNm0tMTAgMGgyME00NSA0MmgyMCIvPjwvc3ZnPg==") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=overview] button.bespoke-marp-overview-close,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-bigger{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODBNNTIgOTBWMTAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-smaller{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=overview]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4O3J4OjVweDtyeTo1cHg7d2lkdGg6MjVweDtoZWlnaHQ6MjVweH08L3N0eWxlPjwvZGVmcz48cmVjdCB4PSIyMCIgeT0iMjAiIGNsYXNzPSJhIi8+PHJlY3QgeD0iNTUiIHk9IjIwIiBjbGFzcz0iYSIvPjxyZWN0IHg9IjIwIiB5PSI1NSIgY2xhc3M9ImEiLz48cmVjdCB4PSI1NSIgeT0iNTUiIGNsYXNzPSJhIi8+PC9zdmc+") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}}@keyframes __bespoke_marp_transition_reduced_outgoing__{0%{opacity:1}to{opacity:0}}@keyframes __bespoke_marp_transition_reduced_incoming__{0%{mix-blend-mode:plus-lighter;opacity:0}to{mix-blend-mode:plus-lighter;opacity:1}}.bespoke-marp-note,.bespoke-marp-osc,.bespoke-progress-parent{display:none;transition:none}@media screen{::view-transition-group(*){animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-timing-function:ease}::view-transition-new(*),::view-transition-old(*){animation-delay:0s;animation-direction:var(--marp-bespoke-transition-animation-direction,normal);animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-fill-mode:both;animation-name:var(--marp-bespoke-transition-animation-name,var(--marp-bespoke-transition-animation-name-fallback,__bespoke_marp_transition_no_animation__));mix-blend-mode:normal}::view-transition-old(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_outgoing__;animation-timing-function:ease}::view-transition-new(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_incoming__;animation-timing-function:ease}::view-transition-new(root),::view-transition-old(root){animation-timing-function:linear}::view-transition-new(__bespoke_marp_transition_osc__),::view-transition-old(__bespoke_marp_transition_osc__){animation-duration:0s!important;animation-name:__bespoke_marp_transition_osc__!important}::view-transition-new(__bespoke_marp_transition_osc__){opacity:0!important}.bespoke-marp-transition-warming-up::view-transition-group(*),.bespoke-marp-transition-warming-up::view-transition-new(*),.bespoke-marp-transition-warming-up::view-transition-old(*){animation-play-state:paused!important}body,html{height:100%;margin:0}body{background:#000;overflow:hidden}svg.bespoke-marp-slide{content-visibility:hidden;interactivity:inert;opacity:0;pointer-events:none;z-index:-1}svg.bespoke-marp-slide:not(.bespoke-marp-active) *{view-transition-name:none!important}svg.bespoke-marp-slide.bespoke-marp-active{content-visibility:visible;interactivity:auto;opacity:1;pointer-events:auto;z-index:0}svg.bespoke-marp-slide.bespoke-marp-active.bespoke-marp-active-ready *{animation-name:__bespoke_marp__!important}@supports not (content-visibility:hidden){svg.bespoke-marp-slide[data-bespoke-marp-load=hideable]{display:none}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable].bespoke-marp-active{display:block}}}@media screen and (prefers-reduced-motion:reduce){svg.bespoke-marp-slide *{view-transition-name:none!important}}@media screen{[data-bespoke-marp-fragment=inactive]{visibility:hidden}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent{inset:0;position:absolute}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc{background:#000000a6;border-radius:7px;bottom:50px;color:#fff;contain:paint;display:block;font-family:Helvetica,Arial,sans-serif;font-size:16px;left:50%;line-height:0;opacity:1;padding:12px;position:absolute;touch-action:manipulation;transform:translateX(-50%);transition:opacity .2s linear;-webkit-user-select:none;user-select:none;view-transition-name:__bespoke_marp_transition_osc__;white-space:nowrap;will-change:transform;z-index:1}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>:where(*){margin-left:6px}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>:where(*):where(:first-child){margin-left:0}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>span{opacity:.8}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page]{display:inline-block;min-width:140px;text-align:center}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=overview],:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev]{height:32px;line-height:32px;width:32px}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent.bespoke-marp-inactive{cursor:none}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc{opacity:0;pointer-events:none}:is(body[data-bespoke-view=""],body[data-bespoke-view=next]) svg.bespoke-marp-slide{height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent{background:#222;display:flex;height:5px;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent+:where(.bespoke-marp-parent){top:5px}body[data-bespoke-view=""] .bespoke-progress-parent .bespoke-progress-bar{background:#0288d1;flex:0 0 0;transition:flex-basis .2s cubic-bezier(0,1,1,1)}body[data-bespoke-view=next]{background:#0000}body[data-bespoke-view=presenter]{background:#161616}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container{display:grid;font-family:Helvetica,Arial,sans-serif;grid-template:"current dragbar next" minmax(140px,1fr) "current dragbar note" 2fr "info    dragbar note" 3em;grid-template-columns:minmax(3px,var(--bespoke-marp-presenter-split-ratio,66%)) 0 minmax(3px,1fr);height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent){grid-area:current;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent) :where(svg.bespoke-marp-slide){height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent) :where(svg.bespoke-marp-slide).bespoke-marp-active{filter:drop-shadow(0 3px 10px rgba(0,0,0,.5))}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container{background:#0288d1;cursor:col-resize;grid-area:dragbar;margin-left:-3px;opacity:0;position:relative;transition:opacity .4s linear .1s;width:6px;z-index:10}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container:hover{opacity:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container.active{opacity:1;transition-delay:0s}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container{background:#222;cursor:pointer;display:none;grid-area:next;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container iframe.bespoke-marp-presenter-next{background:#0000;border:0;display:block;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;interactivity:inert;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container{background:#222;color:#eee;grid-area:note;position:relative;z-index:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper{display:block;inset:0;position:absolute}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons{background:#000000a6;border-radius:4px;bottom:0;display:flex;gap:4px;margin:12px;opacity:0;padding:6px;pointer-events:none;position:absolute;right:0;transition:opacity .2s linear}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons:focus-within,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper:focus-within+.bespoke-marp-presenter-note-buttons,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container:hover .bespoke-marp-presenter-note-buttons{opacity:1;pointer-events:auto}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note{box-sizing:border-box;font-size:calc(1.1em*var(--bespoke-marp-note-font-scale, 1));height:calc(100% - 40px);margin:20px;overflow:auto;padding-right:3px;white-space:pre-wrap;width:calc(100% - 40px);word-wrap:break-word;scrollbar-color:#eeeeee80 #0000;scrollbar-width:thin}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar{width:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-track{background:#0000}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-thumb{background:#eeeeee80;border-radius:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note:empty{pointer-events:none}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:first-child{margin-top:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:last-child{margin-bottom:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container{align-items:center;box-sizing:border-box;color:#eee;display:flex;flex-wrap:nowrap;grid-area:info;justify-content:center;overflow:hidden;padding:0 10px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container :is(.bespoke-marp-presenter-info-page-area,.bespoke-marp-presenter-info-time,.bespoke-marp-presenter-info-timer){box-sizing:border-box;display:block;padding:0 10px;white-space:nowrap;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area{order:2;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page{display:inline-block;min-width:120px;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time{color:#999;order:1;text-align:left}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{color:#999;order:3;text-align:right}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer:hover{cursor:pointer}body[data-bespoke-view=overview]{background:#161616;overflow:auto}body[data-bespoke-view=overview] [data-bespoke-marp-fragment=inactive]{visibility:visible}body[data-bespoke-view=overview] .bespoke-marp-overview-header{backdrop-filter:blur(4px);background:#222222d9;box-shadow:0 3px 10px #00000080;box-sizing:border-box;display:flex;height:48px;inset:0 0 auto;justify-content:flex-end;padding:10px;position:fixed;z-index:1}body[data-bespoke-view=overview] button.bespoke-marp-overview-close{height:28px;line-height:28px;transform:rotate(45deg);width:28px}body[data-bespoke-view=overview] .bespoke-marp-parent{display:grid;gap:40px;grid-template-columns:repeat(auto-fit,minmax(0,240px));justify-content:space-around;padding:30px}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide{--bov-selected:#0000;--bov-focus:#161616;--bov-focus-outline:#0000;background-image:conic-gradient(#161616 0 0),conic-gradient(var(--bov-focus) 0 0),conic-gradient(var(--bov-focus-outline) 0 0),conic-gradient(var(--bov-selected) 0 0);background-position:5px 5px,3px 3px,2px 2px,0 0;background-repeat:no-repeat;background-size:calc(100% - 10px) calc(100% - 10px),calc(100% - 6px) calc(100% - 6px),calc(100% - 4px) calc(100% - 4px),100% 100%;content-visibility:visible;cursor:pointer;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));margin:-6px;padding:6px;interactivity:auto;opacity:1;outline:0;pointer-events:auto;scroll-margin-block:30px;width:100%;z-index:0}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide *,body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active *{pointer-events:none;interactivity:inert}body[data-bespoke-view=overview] .bespoke-marp-parent :is(svg.bespoke-marp-slide:active,svg.bespoke-marp-slide:focus-visible,svg.bespoke-marp-slide:hover){--bov-focus-outline:#161616}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:focus-visible,body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:hover{--bov-focus:#999}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:active{--bov-focus:#eee}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active{--bov-selected:#0288d1}body[data-bespoke-view=overview]:has(.bespoke-marp-overview-header) .bespoke-marp-parent{padding-top:78px}body[data-bespoke-view=overview]:has(.bespoke-marp-overview-header) .bespoke-marp-parent svg.bespoke-marp-slide{scroll-margin-top:78px}.bespoke-marp-overview{background:#000000a6;inset:0;opacity:0;pointer-events:none;position:fixed;transition:opacity .1s ease;z-index:10}.bespoke-marp-overview iframe{background:#222;border:0;display:block;height:100%;left:0;position:absolute;top:0;width:100%}.bespoke-marp-overview[data-open="1"]{opacity:1;pointer-events:auto}}@media print{.bespoke-marp-overview,.bespoke-marp-presenter-info-container,.bespoke-marp-presenter-next-container,.bespoke-marp-presenter-note-container{display:none}}</style><style>div#\:\$p > svg > foreignObject > section{width:1280px;height:720px;box-sizing:border-box;overflow:hidden;position:relative;scroll-snap-align:center center;-webkit-text-size-adjust:100%;text-size-adjust:100%}div#\:\$p > svg > foreignObject > section::after{bottom:0;content:attr(data-marpit-pagination);padding:inherit;pointer-events:none;position:absolute;right:0}div#\:\$p > svg > foreignObject > section:not([data-marpit-pagination])::after{display:none}div#\:\$p > svg > foreignObject > section :where(:is(h1, marp-h1)){font-size:2em;margin-block:0.67em}div#\:\$p > svg > foreignObject > section section:where(:is(h1, marp-h1)){--marpit-root-font-size: 2em}div#\:\$p > svg > foreignObject > section video::-webkit-media-controls{will-change:transform}@page {size:1280px 720px;margin:0}@media print{html, body{background-color:#fff;margin:0;page-break-inside:avoid;break-inside:avoid-page}div#\:\$p > svg > foreignObject > section{page-break-before:always;break-before:page}div#\:\$p > svg > foreignObject > section, div#\:\$p > svg > foreignObject > section *{-webkit-print-color-adjust:exact!important;animation-delay:0s!important;animation-duration:0s!important;color-adjust:exact!important;print-color-adjust:exact!important;transition:none!important}div#\:\$p > svg[data-marpit-svg]{display:block;height:100vh;width:100vw}}div#\:\$p > svg > foreignObject > :where(section){container-type:size}div#\:\$p > svg > foreignObject > section{--paper:#fafbf9;--ink:#182b36;--accent:#155e75;--line:#cad8dd;--sans:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;--mono:"SF Mono",Menlo,Consolas,monospace;width:1280px;height:720px;box-sizing:border-box;padding:38px 56px 56px;display:flex;flex-direction:column;justify-content:flex-start;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:27px;line-height:1.62;overflow:hidden}div#\:\$p > svg > foreignObject > section{--marpit-root-font-size:27px}div#\:\$p > svg > foreignObject > section *{box-sizing:border-box}div#\:\$p > svg > foreignObject > section :is(h2, marp-h2){font-size:36px;line-height:1.3;margin:8px 0 22px;letter-spacing:.005em;color:#123e52;flex-shrink:0}div#\:\$p > svg > foreignObject > section .kicker{font-size:17px;font-weight:600;color:#52707e;letter-spacing:.05em;line-height:1.4}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section.kicker{--marpit-root-font-size:17px}div#\:\$p > svg > foreignObject > section p{margin:0 0 .75em}div#\:\$p > svg > foreignObject > section p:last-child{margin-bottom:0}div#\:\$p > svg > foreignObject > section strong{color:#0f5967}div#\:\$p > svg > foreignObject > section a{color:#0b5f87;text-decoration:underline;text-underline-offset:3px}div#\:\$p > svg > foreignObject > section ul,div#\:\$p > svg > foreignObject > section ol{padding-left:1.25em;margin:.1em 0 .75em}div#\:\$p > svg > foreignObject > section li{margin:.28em 0}div#\:\$p > svg > foreignObject > section li::marker{color:#155e75;font-weight:600}div#\:\$p > svg > foreignObject > section code{font-family:var(--mono);font-size:.87em;background:#e9eff0;padding:.03em .18em;border-radius:3px;overflow-wrap:anywhere}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre){font-size:20px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;background:#e9eff0;padding:14px 18px;border-left:4px solid #4b8a9c;margin:.6em 0;max-width:100%}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre) code{font-size:inherit;background:transparent;padding:0}div#\:\$p > svg > foreignObject > section blockquote{font-size:23px;line-height:1.5;border-left:4px solid #4b8a9c;padding:8px 16px;margin:.6em 0;background:#eaf2f2}div#\:\$p > svg > foreignObject > section table{border-collapse:collapse;width:100%;font-size:22px;line-height:1.42;margin:.45em 0}div#\:\$p > svg > foreignObject > section th{font-size:20px;text-align:left;background:#e5edef;color:#254c5c}div#\:\$p > svg > foreignObject > section td,div#\:\$p > svg > foreignObject > section th{padding:7px 11px;border-bottom:1px solid var(--line);vertical-align:top}div#\:\$p > svg > foreignObject > section .content{min-height:0;flex:1;position:relative}div#\:\$p > svg > foreignObject > section .lesson-copy{max-width:1110px}div#\:\$p > svg > foreignObject > section.widget-slide .content,div#\:\$p > svg > foreignObject > section.figure-slide .content{display:grid;grid-template-columns:minmax(0,.43fr) minmax(0,.57fr);gap:30px;align-items:start}div#\:\$p > svg > foreignObject > section.widget-slide .content{grid-template-columns:minmax(0,.36fr) minmax(0,.64fr)}div#\:\$p > svg > foreignObject > section.widget-slide .lesson-copy,div#\:\$p > svg > foreignObject > section.figure-slide .lesson-copy{font-size:24px;line-height:1.56;min-width:0}div#\:\$p > svg > foreignObject > section.widget-slide div#\:\$p > svg > foreignObject > section section.lesson-copy, div#\:\$p > svg > foreignObject > section.figure-slide div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:24px}div#\:\$p > svg > foreignObject > section.widget-slide .demo,div#\:\$p > svg > foreignObject > section.figure-slide .demo{min-width:0;max-width:100%}div#\:\$p > svg > foreignObject > section.figure-slide .demo{height:100%;display:flex;align-items:flex-start;justify-content:center}div#\:\$p > svg > foreignObject > section.figure-slide .demo img{width:100%;max-height:445px;object-fit:contain;display:block}div#\:\$p > svg > foreignObject > section.case :is(h2, marp-h2){color:#713c35}div#\:\$p > svg > foreignObject > section.checkpoint :is(h2, marp-h2){color:#1c6156}div#\:\$p > svg > foreignObject > section.cover{background:#11394b;color:#eef7f8}div#\:\$p > svg > foreignObject > section.cover :is(h2, marp-h2){font-size:43px;line-height:1.35;color:#fff;margin:14px 0 25px}div#\:\$p > svg > foreignObject > section.cover .kicker{color:#9ddfd7}div#\:\$p > svg > foreignObject > section.cover .lesson-copy{font-size:26px;line-height:1.65;max-width:1100px}div#\:\$p > svg > foreignObject > section.cover div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:26px}div#\:\$p > svg > foreignObject > section.cover strong,div#\:\$p > svg > foreignObject > section.cover a{color:#a3e8db}div#\:\$p > svg > foreignObject > section.cover code{background:#285264;color:#fff}div#\:\$p > svg > foreignObject > section.cover blockquote{background:#214a5c;border-color:#8bd7cc;color:#e7f5f7;font-size:22px}div#\:\$p > svg > foreignObject > section>footer{position:absolute;left:56px;bottom:17px;max-width:1110px;color:#58717d;font-size:15px;line-height:1.25}div#\:\$p > svg > foreignObject > section.cover>footer{color:#b9d2da}div#\:\$p > svg > foreignObject > section::after{content:attr(data-marpit-pagination) " / " attr(data-marpit-pagination-total);position:absolute;right:26px;bottom:16px;font-size:15px;color:#58717d;padding:0}div#\:\$p > svg > foreignObject > section::after{--marpit-root-font-size:15px}div#\:\$p > svg > foreignObject > section.cover::after{color:#b9d2da}div#\:\$p > svg > foreignObject > section .widget{font-size:21px;line-height:1.42;background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section.widget{--marpit-root-font-size:21px}div#\:\$p > svg > foreignObject > section .widget p{margin:.3em 0 .55em}div#\:\$p > svg > foreignObject > section .widget label{display:inline-block;font-size:20px}div#\:\$p > svg > foreignObject > section .url label,div#\:\$p > svg > foreignObject > section .json label,div#\:\$p > svg > foreignObject > section .base64 label,div#\:\$p > svg > foreignObject > section .utf8 label{display:block;width:100%}div#\:\$p > svg > foreignObject > section .widget input[type=text],div#\:\$p > svg > foreignObject > section .widget textarea,div#\:\$p > svg > foreignObject > section .widget select{font:20px var(--mono);color:#163b4e;background:#f9fcfc;border:1px solid #8ca8b5;border-radius:5px;padding:7px;width:100%;max-width:100%;margin:4px 0}div#\:\$p > svg > foreignObject > section .widget textarea{font-size:19px;line-height:1.4;resize:none}div#\:\$p > svg > foreignObject > section .widget input[type=checkbox]{width:18px;height:18px;margin-right:5px;accent-color:#156f78}div#\:\$p > svg > foreignObject > section .widget input[type=range]{width:62%;accent-color:#156f78}div#\:\$p > svg > foreignObject > section .widget button{font:19px var(--sans);line-height:1.3;padding:7px 10px;margin:3px 4px 3px 0;border:1px solid #779dad;background:#f2f7f8;color:#173f50;border-radius:5px;cursor:pointer;white-space:normal}div#\:\$p > svg > foreignObject > section .widget button.pick,div#\:\$p > svg > foreignObject > section .widget button.on{background:#145e70;color:white}div#\:\$p > svg > foreignObject > section .widget .out{font-size:20px;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere;padding:8px 10px;background:#edf3f4;border-radius:5px;margin:.4em 0 0}div#\:\$p > svg > foreignObject > section .widget div#\:\$p > svg > foreignObject > section section.out{--marpit-root-font-size:20px}div#\:\$p > svg > foreignObject > section .widget .out p{white-space:normal}div#\:\$p > svg > foreignObject > section .widget .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}div#\:\$p > svg > foreignObject > section .widget .small{font-size:19px;line-height:1.4;color:#47636f}div#\:\$p > svg > foreignObject > section .widget div#\:\$p > svg > foreignObject > section section.small{--marpit-root-font-size:19px}div#\:\$p > svg > foreignObject > section .widget .box{font-size:20px;line-height:1.42;border-left:4px solid #4b8a9c;background:#eef5f6;padding:7px 10px;margin:.4em 0}div#\:\$p > svg > foreignObject > section .widget div#\:\$p > svg > foreignObject > section section.box{--marpit-root-font-size:20px}div#\:\$p > svg > foreignObject > section .widget .box.warn{border-color:#b26d28;background:#fff1dc}div#\:\$p > svg > foreignObject > section .widget .box.bad{border-color:#b65246;background:#fff0ed}div#\:\$p > svg > foreignObject > section .widget .box.ok{border-color:#36846a;background:#eaf6ed}div#\:\$p > svg > foreignObject > section .widget table{font-size:20px;line-height:1.3;table-layout:fixed;margin:.35em 0}div#\:\$p > svg > foreignObject > section .widget table th{font-size:18px}div#\:\$p > svg > foreignObject > section .widget td,div#\:\$p > svg > foreignObject > section .widget th{padding:4px 6px;overflow-wrap:anywhere}div#\:\$p > svg > foreignObject > section .widget .hot{font-weight:600;color:#9b3f32}div#\:\$p > svg > foreignObject > section .widget .tg{margin:3px 7px 3px 0}div#\:\$p > svg > foreignObject > section .widget .bytes{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}div#\:\$p > svg > foreignObject > section .widget .byte{display:inline-block;min-width:39px;padding:6px;border:1px solid #88a9b5;border-radius:4px;font:20px var(--mono);cursor:pointer}div#\:\$p > svg > foreignObject > section .widget .byte.sel{outline:3px solid #175d73}div#\:\$p > svg > foreignObject > section .widget .g1{background:#d8eee9}div#\:\$p > svg > foreignObject > section .widget .g2{background:#e5e6f4}div#\:\$p > svg > foreignObject > section .widget .g3{background:#f7e9c9}div#\:\$p > svg > foreignObject > section .widget .g4{background:#d7eaf1}div#\:\$p > svg > foreignObject > section .widget .g5{background:#ebe6de}div#\:\$p > svg > foreignObject > section .widget .chip{display:inline-block;font-size:18px;border:1px solid #adbdc4;border-radius:12px;padding:3px 8px}div#\:\$p > svg > foreignObject > section .widget div#\:\$p > svg > foreignObject > section section.chip{--marpit-root-font-size:18px}div#\:\$p > svg > foreignObject > section .widget .verdict{padding:1px 5px;font-weight:600;border-radius:3px}div#\:\$p > svg > foreignObject > section .widget .verdict.ok{background:#dff0e6;color:#146044}div#\:\$p > svg > foreignObject > section .widget .verdict.bad{background:#fbe5df;color:#973b28}div#\:\$p > svg > foreignObject > section .widget .verdict.warn{background:#fff0cd;color:#865215}div#\:\$p > svg > foreignObject > section #px-view{width:240px;height:240px;image-rendering:pixelated;display:block;margin:0 auto 9px;border:1px solid #cad8dd}div#\:\$p > svg > foreignObject > section #px-out{font-size:20px;line-height:1.4;white-space:pre-wrap}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section#px-out{--marpit-root-font-size:20px}div#\:\$p > svg > foreignObject > section .base64 #b64t-out table{display:none}div#\:\$p > svg > foreignObject > section .base64 .out{margin-bottom:9px}div#\:\$p > svg > foreignObject > section .url{padding:12px}div#\:\$p > svg > foreignObject > section .url p{margin:.2em 0 .3em}div#\:\$p > svg > foreignObject > section .url th,div#\:\$p > svg > foreignObject > section .url td{padding:3px 6px}div#\:\$p > svg > foreignObject > section .answer{display:none}div#\:\$p > svg > foreignObject > section .answer.show{display:block}div#\:\$p > svg > foreignObject > section .status-legend{font-size:24px;line-height:1.4;margin-top:12px;flex-shrink:0}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section.status-legend{--marpit-root-font-size:24px}div#\:\$p > svg > foreignObject > section .status-legend p{margin:0 0 .2em}div#\:\$p > svg > foreignObject > section.figure-wide .content{display:flex;flex-direction:column;gap:14px;align-items:stretch}div#\:\$p > svg > foreignObject > section.figure-wide .lesson-copy{font-size:24px;line-height:1.5;max-width:none;flex-shrink:0}div#\:\$p > svg > foreignObject > section.figure-wide div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:24px}div#\:\$p > svg > foreignObject > section.figure-wide .lesson-copy p{margin:0 0 .5em}div#\:\$p > svg > foreignObject > section.figure-wide .demo{min-height:0;flex:1;display:flex;justify-content:center;align-items:flex-start}div#\:\$p > svg > foreignObject > section.figure-wide .demo img{max-width:100%;width:100%;max-height:335px;object-fit:contain;display:block}div#\:\$p > svg > foreignObject > section.widget-slide.cache-explainer .content{grid-template-columns:minmax(0,.54fr) minmax(0,.46fr)}div#\:\$p > svg > foreignObject > section.widget-slide.wide-copy .content{grid-template-columns:minmax(0,.48fr) minmax(0,.52fr)}div#\:\$p > svg > foreignObject > section.widget-slide:has(#url-in) .content{grid-template-columns:minmax(0,.46fr) minmax(0,.54fr)}div#\:\$p > svg > foreignObject > section.widget-slide:has(#url-in) .lesson-copy p:first-child code{word-break:normal;overflow-wrap:normal}div#\:\$p > svg > foreignObject > section .url th,div#\:\$p > svg > foreignObject > section .url td{padding:0 6px}div#\:\$p > svg > foreignObject > section.sources .lesson-copy{font-size:20px;line-height:1.45;max-width:none}div#\:\$p > svg > foreignObject > section.sources div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:20px}div#\:\$p > svg > foreignObject > section.sources li{margin:.18em 0}div#\:\$p > svg > foreignObject > section.sources a{overflow-wrap:anywhere}div#\:\$p > svg > foreignObject > section.case.figure-slide .content{grid-template-columns:minmax(0,.58fr) minmax(0,.42fr);gap:24px}div#\:\$p > svg > foreignObject > section.case.figure-slide .lesson-copy{font-size:21px;line-height:1.5}div#\:\$p > svg > foreignObject > section.case.figure-slide div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:21px}div#\:\$p > svg > foreignObject > section.case.figure-slide .lesson-copy p{margin:0 0 .5em}div#\:\$p > svg > foreignObject > section.case:not(.figure-slide) .lesson-copy{font-size:23px;line-height:1.55}div#\:\$p > svg > foreignObject > section.case:not(.figure-slide) div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:23px}div#\:\$p > svg > foreignObject > section.sources .lesson-copy{font-size:16.5px;line-height:1.38}div#\:\$p > svg > foreignObject > section.sources div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:16.5px}div#\:\$p > svg > foreignObject > section.sources .lesson-copy ul{columns:2;column-gap:30px;margin:0}div#\:\$p > svg > foreignObject > section.sources .lesson-copy li{break-inside:avoid;margin:0 0 .35em}div#\:\$p > svg > foreignObject > section{--glow:#3fd0c0;--deep:#0b2433;--teal:#0e7c86;background-color:var(--paper);background-image:linear-gradient(90deg,#0e7c86,#3fd0c0),url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2228%22%20height%3D%2228%22%3E%3Ccircle%20cx%3D%222%22%20cy%3D%222%22%20r%3D%221.3%22%20fill%3D%22%23155e75%22%20fill-opacity%3D%22.09%22/%3E%3C/svg%3E");background-size:var(--progress,0%) 5px,28px 28px;background-position:left bottom,right top;background-repeat:no-repeat,repeat}div#\:\$p > svg > foreignObject > section :is(h2, marp-h2){position:relative;padding-left:20px;margin:10px 0 16px}div#\:\$p > svg > foreignObject > section :is(h2, marp-h2)::before{content:"";position:absolute;left:0;top:.14em;bottom:.14em;width:7px;border-radius:4px;background:linear-gradient(180deg,#3fd0c0,#0e7c86)}div#\:\$p > svg > foreignObject > section .kicker{display:inline-block;align-self:flex-start;font-family:var(--mono),var(--sans);font-size:15px;letter-spacing:.08em;color:#e9fbf8;background:linear-gradient(90deg,#0b2433,#155e75);padding:3px 14px 3px 12px;border-radius:999px;box-shadow:0 0 0 1px rgba(63,208,192,.35)}div#\:\$p > svg > foreignObject > section div#\:\$p > svg > foreignObject > section section.kicker{--marpit-root-font-size:15px}div#\:\$p > svg > foreignObject > section strong{color:#0c6a76}div#\:\$p > svg > foreignObject > section th{background:#123e52;color:#effafa;border-bottom:2px solid #3fd0c0}div#\:\$p > svg > foreignObject > section tr:nth-child(even) td{background:rgba(21,94,117,.045)}div#\:\$p > svg > foreignObject > section blockquote{background:linear-gradient(90deg,#e3f3f1,#f3f9f8);border-left:5px solid #3fd0c0;border-radius:0 8px 8px 0}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre){border-left:5px solid #3fd0c0;border-radius:0 8px 8px 0;background:#0f2a38;color:#d9f4f0}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre) code{color:inherit}div#\:\$p > svg > foreignObject > section.figure-slide .demo img,div#\:\$p > svg > foreignObject > section.figure-wide .demo img{border-radius:16px;box-shadow:0 10px 26px rgba(11,36,51,.16),0 0 0 1px rgba(21,94,117,.12)}div#\:\$p > svg > foreignObject > section .widget{box-shadow:0 10px 26px rgba(11,36,51,.12);border-color:#b7d3d8;border-top:4px solid #3fd0c0}div#\:\$p > svg > foreignObject > section.case :is(h2, marp-h2)::before{background:linear-gradient(180deg,#f08a6c,#a8432f)}div#\:\$p > svg > foreignObject > section.checkpoint :is(h2, marp-h2)::before{background:linear-gradient(180deg,#5fd39a,#1c6156)}div#\:\$p > svg > foreignObject > section.tag-social::before,div#\:\$p > svg > foreignObject > section.tag-system::before,div#\:\$p > svg > foreignObject > section.checkpoint::before{position:absolute;top:30px;right:40px;font-size:16px;font-weight:700;letter-spacing:.06em;padding:5px 14px;border-radius:8px;line-height:1.3}div#\:\$p > svg > foreignObject > section.tag-social::before, div#\:\$p > svg > foreignObject > section.tag-system::before, div#\:\$p > svg > foreignObject > section.checkpoint::before{--marpit-root-font-size:16px}div#\:\$p > svg > foreignObject > section.tag-social::before{content:"⚠ 社交工程：騙人行動";color:#fff;background:linear-gradient(90deg,#c2513a,#e07a4f);box-shadow:0 4px 12px rgba(194,81,58,.3)}div#\:\$p > svg > foreignObject > section.tag-system::before{content:"⚙ 系統設計：信錯資料";color:#fff;background:linear-gradient(90deg,#5b4bb0,#7d6fd6);box-shadow:0 4px 12px rgba(91,75,176,.3)}div#\:\$p > svg > foreignObject > section.checkpoint::before{content:"✓ 隨堂判斷";color:#fff;background:linear-gradient(90deg,#1c6156,#2f9a7d)}div#\:\$p > svg > foreignObject > section.cover,div#\:\$p > svg > foreignObject > section.divider{color:#eef7f8;background-color:var(--deep);background-image:linear-gradient(90deg,#3fd0c0,#7ee8dc),url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22520%22%20height%3D%22720%22%20viewBox%3D%220%200%20520%20720%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%233fd0c0%22%20stroke-opacity%3D%22.28%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M520%2090H380l-40%2040v120l-50%2050H160%22/%3E%3Cpath%20d%3D%22M520%20210H430l-30%2030v160l40%2040h80%22/%3E%3Cpath%20d%3D%22M520%20330H470v190l-60%2060H250%22/%3E%3Cpath%20d%3D%22M300%200v60l40%2040h120l60%2060%22/%3E%3Cpath%20d%3D%22M520%20600H400l-40%2040v80%22/%3E%3Cpath%20d%3D%22M200%20720v-60l50-50h90%22/%3E%3Cpath%20d%3D%22M90%20300h70%22/%3E%3C/g%3E%3Cg%20fill%3D%22%233fd0c0%22%20fill-opacity%3D%22.55%22%3E%3Ccircle%20cx%3D%22160%22%20cy%3D%22300%22%20r%3D%226%22/%3E%3Ccircle%20cx%3D%2290%22%20cy%3D%22300%22%20r%3D%224%22/%3E%3Ccircle%20cx%3D%22440%22%20cy%3D%22440%22%20r%3D%226%22/%3E%3Ccircle%20cx%3D%22250%22%20cy%3D%22580%22%20r%3D%226%22/%3E%3Ccircle%20cx%3D%22460%22%20cy%3D%22100%22%20r%3D%225%22/%3E%3Ccircle%20cx%3D%22340%22%20cy%3D%22610%22%20r%3D%225%22/%3E%3Ccircle%20cx%3D%22380%22%20cy%3D%2290%22%20r%3D%224%22/%3E%3C/g%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%237ee8dc%22%20stroke-opacity%3D%22.18%22%3E%3Crect%20x%3D%22330%22%20y%3D%22470%22%20width%3D%2270%22%20height%3D%2270%22%20rx%3D%226%22/%3E%3Crect%20x%3D%22345%22%20y%3D%22485%22%20width%3D%2240%22%20height%3D%2240%22%20rx%3D%223%22/%3E%3C/g%3E%3C/svg%3E"),radial-gradient(ellipse at 85% 20%,#155e75 0%,rgba(21,94,117,0) 60%),linear-gradient(135deg,#071a26 0%,#0b2433 45%,#0f3f52 100%);background-size:var(--progress,0%) 5px,520px 720px,100% 100%,100% 100%;background-position:left bottom,right top,center,center;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat}div#\:\$p > svg > foreignObject > section.cover :is(h2, marp-h2){font-size:46px;text-shadow:0 0 22px rgba(63,208,192,.45);max-width:900px;padding-left:24px}div#\:\$p > svg > foreignObject > section.cover .kicker,div#\:\$p > svg > foreignObject > section.divider .kicker{background:rgba(63,208,192,.14);color:#9ff0e5;box-shadow:0 0 0 1px rgba(63,208,192,.5)}div#\:\$p > svg > foreignObject > section.cover .lesson-copy{max-width:840px;font-size:25px}div#\:\$p > svg > foreignObject > section.cover div#\:\$p > svg > foreignObject > section section.lesson-copy{--marpit-root-font-size:25px}div#\:\$p > svg > foreignObject > section.cover strong{color:#7ee8dc}div#\:\$p > svg > foreignObject > section.divider{justify-content:center;padding-left:96px}div#\:\$p > svg > foreignObject > section.divider .unit-no{font:800 170px/1 var(--mono);color:transparent;-webkit-text-stroke:3px #3fd0c0;text-shadow:0 0 28px rgba(63,208,192,.35);letter-spacing:.02em}div#\:\$p > svg > foreignObject > section.divider .unit-label{font:600 18px var(--mono);letter-spacing:.3em;color:#7ee8dc;margin:18px 0 6px}div#\:\$p > svg > foreignObject > section.divider .unit-title{font-size:50px;font-weight:700;line-height:1.3;color:#fff;max-width:880px}div#\:\$p > svg > foreignObject > section.divider div#\:\$p > svg > foreignObject > section section.unit-title{--marpit-root-font-size:50px}div#\:\$p > svg > foreignObject > section.divider .unit-q{font-size:26px;line-height:1.5;color:#bfe9e3;margin-top:22px;max-width:840px;border-left:5px solid #3fd0c0;padding-left:18px}div#\:\$p > svg > foreignObject > section.divider div#\:\$p > svg > foreignObject > section section.unit-q{--marpit-root-font-size:26px}div#\:\$p > svg > foreignObject > section.divider .unit-meta{font-size:17px;color:#8fb7c0;margin-top:26px;font-family:var(--mono);letter-spacing:.05em}div#\:\$p > svg > foreignObject > section.divider div#\:\$p > svg > foreignObject > section section.unit-meta{--marpit-root-font-size:17px}div#\:\$p > svg > foreignObject > section.divider::after,div#\:\$p > svg > foreignObject > section.divider>footer{display:none}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]{columns:initial!important;display:block!important;padding:0!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]::before, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]::after, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"]::before, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"]::after{display:none!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container]{all:initial;display:flex;flex-direction:row;height:100%;overflow:hidden;width:100%}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container][data-marpit-advanced-background-direction="vertical"]{flex-direction:column}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"][data-marpit-advanced-background-split] > div[data-marpit-advanced-background-container]{width:var(--marpit-advanced-background-split, 50%)}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"][data-marpit-advanced-background-split="right"] > div[data-marpit-advanced-background-container]{margin-left:calc(100% - var(--marpit-advanced-background-split, 50%))}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container] > figure{all:initial;background-position:center;background-repeat:no-repeat;background-size:cover;flex:auto;margin:0}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container] > figure > figcaption{position:absolute;border:0;clip:rect(0, 0, 0, 0);height:1px;margin:-1px;overflow:hidden;padding:0;white-space:nowrap;width:1px}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"], div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="pseudo"]{background:transparent!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="pseudo"], div#\:\$p > svg[data-marpit-svg] > foreignObject[data-marpit-advanced-background="pseudo"]{pointer-events:none!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background-split]{width:100%;height:100%}
+</style></head><body><div class="bespoke-marp-osc"><button data-bespoke-marp-osc="prev" tabindex="-1" title="Previous slide">Previous slide</button><span data-bespoke-marp-osc="page"></span><button data-bespoke-marp-osc="next" tabindex="-1" title="Next slide">Next slide</button><button data-bespoke-marp-osc="fullscreen" tabindex="-1" title="Toggle fullscreen (f)">Toggle fullscreen</button><button data-bespoke-marp-osc="overview" tabindex="-1" title="Toggle overview view (o)">Toggle overview view</button><button data-bespoke-marp-osc="presenter" tabindex="-1" title="Open presenter view (p)">Open presenter view</button></div><div id=":$p"><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="1" data-paginate="true" data-footer="QR Code｜實作｜講義 §4.12、§6.0、§8.1、§6.0、§5、§6、§8.2" data-class="cover" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="cover" data-marpit-pagination="1" style="--paginate:true;--footer:QR Code｜實作｜講義 §4.12、§6.0、§8.1、§6.0、§5、§6、§8.2;--class:cover;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">環境與成果</div>
+<h2 id="%E5%AE%8C%E6%88%90%E4%B8%80%E4%BB%BD%E8%83%BD%E8%A7%A3%E9%87%8B%E7%B5%90%E6%9E%9C%E7%9A%84-qr-code-%E5%AF%A6%E9%A9%97%E7%B4%80%E9%8C%84">完成一份能解釋結果的 QR Code 實驗紀錄</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>本篇使用「QR Code 連結資料轉換站」（<code>qr_python</code> 2.0.0）：一個只在本機運作的網站，能產生與讀回 QR Code，並把網址、Base64、JSON 與 Wi-Fi 設定拆成欄位。成果是一份別人能重現的實驗紀錄：保存原始輸入、生成並下載的圖檔、完整讀回結果，以及檢查規則修改前後的差異。每項結論都要指出證據支持什麼、哪些問題尚未測到。</p>
+<p>你需要能閱讀前兩篇的文字編碼與網址概念，並能操作瀏覽器、儲存檔案及修改簡短 Python 函式。接下來先建立本機環境，再依活動名稱操作。所有範例使用虛構資料；本課點餐模型不會建立真正的商業訂單。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §4.12、§6.0、§8.1、§6.0、§5、§6、§8.2</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">QR Code｜實作</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">01</div>
+<div class="unit-title">環境與成果</div>
+<div class="unit-q">先看完成範例：原文、圖檔與讀回結果一一對照</div>
+<div class="unit-meta">本單元 3 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-paginate="true" data-footer="QR Code｜實作｜講義 §5.2–5.5、§6.1" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="2" style="--paginate:true;--footer:QR Code｜實作｜講義 §5.2–5.5、§6.1;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">環境與成果</div>
+<h2 id="%E5%85%88%E7%9C%8B%E5%AE%8C%E6%88%90%E7%AF%84%E4%BE%8B%E5%8E%9F%E6%96%87%E5%9C%96%E6%AA%94%E8%88%87%E8%AE%80%E5%9B%9E%E7%B5%90%E6%9E%9C%E4%B8%80%E4%B8%80%E5%B0%8D%E7%85%A7">先看完成範例：原文、圖檔與讀回結果一一對照</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>以 HELLO-IOT 為例，完整成果應包含：原始輸入 HELLO-IOT、這次下載的 PNG、從該檔案讀回的完整字串，以及「逐字相同」的比較。還要記錄更正等級、版本、工具版本與操作時間。</p>
+<p>如果只把輸入欄截圖，並沒有證明圖片能讀；拿上次成功畫面代替本次結果，也無法支持這次觀察。請預先建立自己的紀錄資料夾，依活動與嘗試次數存檔。遇到失敗也保存狀態，才能比較改動前後的差異。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §5.2–5.5、§6.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-paginate="true" data-footer="QR Code｜實作｜講義 §5.1、qr_python/README.md" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="3" style="--paginate:true;--footer:QR Code｜實作｜講義 §5.1、qr_python/README.md;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">環境與成果</div>
+<h2 id="%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6%E4%B8%A6%E5%95%9F%E5%8B%95%E6%9C%AC%E6%A9%9F-web-%E4%BB%8B%E9%9D%A2">安裝套件並啟動本機 Web 介面</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>先準備 uv 與 Python 3.13，第一次同步需要網路取得套件。從專案根目錄執行：</p>
+<pre><code class="language-bash"><span class="hljs-built_in">cd</span> output/modules/IoT_2_0/qr_python
+uv <span class="hljs-built_in">sync</span> --locked
+uv run --locked streamlit run app.py
+</code></pre>
+<p>保持終端機開啟，用瀏覽器進入它顯示的 Local URL，通常為 http://localhost:8501。若安裝或啟動失敗，保存完整訊息，依<a href="qr_python/README.md">環境說明</a>排查；不要改用另一套未核對的套件環境。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §5.1、qr_python/README.md</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="QR Code｜實作｜講義 §5.3、§6.0" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="4" style="--paginate:true;--footer:QR Code｜實作｜講義 §5.3、§6.0;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">環境與成果</div>
+<h2 id="%E4%BE%9D%E6%B4%BB%E5%8B%95%E5%90%8D%E7%A8%B1%E6%89%BE%E6%93%8D%E4%BD%9Cb-%E7%B7%A8%E8%99%9F%E5%8F%AA%E7%94%A8%E4%BE%86%E5%B0%8D%E7%85%A7%E8%AC%9B%E7%BE%A9">依活動名稱找操作，B 編號只用來對照講義</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>先在左側「實驗導覽」找「B1 圖檔往返：文字、中文、網址」，完成圖檔讀回；再做「B2 編碼與第二資訊」及「B2+ IoT 配網：Wi-Fi 設定 QR」，找出附加欄位與網路設定。</p>
+<p>接著依序做「B3 中介網址（核心）」、「B4 主機陷阱與開啟規則」、「B5 點餐授權與後端驗證」，最後用「B6 AI 初版改錯」修正程式。每項都先預測，再操作、檢查並寫結論；B 編號供對照講義。「工具箱」供自由測試，「實驗紀錄匯出」用來保存成果。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §5.3、§6.0</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">QR Code｜實作</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">02</div>
+<div class="unit-title">產生與讀回圖檔</div>
+<div class="unit-q">生成圖檔：先預測 HELLO-IOT 會讀回什麼</div>
+<div class="unit-meta">本單元 5 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.7、§5.2、§2.4、§5.2.1、§2.4、§2.5.1、§6 B1、qr_python/app.py round_trip" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="5" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.7、§5.2、§2.4、§5.2.1、§2.4、§2.5.1、§6 B1、qr_python/app.py round_trip;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">產生與讀回圖檔</div>
+<h2 id="%E7%94%9F%E6%88%90%E5%9C%96%E6%AA%94%E5%85%88%E9%A0%90%E6%B8%AC-hello-iot-%E6%9C%83%E8%AE%80%E5%9B%9E%E4%BB%80%E9%BA%BC">生成圖檔：先預測 HELLO-IOT 會讀回什麼</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>目標是取得一張能還原原文的圖檔。在「B1 圖檔往返：文字、中文、網址」保留 HELLO-IOT 與 M，先預測讀回文字及資料長度，再按「生成 QR 圖檔」。</p>
+<p>畫面應顯示完整 payload（實際存入內容）、版本、格數與下載按鈕；HELLO-IOT 為九個 UTF-8 bytes。此時只完成生成，尚未驗證讀回。若生成失敗，先記錄錯誤與輸入，不沿用舊圖；下一頁才從取得的檔案驗證。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.7、§5.2、§2.4、§5.2.1、§2.4、§2.5.1、§6 B1、qr_python/app.py round_trip</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.7、§5.2、§2.4、§5.2.1、§6 B1、qr_python/app.py round_trip" data-class="trace figure-slide" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="trace figure-slide" data-marpit-pagination="6" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.7、§5.2、§2.4、§5.2.1、§6 B1、qr_python/app.py round_trip;--class:trace figure-slide;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">產生與讀回圖檔</div>
+<h2 id="%E4%B8%8B%E8%BC%89%E4%B8%A6%E9%87%8D%E6%96%B0%E4%B8%8A%E5%82%B3%E9%A9%97%E8%AD%89%E8%87%AA%E5%B7%B1%E5%8F%96%E5%BE%97%E7%9A%84-png">下載並重新上傳，驗證自己取得的 PNG</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>按「下載 PNG」存下本次圖檔，再從「或上傳剛下載的 PNG（完整驗證）」選取它，按「讀回上傳的圖檔」。OpenCV 從影像解碼，應讀出 HELLO-IOT。</p>
+<p>三項驗證分別檢查：讀回與 payload 逐字相同、讀回與原始輸入相同，以及至少一次完成下載再上傳。保存本次圖檔與三項結果。未選檔應有提示；讀回失敗就記錄狀態。工具不自動開網址，也未驗證網站內容。</p>
+</div>
+<div class="demo"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNDgwIiB2aWV3Qm94PSIwIDAgNjAwIDQ4MCIgcm9sZT0iaW1nIj4KPGRlZnM+PG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSI5IiBtYXJrZXJIZWlnaHQ9IjkiIHJlZlg9IjciIHJlZlk9IjMiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAsMCBMMCw2IEw4LDMgeiIgZmlsbD0iIzQ3N2I4YiIvPjwvbWFya2VyPjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0ODAiIHJ4PSIxOCIgZmlsbD0iI2VkZjRmMyIvPgo8cmVjdCB4PSIzNSIgeT0iMzUiIHdpZHRoPSI1MzAiIGhlaWdodD0iNTciIHJ4PSI5IiBmaWxsPSIjZmZmIiBzdHJva2U9IiM4YWFlYjQiLz4KPHRleHQgeD0iMzAwIiB5PSI3MSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFRDLE5vdG8gU2FucyBUQyxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTczZjUwIj7ovLjlhaUg4oaS44CM55Sf5oiQIFFSIOWcluaqlOOAjTwvdGV4dD4KPHBhdGggZD0iTTMwMCw5MiBWMTE2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0NzdiOGIiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz4KPHJlY3QgeD0iMzUiIHk9IjEyMyIgd2lkdGg9IjUzMCIgaGVpZ2h0PSI1NyIgcng9IjkiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzhhYWViNCIvPgo8dGV4dCB4PSIzMDAiIHk9IjE1OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFRDLE5vdG8gU2FucyBUQyxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTczZjUwIj7jgIzkuIvovIkgUE5H44CN4oaSIOWtmOS4i+mAmeasoeWcluaqlDwvdGV4dD4KPHBhdGggZD0iTTMwMCwxODAgVjIwNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDc3YjhiIiBzdHJva2Utd2lkdGg9IjMiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+CjxyZWN0IHg9IjM1IiB5PSIyMTEiIHdpZHRoPSI1MzAiIGhlaWdodD0iNTciIHJ4PSI5IiBmaWxsPSIjZmZmIiBzdHJva2U9IiM4YWFlYjQiLz4KPHRleHQgeD0iMzAwIiB5PSIyNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBUQyxOb3RvIFNhbnMgVEMsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzE3M2Y1MCI+6YG45Y+W5Ymb5LiL6LyJ5qqU5qGIIOKGkuOAjOiugOWbnuS4iuWCs+eahOWcluaqlOOAjTwvdGV4dD4KPHBhdGggZD0iTTMwMCwyNjggVjI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDc3YjhiIiBzdHJva2Utd2lkdGg9IjMiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+CjxyZWN0IHg9IjM1IiB5PSIyOTkiIHdpZHRoPSI1MzAiIGhlaWdodD0iNTciIHJ4PSI5IiBmaWxsPSIjZmZmIiBzdHJva2U9IiM4YWFlYjQiLz4KPHRleHQgeD0iMzAwIiB5PSIzMzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBUQyxOb3RvIFNhbnMgVEMsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzE3M2Y1MCI+5q+U6LyD5a6M5pW06K6A5Zue6IiH5Y6f5paH77yM5L+d5a2Y5qqU5qGI6IiH57WQ5p6cPC90ZXh0Pgo8dGV4dCB4PSIzMDAiIHk9IjQ2MyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFRDLE5vdG8gU2FucyBUQyxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5IiBmaWxsPSIjNTI2Yzc2Ij7kuI3opoHku6XkuIrmrKHmiJDlip/nlavpnaLku6Pmm7/mnKzmrKHmk43kvZw8L3RleHQ+Cjwvc3ZnPg==" alt="流程與正文相互對照" /></div>
+</div>
+<footer>QR Code｜實作｜講義 §2.7、§5.2、§2.4、§5.2.1、§6 B1、qr_python/app.py round_trip</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.0、§2.5、§2.4、§5.2.1、§2.4、§2.6、S27 DENSO https://www.qrcode.com/en/about/version.html、§2.4、§2.6.1、§2.4.2、§2.3.1、§2.4、§2.5、§2.5.2、§6 B1、§2.5、§5.2.1" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="7" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.0、§2.5、§2.4、§5.2.1、§2.4、§2.6、S27 DENSO https://www.qrcode.com/en/about/version.html、§2.4、§2.6.1、§2.4.2、§2.3.1、§2.4、§2.5、§2.5.2、§6 B1、§2.5、§5.2.1;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">產生與讀回圖檔</div>
+<h2 id="%E6%94%B9%E7%94%A8%E4%B8%AD%E6%96%87%E5%92%8C%E7%B6%B2%E5%9D%80%E6%AF%94%E8%BC%83%E8%B3%87%E6%96%99%E9%95%B7%E5%BA%A6%E8%88%87%E8%AE%80%E5%9B%9E%E6%96%87%E5%AD%97">改用中文和網址，比較資料長度與讀回文字</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>仍在圖檔往返活動，分別改選物聯網資安實驗與 <code>https://school.example/course</code>，每次重新生成、下載並讀回。記錄原文、UTF-8 bytes、版本、更正等級與完整結果，不能只寫「成功」。</p>
+<p>七個中文字在這個例子占二十一 bytes；網址讀回應逐字相同。若中文顯示不同，保存輸出與環境，再檢查編碼相容性。本次成功只支持這套工具與資料的往返，不保證所有手機或所有中文字都相容。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.0、§2.5、§2.4、§5.2.1、§2.4、§2.6、S27 DENSO https://www.qrcode.com/en/about/version.html、§2.4、§2.6.1、§2.4.2、§2.3.1、§2.4、§2.5、§2.5.2、§6 B1、§2.5、§5.2.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.3.1、§2.4、§5.5、§6 B1" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="8" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.3.1、§2.4、§5.5、§6 B1;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">產生與讀回圖檔</div>
+<h2 id="%E6%B8%AC%E8%A9%A6%E7%A9%BA%E7%99%BD%E5%A3%9E%E5%9C%96%E8%88%87%E5%A4%9A%E7%A2%BC%E7%A2%BA%E8%AA%8D%E4%B8%8D%E6%B2%BF%E7%94%A8%E8%88%8A%E7%B5%90%E6%9E%9C">測試空白、壞圖與多碼，確認不沿用舊結果</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>先用有效文字生成並讀回，再改選「自訂」輸入空白，確認舊圖與舊讀回已清除。展開「失敗情況也要記錄」，逐一操作空白、過長、無碼、壞圖與多碼測試。</p>
+<p>空白與過長應明確拒絕，無碼應回 no_code，壞圖應報錯。多碼影像可能辨識到多個區域卻無法全部解碼，應保留每筆結果或明示未完整還原，不能只取第一筆當作完成。保存實際狀態；失敗代表本次未完成讀取，並不是安全證明。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.3.1、§2.4、§5.5、§6 B1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.2、§1.3.2 對照一、§2.2–2.6、§2.6–2.6.1、§2.6.1、§6 B1 補充" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="9" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.2、§1.3.2 對照一、§2.2–2.6、§2.6–2.6.1、§2.6.1、§6 B1 補充;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">產生與讀回圖檔</div>
+<h2 id="%E4%B8%80%E6%AC%A1%E6%94%B9%E4%B8%80%E7%A8%AE%E7%A0%B4%E5%A3%9E%E6%A2%9D%E4%BB%B6%E8%A7%80%E5%AF%9F%E5%9B%9B%E5%80%8B%E6%9B%B4%E6%AD%A3%E7%AD%89%E7%B4%9A">一次改一種破壞條件，觀察四個更正等級</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在「補充：容錯與留白破壞測試」保留相同內容，先選中央遮擋、比例 0.3，按「生成 L／M／Q／H 四張並套用相同破壞」。記錄未破壞與破壞後的版本、狀態及是否等於原文。</p>
+<p>再分別改測裁留白、遮定位圖樣，每次只改一種條件。0.3 指中央方塊邊長比例，理想面積約九％，不是三成碼字。結果只支持本次產碼、破壞方式與解碼器，不是所有 QR 的耐損保證。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.2、§1.3.2 對照一、§2.2–2.6、§2.6–2.6.1、§2.6.1、§6 B1 補充</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">QR Code｜實作</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">03</div>
+<div class="unit-title">附加資料與 Wi-Fi 設定</div>
+<div class="unit-q">四種保存格式，完整讀回與還原結果有何不同？</div>
+<div class="unit-meta">本單元 5 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-paginate="true" data-footer="QR Code｜實作｜講義 §5.2.1、§5.3.1、§5.4、§6 B2、§5.3.1" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="10" style="--paginate:true;--footer:QR Code｜實作｜講義 §5.2.1、§5.3.1、§5.4、§6 B2、§5.3.1;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">附加資料與 Wi-Fi 設定</div>
+<h2 id="%E9%82%84%E5%8E%9F%E9%99%84%E5%8A%A0%E6%AC%84%E4%BD%8D%E5%85%88%E4%BF%9D%E5%AD%98%E5%AE%8C%E6%95%B4%E8%AE%80%E5%9B%9E%E7%B6%B2%E5%9D%80">還原附加欄位：先保存完整讀回網址</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>目標是只靠圖檔找出附加資料。在「B2 編碼與第二資訊」保留「正確網址＋Base64 第二資訊」模式，主訊息為 <code>https://school.example/course</code>，第二資訊為 LAB-ONLY，再生成、下載並讀回。</p>
+<p>先保存完整網址，應含 <code>note_b64=TEFCLU9OTFk%3D</code>，而不是只抄熟悉的主機。若讀回不同或失敗，先處理圖檔問題，不能把輸入欄中的 LAB-ONLY 當成已提取的結果。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §5.2.1、§5.3.1、§5.4、§6 B2、§5.3.1</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14" data-paginate="true" data-footer="QR Code｜實作｜講義 §5.2.1、§5.3.1、§5.4、§5.2.1、§5.3.1、§6 B2" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="11" style="--paginate:true;--footer:QR Code｜實作｜講義 §5.2.1、§5.3.1、§5.4、§5.2.1、§5.3.1、§6 B2;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">附加資料與 Wi-Fi 設定</div>
+<h2 id="%E5%BE%9E%E8%AE%80%E5%9B%9E%E7%9A%84%E6%AC%84%E4%BD%8D%E5%B1%95%E9%96%8B%E9%99%84%E8%A8%BB%E4%BF%9D%E7%95%99%E5%8E%9F%E6%9C%89%E5%8F%83%E6%95%B8">從讀回的欄位展開附註，保留原有參數</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在讀回後的「揭露」區按「提取第二資訊（展開 note_b64）」，預期得到 LAB-ONLY。接著把原網址改成 <code>https://school.example/course?group=A</code>，重新生成與讀回，再查看還原主訊息是否仍保留 group=A。</p>
+<p>這裡依序完成圖檔解碼、query 解析與 Base64 展開。附註成功不代表其他欄位無損；若 group 遺失，應記為待修問題。在「工具箱 → 直接檢視一段文字」貼入含無效 note_b64 的網址，再提取，預期明確報錯，不能默認為空白。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §5.2.1、§5.3.1、§5.4、§5.2.1、§5.3.1、§6 B2</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.10–2.10.3、§2.10.1、§2.10、§5.4、§6 B2" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="12" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.10–2.10.3、§2.10.1、§2.10、§5.4、§6 B2;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">附加資料與 Wi-Fi 設定</div>
+<h2 id="%E5%9B%9B%E7%A8%AE%E4%BF%9D%E5%AD%98%E6%A0%BC%E5%BC%8F%E5%AE%8C%E6%95%B4%E8%AE%80%E5%9B%9E%E8%88%87%E9%82%84%E5%8E%9F%E7%B5%90%E6%9E%9C%E6%9C%89%E4%BD%95%E4%B8%8D%E5%90%8C">四種保存格式，完整讀回與還原結果有何不同？</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在 B2 依序選四種模式，每次都手動把「主訊息／正確網址」設為 <code>https://school.example/course</code>，前三種模式的附註設為 LAB-ONLY；整段 Base64 的附註欄停用。再逐次生成、下載並讀回。切換模式會帶入預設主訊息，因此操作前須改回同一網址。</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>完整讀回的預期內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON</td>
+<td><code>{&quot;kind&quot;:&quot;lesson&quot;,&quot;message&quot;:&quot;https://school.example/course&quot;,&quot;note&quot;:&quot;LAB-ONLY&quot;}</code></td>
+</tr>
+<tr>
+<td>query</td>
+<td><code>https://school.example/course?note=LAB-ONLY</code></td>
+</tr>
+<tr>
+<td>fragment</td>
+<td><code>https://school.example/course#LAB-ONLY</code></td>
+</tr>
+<tr>
+<td>整段 Base64</td>
+<td><code>B64:aHR0cHM6Ly9zY2hvb2wuZXhhbXBsZS9jb3Vyc2U=</code></td>
+</tr>
+</tbody>
+</table>
+<p>前三種都應還原原網址與 LAB-ONLY；整段 Base64 只還原原網址，沒有第二資訊。逐項保存完整讀回、還原出的主訊息與附註結果，才能比較包裝方式。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.10–2.10.3、§2.10.1、§2.10、§5.4、§6 B2</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-paginate="true" data-footer="QR Code｜實作｜講義 §6 B2 設計段" data-class="interactive widget-slide" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="interactive widget-slide" data-marpit-pagination="13" style="--paginate:true;--footer:QR Code｜實作｜講義 §6 B2 設計段;--class:interactive widget-slide;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">附加資料與 Wi-Fi 設定</div>
+<h2 id="%E7%94%A8%E5%85%AC%E9%96%8B%E8%A6%8F%E5%89%87%E9%82%84%E5%8E%9F%E5%86%8D%E4%BA%A4%E6%8F%9B%E5%9C%96%E6%AA%94%E6%AA%A2%E6%9F%A5%E9%99%84%E5%8A%A0%E8%B3%87%E6%96%99">用公開規則還原，再交換圖檔檢查附加資料</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>先用右側互動比較 HELLO 與 B64:SEVMTE8=。B64: 是本課前綴，依公開規則就能還原，不需要金鑰。工具箱的「展開 Base64（只還原一層）」也只處理字串，和從圖檔解碼不同。</p>
+<p>接著自訂虛構主訊息與附註，預測摘要會顯示什麼，再生成並下載 PNG 給同學。對方只能拿圖片，在「工具箱 → 讀回任何 QR」讀取並提取。保存完整內容、步驟及失敗，再對照預測；摘要省略附註而完整內容可還原，應解釋為未顯示，不是加密。</p>
+</div>
+<div class="demo widget base64">
+<label>原文<input type="text" id="b64t-in" value="HELLO" /></label><div id="b64t-out"></div><label>加上 B64: 後，在此展開<input type="text" id="b64-dec-in" value="B64:SEVMTE8=" /></label><div><button data-b64="B64:SEVMTE8=">正常</button><button data-b64="B64:****">錯誤格式</button><button data-b64="B64:/w==">非 UTF-8</button></div><div class="out" id="b64-dec"></div>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §6 B2 設計段</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-paginate="true" data-footer="QR Code｜實作｜講義 §1.3 案例十、§3.7、§4.11、§4.12、§6.0、§6 B2+、§4.11" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="14" style="--paginate:true;--footer:QR Code｜實作｜講義 §1.3 案例十、§3.7、§4.11、§4.12、§6.0、§6 B2+、§4.11;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">附加資料與 Wi-Fi 設定</div>
+<h2 id="%E8%AE%80%E5%87%BA-wi-fi-%E8%A8%AD%E5%AE%9A%E5%85%88%E4%B8%8D%E5%AF%A6%E9%9A%9B%E5%8A%A0%E5%85%A5%E7%B6%B2%E8%B7%AF">讀出 Wi-Fi 設定，先不實際加入網路</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>目標是找出共享密碼存在哪裡。在「B2+ IoT 配網：Wi-Fi 設定 QR」使用虛構網路 LAB-IOT 與虛構密碼 LAB-ONLY，生成並讀回，應得到 <code>WIFI:T:WPA;S:LAB-IOT;P:LAB-ONLY;;</code>。</p>
+<p>在解析欄位中對照 T 是驗證類型、S 是網路名稱、P 是密碼，保存完整字串與欄位值。本活動不實際加入網路；讀到 P 不等於已連線，也不能推論能存取內部設備。不要使用真實網路密碼。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §1.3 案例十、§3.7、§4.11、§4.12、§6.0、§6 B2+、§4.11</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">QR Code｜實作</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">04</div>
+<div class="unit-title">中介網址與實際請求</div>
+<div class="unit-q">先解析虛構中介網址，找出第一個接收者</div>
+<div class="unit-meta">本單元 4 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-paginate="true" data-footer="QR Code｜實作｜講義 §5.6、B3、§6 B3 體驗段一" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="15" style="--paginate:true;--footer:QR Code｜實作｜講義 §5.6、B3、§6 B3 體驗段一;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">中介網址與實際請求</div>
+<h2 id="%E5%85%88%E8%A7%A3%E6%9E%90%E8%99%9B%E6%A7%8B%E4%B8%AD%E4%BB%8B%E7%B6%B2%E5%9D%80%E6%89%BE%E5%87%BA%E7%AC%AC%E4%B8%80%E5%80%8B%E6%8E%A5%E6%94%B6%E8%80%85">先解析虛構中介網址，找出第一個接收者</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>目標是分清外層首站與候選目的地。在「B3 中介網址（核心）」保留課程網址、campaign=class01，選「虛構中介 relay.example（只生成與解析）」，先預測再生成並讀回。</p>
+<p>外層 hostname 應為 relay.example，to 解析出的候選主機為 school.example；campaign 也在完整資料內。此時只處理字串，工具沒有發出請求。請把「中介可能收到」與「已看到服務收到」分開記錄。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §5.6、B3、§6 B3 體驗段一</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-paginate="true" data-footer="QR Code｜實作｜講義 §5.6、§6 B3 體驗段二" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="16" style="--paginate:true;--footer:QR Code｜實作｜講義 §5.6、§6 B3 體驗段二;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">中介網址與實際請求</div>
+<h2 id="%E5%8F%A6%E9%96%8B%E6%9C%AC%E6%A9%9F%E7%A4%BA%E7%AF%84%E6%9C%8D%E5%8B%99%E6%BA%96%E5%82%99%E6%8E%A5%E6%94%B6%E8%AB%8B%E6%B1%82">另開本機示範服務，準備接收請求</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>另開終端機，仍在 qr_python 目錄執行：</p>
+<pre><code class="language-bash">uv run --locked python local_services.py
+</code></pre>
+<p>確認顯示 http://127.0.0.1:8600，並保持執行。回 B3 選「本機示範中介 127.0.0.1:8600」，重新生成與讀回。這個服務只供同一台電腦連線；手機的 127.0.0.1 指手機自己。若連接埠被占用，先保存錯誤並檢查既有程序，不把舊服務的紀錄當成本次結果。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §5.6、§6 B3 體驗段二</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-paginate="true" data-footer="QR Code｜實作｜講義 §4.3–4.4、§5.6、§6 B3" data-class="trace figure-slide" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="trace figure-slide" data-marpit-pagination="17" style="--paginate:true;--footer:QR Code｜實作｜講義 §4.3–4.4、§5.6、§6 B3;--class:trace figure-slide;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">中介網址與實際請求</div>
+<h2 id="%E8%87%AA%E8%A1%8C%E9%96%8B%E5%95%9F%E6%9C%AC%E6%A9%9F%E7%B6%B2%E5%9D%80%E6%9F%A5%E7%9C%8B-relay_request-%E7%B4%80%E9%8C%84">自行開啟本機網址，查看 relay_request 紀錄</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>本課介面只產圖與解析，不會代你開啟網址。請把這次完整讀回的本機網址，貼入同一台電腦的瀏覽器，再查看服務終端機的 relay_request。</p>
+<p>先比對時間與 query 中的 campaign=class01，確認是本次請求，再記錄 path、user_agent 與 has_cookie。沒有紀錄時，先查服務是否執行、網址是否正確及是否同機；只有勾選自評，還不能證明服務已收到。</p>
+</div>
+<div class="demo"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNDgwIiB2aWV3Qm94PSIwIDAgNjAwIDQ4MCIgcm9sZT0iaW1nIj4KPGRlZnM+PG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSI5IiBtYXJrZXJIZWlnaHQ9IjkiIHJlZlg9IjciIHJlZlk9IjMiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAsMCBMMCw2IEw4LDMgeiIgZmlsbD0iIzQ3N2I4YiIvPjwvbWFya2VyPjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0ODAiIHJ4PSIxOCIgZmlsbD0iI2VkZjRmMyIvPgo8cmVjdCB4PSIzNSIgeT0iMzUiIHdpZHRoPSI1MzAiIGhlaWdodD0iNTciIHJ4PSI5IiBmaWxsPSIjZmZmIiBzdHJva2U9IiM4YWFlYjQiLz4KPHRleHQgeD0iMzAwIiB5PSI3MSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFRDLE5vdG8gU2FucyBUQyxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTczZjUwIj5XZWIgVUnvvJropIfoo73pgJnmrKHlrozmlbToroDlm57ntrLlnYA8L3RleHQ+CjxwYXRoIGQ9Ik0zMDAsOTIgVjExNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDc3YjhiIiBzdHJva2Utd2lkdGg9IjMiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+CjxyZWN0IHg9IjM1IiB5PSIxMjMiIHdpZHRoPSI1MzAiIGhlaWdodD0iNTciIHJ4PSI5IiBmaWxsPSIjZmZmIiBzdHJva2U9IiM4YWFlYjQiLz4KPHRleHQgeD0iMzAwIiB5PSIxNTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJQaW5nRmFuZyBUQyxOb3RvIFNhbnMgVEMsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzE3M2Y1MCI+5ZCM5LiA5Y+w6Zu76IWm55qE54CP6Ka95Zmo77ya6Ieq6KGM6ZaL5ZWfPC90ZXh0Pgo8cGF0aCBkPSJNMzAwLDE4MCBWMjA0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0NzdiOGIiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz4KPHJlY3QgeD0iMzUiIHk9IjIxMSIgd2lkdGg9IjUzMCIgaGVpZ2h0PSI1NyIgcng9IjkiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzhhYWViNCIvPgo8dGV4dCB4PSIzMDAiIHk9IjI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFRDLE5vdG8gU2FucyBUQyxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTczZjUwIj7mnKzmqZ/mnI3li5kgMTI3LjAuMC4xOjg2MDAg5pS25Yiw6KuL5rGCPC90ZXh0Pgo8cGF0aCBkPSJNMzAwLDI2OCBWMjkyIiBmaWxsPSJub25lIiBzdHJva2U9IiM0NzdiOGIiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz4KPHJlY3QgeD0iMzUiIHk9IjI5OSIgd2lkdGg9IjUzMCIgaGVpZ2h0PSI1NyIgcng9IjkiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzhhYWViNCIvPgo8dGV4dCB4PSIzMDAiIHk9IjMzNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlBpbmdGYW5nIFRDLE5vdG8gU2FucyBUQyxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMTczZjUwIj7ntYLnq6/mqZ/vvJrmn6XnnIsgcmVsYXlfcmVxdWVzdCDnmoTmnKzmrKHmrITkvY08L3RleHQ+Cjx0ZXh0IHg9IjMwMCIgeT0iNDYzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iUGluZ0ZhbmcgVEMsTm90byBTYW5zIFRDLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiM1MjZjNzYiPlVJIOino+aekOWtl+S4suS4jeetieaWvOacjeWLmeW3suaUtuWIsDwvdGV4dD4KPC9zdmc+" alt="流程與正文相互對照" /></div>
+</div>
+<footer>QR Code｜實作｜講義 §4.3–4.4、§5.6、§6 B3</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-paginate="true" data-footer="QR Code｜實作｜講義 §3.1、§4.4、§7.4、§4.3–4.4、§5.6、B3、§4.3、§5.6、§6 B3" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="18" style="--paginate:true;--footer:QR Code｜實作｜講義 §3.1、§4.4、§7.4、§4.3–4.4、§5.6、B3、§4.3、§5.6、§6 B3;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">中介網址與實際請求</div>
+<h2 id="%E6%9C%AC%E6%A9%9F%E6%9C%8D%E5%8B%99%E5%9B%BA%E5%AE%9A%E5%9B%9E%E5%88%B0%E8%AA%B2%E7%A8%8B%E9%A0%81to-%E4%B8%8D%E6%B1%BA%E5%AE%9A%E5%AF%A6%E9%9A%9B%E5%8E%BB%E5%90%91">本機服務固定回到課程頁，to 不決定實際去向</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>本機服務收到 /go 請求後會回覆 302，Location 固定指向本機 /course。瀏覽器接著請求 /course，終端機留下第二筆 course_request；畫面則把原來 to 的值標成 requested，供你對照，並沒有連到該外站。</p>
+<p>請改變 to 的候選值，重新操作，保存頁面及 relay_request、course_request 兩筆紀錄。若候選值變了而實際仍到本機課程頁，就能說明此服務未採用 to 作目的地。這是本課固定規則，不代表所有中介，也沒有驗證外部長期追蹤。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §3.1、§4.4、§7.4、§4.3–4.4、§5.6、B3、§4.3、§5.6、§6 B3</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">QR Code｜實作</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">05</div>
+<div class="unit-title">網址規則</div>
+<div class="unit-q">比較網址規則：先猜主機，再看欄位</div>
+<div class="unit-meta">本單元 3 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.8、§1.3 案例十二、§4.8、§5.4、§6 B4 體驗段" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="19" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.8、§1.3 案例十二、§4.8、§5.4、§6 B4 體驗段;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">網址規則</div>
+<h2 id="%E6%AF%94%E8%BC%83%E7%B6%B2%E5%9D%80%E8%A6%8F%E5%89%87%E5%85%88%E7%8C%9C%E4%B8%BB%E6%A9%9F%E5%86%8D%E7%9C%8B%E6%AC%84%E4%BD%8D">比較網址規則：先猜主機，再看欄位</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在「B4 主機陷阱與開啟規則」依序選原網址、@ 前熟悉名稱、名稱在路徑等例子。先預測網站，再看 hostname，以及「包含校名」和「完整比對」兩種規則的結果。</p>
+<p>保存至少一筆容易誤讀的例子，說明熟悉名稱放在哪裡、實際主機是誰；若預測有錯，也記下修正理由。查看所有範例表：非 HTTP(S) 或 HTML 內容只分類與顯示，不由工具啟動或執行。規則只檢查指定條件，不能證明網站內容無害。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.8、§1.3 案例十二、§4.8、§5.4、§6 B4 體驗段</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.8.1、§1.3 案例三、§6 B4" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="20" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.8.1、§1.3 案例三、§6 B4;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">網址規則</div>
+<h2 id="%E6%89%BE%E5%87%BA%E4%B8%BB%E8%A6%81%E7%B6%B2%E5%9F%9F%E8%AE%93%E5%B7%A5%E5%85%B7%E5%BE%9E%E6%9C%80%E5%8F%B3%E9%82%8A%E5%BE%80%E5%B7%A6%E8%AE%80">找出主要網域：讓工具從最右邊往左讀</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在「B4 主機陷阱與開啟規則」選範例「熟悉名稱在開頭，主要網域在後面」。先自己預測：<code>https://school.example.login-check.example/login</code> 的主要網域是什麼？再看欄位表的「主要網域」一列，工具會回答 <code>login-check.example</code>。</p>
+<p>展開「所有範例的兩種規則對照」，逐列比較「解析出的主機」與「主要網域」。工具只認得教學用的小型後綴清單，清單外的名稱會顯示「無法判斷」，而不是猜一個答案。把你的預測、工具結果與差異寫進紀錄。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.8.1、§1.3 案例三、§6 B4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.8、§6 B4 設計段、qr_python/design_tasks.py" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="21" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.8、§6 B4 設計段、qr_python/design_tasks.py;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">網址規則</div>
+<h2 id="%E4%BF%AE%E6%94%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E7%B6%B2%E5%9D%80%E8%A6%8F%E5%89%87%E9%87%8D%E8%B7%91%E5%8D%81%E5%80%8B%E5%9B%BA%E5%AE%9A%E6%A1%88%E4%BE%8B">修改自己的網址規則，重跑十個固定案例</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在自己的教材副本修改 <code>student/my_url_policy.py</code> 的 allow(url)：只允許 https、完整主機 school.example，拒絕任何 userinfo 與明列 port；即使明列 :443，也按本課政策拒絕。</p>
+<p>先保存初版十個固定案例結果，再存檔按「重新測試我的規則」，預期十案通過；另加 :443 與只有密碼的 userinfo 測試，避免固定十案未涵蓋的誤判。若語法錯誤，保存載入訊息後修正。本政策通過仍不保證網站內容可信。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.8、§6 B4 設計段、qr_python/design_tasks.py</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">QR Code｜實作</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">06</div>
+<div class="unit-title">點餐授權與計價</div>
+<div class="unit-q">改寫桌號，先分清可編輯與被接受</div>
+<div class="unit-meta">本單元 5 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-paginate="true" data-footer="QR Code｜實作｜講義 §1.3 案例十一、§4.10、§4.10.1–4.10.7、§6 B5 體驗段一、§4.10.4–4.10.5" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="22" style="--paginate:true;--footer:QR Code｜實作｜講義 §1.3 案例十一、§4.10、§4.10.1–4.10.7、§6 B5 體驗段一、§4.10.4–4.10.5;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">點餐授權與計價</div>
+<h2 id="%E6%94%B9%E5%AF%AB%E6%A1%8C%E8%99%9F%E5%85%88%E5%88%86%E6%B8%85%E5%8F%AF%E7%B7%A8%E8%BC%AF%E8%88%87%E8%A2%AB%E6%8E%A5%E5%8F%97">改寫桌號，先分清可編輯與被接受</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>目標是分清「能改資料」與「後端接受」。在「B5 點餐授權與後端驗證」把「QR 中的桌號」改為十三，生成並讀回，確認圖檔確實帶 table=13，再看改善模型是否接受。</p>
+<p>本課由程式預先建立 S12 工作階段，僅允許店家1028、桌12，商品301單價580。改善模型應拒絕替十三桌下單。S12 是教學合成資料，沒有正式登入；不能把模型結果直接當成真實餐廳漏洞。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §1.3 案例十一、§4.10、§4.10.1–4.10.7、§6 B5 體驗段一、§4.10.4–4.10.5</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-paginate="true" data-footer="QR Code｜實作｜講義 §1.3 案例十一、§4.10、§4.10.1–4.10.7、§6 B5、qr_python/app.py ORDER_EXAMPLES" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="23" style="--paginate:true;--footer:QR Code｜實作｜講義 §1.3 案例十一、§4.10、§4.10.1–4.10.7、§6 B5、qr_python/app.py ORDER_EXAMPLES;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">點餐授權與計價</div>
+<h2 id="%E6%AF%94%E8%BC%83%E5%9B%9B%E7%A8%AE%E6%94%B9%E5%8B%95%E8%A7%80%E5%AF%9F%E6%A8%A1%E5%9E%8B%E6%8E%A1%E7%94%A8%E6%88%96%E6%8B%92%E7%B5%95%E7%9A%84%E7%90%86%E7%94%B1">比較四種改動，觀察模型採用或拒絕的理由</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在「練習案例」依序選價格十元、桌十三、其他店家、自稱已付款，每次按「帶入案例並重設模型」，再按「比較弱模型與改善模型」，保存兩邊結果及理由。</p>
+<p>弱模型直接相信顧客欄位；改善模型應拒絕錯桌、錯店與不允許的 status，並把一份商品301按商品表計為580，而非10。不要把價格被忽略誤寫成整筆被拒絕。所有請求均為合成模型資料，沒有送到商業系統。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §1.3 案例十一、§4.10、§4.10.1–4.10.7、§6 B5、qr_python/app.py ORDER_EXAMPLES</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-paginate="true" data-footer="QR Code｜實作｜講義 §4.10.8–4.10.10、§4.10.9、§6 B5、qr_python/app.py" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="24" style="--paginate:true;--footer:QR Code｜實作｜講義 §4.10.8–4.10.10、§4.10.9、§6 B5、qr_python/app.py;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">點餐授權與計價</div>
+<h2 id="%E9%87%8D%E8%A4%87%E9%80%81%E5%96%AE%E6%94%B9%E5%85%A7%E5%AE%B9%E8%88%87%E7%B5%90%E6%9D%9F%E7%94%A8%E9%A4%90%E6%AA%A2%E6%9F%A5%E7%8B%80%E6%85%8B">重複送單、改內容與結束用餐，檢查狀態</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>先帶入合法桌次、商品301一份的請求，以 R001 比較；保持識別與內容再送一次，應回同一筆訂單，筆數不增加。接著沿用 R001 改數量，應拒絕內容衝突。</p>
+<p>展開「延伸：重試、衝突與結束工作階段」，按「教師操作：結束 S12」，改 R002 再送，仍應因用餐已結束而拒絕。每步保存結果與順序；「重設模型」會清狀態，不能在要測重試時先重設。這不等於驗證真實並行交易。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §4.10.8–4.10.10、§4.10.9、§6 B5、qr_python/app.py</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-paginate="true" data-footer="QR Code｜實作｜講義 §4.10.8–4.10.10、§5.6、§6 B5 體驗段三" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="25" style="--paginate:true;--footer:QR Code｜實作｜講義 §4.10.8–4.10.10、§5.6、§6 B5 體驗段三;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">點餐授權與計價</div>
+<h2 id="%E6%95%99%E5%B8%AB%E7%A4%BA%E7%AF%84%E7%94%A8-send_orderpy-%E5%90%91%E6%9C%AC%E6%A9%9F-api-%E9%80%81%E5%96%AE">教師示範：用 send_order.py 向本機 API 送單</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>保持本機服務執行，再開終端機逐次送出：</p>
+<pre><code class="language-bash">uv run --locked python send_order.py --table 13
+uv run --locked python send_order.py --price 10
+uv run --locked python send_order.py --status paid
+</code></pre>
+<p>對照每次回應與服務端 order_request：錯桌和 paid 應被改善模型拒絕，價格10應重算580。HTTP 200 只表示示範成功回覆，仍要讀內部 rejected 或 order。這些合成請求不建立商業訂單。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §4.10.8–4.10.10、§5.6、§6 B5 體驗段三</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-paginate="true" data-footer="QR Code｜實作｜講義 §1.3 案例十一、§4.10、§6 B5 設計段" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="26" style="--paginate:true;--footer:QR Code｜實作｜講義 §1.3 案例十一、§4.10、§6 B5 設計段;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">點餐授權與計價</div>
+<h2 id="%E4%BF%AE%E6%94%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E9%BB%9E%E9%A4%90%E8%A6%8F%E5%89%87%E6%AA%A2%E6%9F%A5%E5%85%AB%E9%A0%85%E6%B8%AC%E8%A9%A6">修改自己的點餐規則，檢查八項測試</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在自己的副本開啟 <code>student/my_order_policy.py</code>，先保存初版八項測試結果。例如錯桌被接受時，可先對照 S12 的店桌限制，再修改 StudentOrderModel.create 的判斷。</p>
+<p>接著逐項補齊商品表計價、可信付款狀態、相同重試、內容衝突與關閉後拒絕規則。每次存檔按「重新測試我的模型」，比較相同八項，最後預期全通過。至少說明一項舊規則為何錯、新規則依哪份可信資料判斷；不能刪測試換取通過，真實金流與商業資料庫仍未驗證。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §1.3 案例十一、§4.10、§6 B5 設計段</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-paginate="skip" data-class="divider" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="divider" style="--paginate:skip;--class:divider;--theme:sec-iot-v2;--lang:zh-Hant;"><div class="kicker">QR Code｜實作</div>
+<div class="unit-label">UNIT</div>
+<div class="unit-no">07</div>
+<div class="unit-title">測試與整理</div>
+<div class="unit-q">先保留 AI 初版的失敗，再決定如何修改</div>
+<div class="unit-meta">本單元 4 頁</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-paginate="true" data-footer="QR Code｜實作｜講義 §1.3 案例十二、§4.8、§5.4、§6 B6、qr_python/exercises/test_buggy.py" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="27" style="--paginate:true;--footer:QR Code｜實作｜講義 §1.3 案例十二、§4.8、§5.4、§6 B6、qr_python/exercises/test_buggy.py;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">測試與整理</div>
+<h2 id="%E5%85%88%E4%BF%9D%E7%95%99-ai-%E5%88%9D%E7%89%88%E7%9A%84%E5%A4%B1%E6%95%97%E5%86%8D%E6%B1%BA%E5%AE%9A%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9">先保留 AI 初版的失敗，再決定如何修改</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>目標是用證據評估 AI 建議。先在自己的教材副本選 B6，按「執行練習測試」，或在 qr_python 目錄執行：</p>
+<pre><code class="language-bash">uv run --locked python -m unittest exercises.test_buggy -v
+</code></pre>
+<p>初版的四個測試方法預期全部失敗，分別對應長度、主機、重複展開與 Base64 驗證。先保存完整失敗訊息，再請 AI 解釋。這是刻意有錯的練習，不是正式 tests/ 的回歸結果。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §1.3 案例十二、§4.8、§5.4、§6 B6、qr_python/exercises/test_buggy.py</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-paginate="true" data-footer="QR Code｜實作｜講義 §2.9、§5.4、§6 B6、§8.4" data-class="case" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="case" data-marpit-pagination="28" style="--paginate:true;--footer:QR Code｜實作｜講義 §2.9、§5.4、§6 B6、§8.4;--class:case;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">測試與整理</div>
+<h2 id="%E9%80%90%E9%A0%85%E4%BF%AE%E6%AD%A3%E5%9B%9B%E5%80%8B%E9%8C%AF%E8%AA%A4%E5%86%8D%E8%B7%91%E7%9B%B8%E5%90%8C%E6%B8%AC%E8%A9%A6">逐項修正四個錯誤，再跑相同測試</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>修改 <code>exercises/buggy_lab_core.py</code>：check_text 應拒絕超長而非截斷；is_school_url 應解析主機而非找子字串；candidate_destination 只解析約定一層；expand_base64 應拒絕無前綴、無效編碼或非 UTF-8。</p>
+<p>每修一項就存檔，重跑同一組四個測試方法，最後預期全通過。保存初始失敗、修改理由與最終輸出，至少記一項採用 AI 建議及一項人工修正的理由；若建議都合適，可用「超長時直接截斷」這個錯誤建議練習修正，無須虛構對話。不能刪測試或改預期答案。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §2.9、§5.4、§6 B6、§8.4</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-paginate="true" data-footer="QR Code｜實作｜講義 §6 B6 同儕測試、§5.5" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="29" style="--paginate:true;--footer:QR Code｜實作｜講義 §6 B6 同儕測試、§5.5;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">測試與整理</div>
+<h2 id="%E8%AB%8B%E5%8F%A6%E4%B8%80%E7%B5%84%E9%87%8D%E7%8F%BE%E6%AD%A3%E5%B8%B8%E8%88%87%E5%A4%B1%E6%95%97%E8%BC%B8%E5%85%A5">請另一組重現正常與失敗輸入</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>與另一組交換圖檔或設計紀錄，請對方至少重現一筆正常輸入、一項失敗與修正後結果。附上工具版本、輸入、操作順序、完整輸出與規則，不只交換「通過」結論。</p>
+<p>結果不同時，先保留差異，再比環境、舊狀態與資料。圖可讀只支持那次解碼；B6 對長度、主機、展開層數及 Base64 的四個測試方法通過，也未涵蓋全部輸入。條件不同或無法重現的部分應列為未確認，不直接宣稱原來的機制被推翻。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §6 B6 同儕測試、§5.5</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="37" data-paginate="true" data-footer="QR Code｜實作｜講義 §4.12、§6.0、§6.1、§8.1–8.2" data-class="explain" data-theme="sec-iot-v2" data-lang="zh-Hant" lang="zh-Hant" class="explain" data-marpit-pagination="30" style="--paginate:true;--footer:QR Code｜實作｜講義 §4.12、§6.0、§6.1、§8.1–8.2;--class:explain;--theme:sec-iot-v2;--lang:zh-Hant;" data-marpit-pagination-total="30"><div class="kicker">測試與整理</div>
+<h2 id="%E5%8C%AF%E5%87%BA%E7%B4%80%E9%8C%84%E9%80%90%E9%A0%85%E5%9B%9E%E7%AD%94%E5%B7%B2%E9%A9%97%E8%AD%89%E8%88%87%E4%BB%8D%E6%9C%AA%E7%9F%A5%E7%9A%84%E5%95%8F%E9%A1%8C">匯出紀錄，逐項回答已驗證與仍未知的問題</h2>
+<div class="content">
+<div class="lesson-copy">
+<p>在「實驗紀錄匯出」下載全部 JSON 與檢查結果 CSV，附上至少一次下載後重新上傳的 PNG。每項活動保留原預測、輸入、完整讀回或請求結果、錯誤狀態，以及自己的設計修改。</p>
+<p>逐項對照預測與本次條件：觀察支持什麼？哪裡與預測不符？哪些因條件不同或資料不足仍無法回答？例如只解析中介網址，沒有發請求，就不能回答外部是否追蹤；模型重算價格也未驗證真實付款。細節可查<a href="02_QR_Code_完整教材_v2.0.md">完整教材</a>及<a href="qr_python/README.md">程式說明</a>。</p>
+</div>
+</div>
+<footer>QR Code｜實作｜講義 §4.12、§6.0、§6.1、§8.1–8.2</footer>
+</section>
+<script>!function(){"use strict";const t={h1:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:()=>HTMLSpanElement},pre:{proto:()=>HTMLElement,style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},e="data-marp-auto-scaling-wrapper",i="data-marp-auto-scaling-svg",n="data-marp-auto-scaling-container";class s extends HTMLElement{container;containerSize;containerObserver;svg;svgComputedStyle;svgPreserveAspectRatio="xMinYMid meet";wrapper;wrapperSize;wrapperObserver;constructor(){super();const t=t=>([e])=>{const{width:i,height:n}=e.contentRect;this[t]={width:i,height:n},this.updateSVGRect()};this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(t("containerSize")),this.wrapperObserver=new ResizeObserver((...e)=>{t("wrapperSize")(...e),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`\n<style>\n  svg[${i}] { display: block; width: 100%; height: auto; vertical-align: top; }\n  span[${n}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }\n</style>\n<div ${e}>\n  <svg part="svg" ${i}>\n    <foreignObject><span ${n}><slot></slot></span></foreignObject>\n  </svg>\n</div>\n    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${e}]`)??void 0;const t=this.svg;this.svg=this.wrapper?.querySelector(`svg[${i}]`)??void 0,this.svg!==t&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${n}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:t}=this;t&&(t.style.display="inline",requestAnimationFrame(()=>{t.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(t){const e=()=>{const i=(()=>{const e=t.getPropertyValue("--preserve-aspect-ratio");if(e)return e.trim();return`x${(({textAlign:t,direction:e})=>{if(t.endsWith("left"))return"Min";if(t.endsWith("right"))return"Max";if("start"===t||"end"===t){let i="rtl"===e;return"end"===t&&(i=!i),i?"Max":"Min"}return"Mid"})(t)}YMid meet`})();i!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=i,this.updateSVGRect()),t===this.svgComputedStyle&&requestAnimationFrame(e)};e()}updateSVGRect(){let t=Math.ceil(this.containerSize?.width??0);const e=Math.ceil(this.containerSize?.height??0);void 0!==this.dataset.downscaleOnly&&(t=Math.max(t,this.wrapperSize?.width??0));const i=this.svg?.querySelector(":scope > foreignObject");if(i?.setAttribute("width",`${t}`),i?.setAttribute("height",`${e}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${t} ${e}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=t<=0||e<=0?"0":""),this.container){const t=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=t.startsWith("xmid")||t.startsWith("xmax")?"auto":"0",this.container.style.marginRight=t.startsWith("xmi")?"auto":"0"}}}const r=(t,{attrs:e={},style:i})=>class extends t{constructor(...t){super(...t);for(const[t,i]of Object.entries(e))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(t){if(!(t instanceof Error&&"NotSupportedError"===t.name))throw t}return this.shadowRoot}_update(){const t=this._shadow();if(t){const e=i?`<style>:host { ${i} }</style>`:"";let n="<slot></slot>";const{autoScaling:s}=this.dataset;if(void 0!==s){n=`<marp-auto-scaling exportparts="svg:auto-scaling" ${"downscale-only"===s?"data-downscale-only":""}>${n}</marp-auto-scaling>`}t.innerHTML=e+n}}};let o;const a=()=>o??(o=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),o),l=Symbol();let c;const d="marpitSVGPolyfill:setZoomFactor,",h=Symbol(),g=Symbol();const p=()=>{const t="Apple Computer, Inc."===navigator.vendor,e=t?[v]:[],i={then:e=>(t?(async()=>{if(void 0===c){const t=document.createElement("canvas");t.width=10,t.height=10;const e=t.getContext("2d"),i=new Image(10,10),n=new Promise(t=>{i.addEventListener("load",()=>t())});i.crossOrigin="anonymous",i.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await n,e.drawImage(i,0,0),c=e.getImageData(5,5,1,1).data[3]<128}return c})().then(t=>{null==e||e(t?[v]:[])}):null==e||e([]),i)};return Object.assign(e,i)};let m,u;function v(t){const e="object"==typeof t&&t.target||document,i="object"==typeof t?t.zoom:t;window[g]||(Object.defineProperty(window,g,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:e})=>{if(e===window.origin)try{if(t&&"string"==typeof t&&t.startsWith(d)){const[,e]=t.split(","),i=Number.parseFloat(e);Number.isNaN(i)||(u=i)}}catch(t){console.error(t)}}));let n=!1;Array.from(e.querySelectorAll("svg[data-marpit-svg]"),t=>{var e,s,r,o;t.style.transform||(t.style.transform="translateZ(0)");const a=i||u||t.currentScale||1;m!==a&&(m=a,n=a);const l=t.getBoundingClientRect(),{length:c}=t.children;for(let i=0;i<c;i+=1){const n=t.children[i];if(n.getScreenCTM){const t=n.getScreenCTM();if(t){const i=null!==(s=null===(e=n.x)||void 0===e?void 0:e.baseVal.value)&&void 0!==s?s:0,c=null!==(o=null===(r=n.y)||void 0===r?void 0:r.baseVal.value)&&void 0!==o?o:0,d=n.children.length;for(let e=0;e<d;e+=1){const s=n.children[e];if("SECTION"===s.tagName){const{style:e}=s;e.transformOrigin||(e.transformOrigin=`${-i}px ${-c}px`),e.transform=`scale(${a}) matrix(${t.a}, ${t.b}, ${t.c}, ${t.d}, ${t.e-l.left}, ${t.f-l.top}) translateZ(0.0001px)`;break}}}}}}),!1!==n&&Array.from(e.querySelectorAll("iframe"),({contentWindow:t})=>{null==t||t.postMessage(`${d}${n}`,"null"===window.origin?"*":window.origin)})}function w({once:t=!1,target:e=document}={}){const i=function(t=document){if(t[h])return t[h];let e=!0;const i=()=>{e=!1,delete t[h]};Object.defineProperty(t,h,{configurable:!0,value:i});let n=[],s=!1;(async()=>{try{n=await p()}finally{s=!0}})();const r=()=>{for(const e of n)e({target:t});s&&0===n.length||e&&window.requestAnimationFrame(r)};return r(),i}(e);return t?(i(),()=>{}):i}m=1,u=void 0;const b=Symbol(),y=(e=document)=>{if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");if(((e=document)=>{const i=window[l];i||customElements.define("marp-auto-scaling",s);for(const n of Object.keys(t)){const s=`marp-${n}`,o=t[n].proto();a()&&o!==HTMLElement?i||customElements.define(s,r(o,{style:t[n].style}),{extends:n}):(i||customElements.define(s,r(HTMLElement,t[n])),e.querySelectorAll(`${n}[is="${s}"]`).forEach(t=>{t.outerHTML=t.outerHTML.replace(new RegExp(`^<${n}`,"i"),`<${s}`).replace(new RegExp(`</${n}>$`,"i"),`</${s}>`)}))}window[l]=!0})(e),e[b])return e[b];const i=w({target:e}),n=()=>{i(),delete e[b]},o=Object.assign(n,{cleanup:n,update:()=>y(e)});return Object.defineProperty(e,b,{configurable:!0,value:o}),o},f=document.currentScript;y(f?f.getRootNode():document)}();
+</script></foreignObject></svg></div><div class="bespoke-marp-note" data-index="0" tabindex="0"><p>page-id: Q2-P01</p><p>問題：這次實作最後要交出什麼？
+概念：輸入、圖檔、輸出、異常與結論共同構成紀錄。
+讀完能做的判斷：交件不只寫成功，也交代尚未驗證的部分。
+來源：§4.12、§6.0、§8.1、§6.0、§5、§6、§8.2</p></div><div class="bespoke-marp-note" data-index="2" tabindex="0"><p>page-id: Q2-P02</p><p>問題：如何讓別人知道這份結果來自哪次操作？
+概念：一筆紀錄須能追溯條件與步驟。
+讀完能做的判斷：分清本次成功、失敗與舊結果。
+來源：§5.2–5.5、§6.1</p></div><div class="bespoke-marp-note" data-index="3" tabindex="0"><p>page-id: Q2-P03</p><p>問題：如何在自己的電腦啟動練習工具？
+概念：Python 3.13、uv 與鎖定套件環境。
+讀完能做的判斷：依終端機狀態區分套件問題與埠號連線問題。
+來源：§5.1、qr_python/README.md</p></div><div class="bespoke-marp-note" data-index="4" tabindex="0"><p>page-id: Q2-P04</p><p>問題：B1、B2 和 B3 分別要做什麼？
+概念：七活動各有實際UI名稱與可交付成果，代號只用來對照。
+讀完能做的判斷：能在導覽找到各活動，不需先猜B代號意義。
+來源：§5.3、§6.0</p></div><div class="bespoke-marp-note" data-index="6" tabindex="0"><p>page-id: Q2-P05</p><p>問題：按下生成後，是否就已經驗證可讀？
+概念：生成、讀回與完整比較是三個動作。
+讀完能做的判斷：在產碼後繼續完成檔案驗證。
+來源：§2.7、§5.2、§2.4、§5.2.1、§2.4、§2.5.1、§6 B1、qr_python/app.py round_trip</p></div><div class="bespoke-marp-note" data-index="7" tabindex="0"><p>page-id: Q2-P06</p><p>問題：怎麼確認讀回的是這次下載的檔案？
+概念：下載上傳讓本次PNG成為獨立解碼來源，三項驗證核對不同證據。
+讀完能做的判斷：能說明三項檢查各核對什麼，並保存實際檔案及狀態。
+來源：§2.7、§5.2、§2.4、§5.2.1、§6 B1、qr_python/app.py round_trip</p></div><div class="bespoke-marp-note" data-index="8" tabindex="0"><p>page-id: Q2-P07</p><p>問題：不同文字和容錯等級會讓結果有什麼差異？
+概念：特定產碼和 OpenCV 版本的往返相容性。
+讀完能做的判斷：記錄版本、邊長與逐字結果，不外推所有掃碼器。
+來源：§2.0、§2.5、§2.4、§5.2.1、§2.4、§2.6、S27 DENSO https://www.qrcode.com/en/about/version.html、§2.4、§2.6.1、§2.4.2、§2.3.1、§2.4、§2.5、§2.5.2、§6 B1、§2.5、§5.2.1</p></div><div class="bespoke-marp-note" data-index="9" tabindex="0"><p>page-id: Q2-P08</p><p>問題：失敗時，介面是否仍留著上一筆成功結果？
+概念：各失敗有不同狀態，多碼部分還原也不可冒稱全部成功。
+讀完能做的判斷：能核對清除舊結果及五種失敗，記錄而不掩蓋部分解碼。
+來源：§2.3.1、§2.4、§5.5、§6 B1</p></div><div class="bespoke-marp-note" data-index="10" tabindex="0"><p>page-id: Q2-P09</p><p>問題：哪一種破壞和本次讀取失敗有關？
+概念：受控比較須保存設定、版本與完整輸出。
+讀完能做的判斷：不把 0.3 當三成碼字，也不把 H 當必然成功。
+來源：§2.2、§1.3.2 對照一、§2.2–2.6、§2.6–2.6.1、§2.6.1、§6 B1 補充</p></div><div class="bespoke-marp-note" data-index="12" tabindex="0"><p>page-id: Q2-P10</p><p>問題：附註是放在哪一段資料裡？
+概念：B2 的 note_b64 與主訊息都在完整 payload。
+讀完能做的判斷：先從圖檔取得字串，再解析而非抄輸入。
+來源：§5.2.1、§5.3.1、§5.4、§6 B2、§5.3.1</p></div><div class="bespoke-marp-note" data-index="13" tabindex="0"><p>page-id: Q2-P11</p><p>問題：揭露附註時，會不會把原本的 group=A 刪掉？
+概念：解析值與主訊息重建須各自檢查。
+讀完能做的判斷：比較 URL、解析值、Base64 還原值與重建主訊息。
+來源：§5.2.1、§5.3.1、§5.4、§5.2.1、§5.3.1、§6 B2</p></div><div class="bespoke-marp-note" data-index="14" tabindex="0"><p>page-id: Q2-P12</p><p>問題：四種模式的完整內容、主訊息與附註預期各是什麼？
+概念：固定完整網址作共同主訊息，JSON/query/fragment保留附註，整段Base64僅含主訊息。
+讀完能做的判斷：能逐模式比較完整payload與還原結果，不把生成輸入當提取證據。
+來源：§2.10–2.10.3、§2.10.1、§2.10、§5.4、§6 B2</p></div><div class="bespoke-marp-note" data-index="15" tabindex="0"><p>page-id: Q2-P13</p><p>問題：同學只拿到圖片，能否找出摘要沒有顯示的內容？
+概念：Base64公開展開與完整圖檔提取都可揭露摘要省略的內容，不等於解密。
+讀完能做的判斷：能用圖片唯一來源取得附註，對照摘要預測與實際提取證據。
+來源：§6 B2 設計段</p></div><div class="bespoke-marp-note" data-index="16" tabindex="0"><p>page-id: Q2-P14</p><p>問題：從圖片取得密碼，是否已經連上網路？
+概念：B2+ 使用虛構 LAB-IOT 與 LAB-ONLY，解析 T/S/P。
+讀完能做的判斷：分清讀出設定、實際連線與內部設備授權。
+來源：§1.3 案例十、§3.7、§4.11、§4.12、§6.0、§6 B2+、§4.11</p></div><div class="bespoke-marp-note" data-index="18" tabindex="0"><p>page-id: Q2-P15</p><p>問題：只看網址結構，能知道哪些事情？
+概念：離線結構解析不發出請求。
+讀完能做的判斷：區分 relay.example 與 to 中的候選網址。
+來源：§5.6、B3、§6 B3 體驗段一</p></div><div class="bespoke-marp-note" data-index="19" tabindex="0"><p>page-id: Q2-P16</p><p>問題：如何把離線解析變成可觀察的本機交換？
+概念：local_services.py 只監聽 127.0.0.1:8600。
+讀完能做的判斷：不拿虛構網域解析結果代替本機服務紀錄。
+來源：§5.6、§6 B3 體驗段二</p></div><div class="bespoke-marp-note" data-index="20" tabindex="0"><p>page-id: Q2-P17</p><p>問題：什麼時候中介才真的收到資料？
+概念：自行開啟才送出請求，以當次時間與query核對端點收件紀錄。
+讀完能做的判斷：能辨別本次relay_request而非任意舊log。
+來源：§4.3–4.4、§5.6、§6 B3</p></div><div class="bespoke-marp-note" data-index="21" tabindex="0"><p>page-id: Q2-P18</p><p>問題：這次服務是否真的採用 to？
+概念：固定/go回/course與畫面requested是不同資料用途，兩次請求可實際核對。
+讀完能做的判斷：能從兩log與頁面說明to未決定本機服務實際去向。
+來源：§3.1、§4.4、§7.4、§4.3–4.4、§5.6、B3、§4.3、§5.6、§6 B3</p></div><div class="bespoke-marp-note" data-index="23" tabindex="0"><p>page-id: Q2-P19</p><p>問題：怎樣找出只看熟悉文字的誤判？
+概念：以同一URL的肉眼預測/解析主機/兩規則比較辨識子字串判斷盲點。
+讀完能做的判斷：能記錄誤讀風險及理由，自己預測正確時不必捏造錯誤。
+來源：§2.8、§1.3 案例十二、§4.8、§5.4、§6 B4 體驗段</p></div><div class="bespoke-marp-note" data-index="24" tabindex="0"><p>page-id: Q2-P20</p><p>問題：主要網域要怎麼找，工具判斷的範圍到哪裡？
+概念：主要網域由公共後綴往左多取一段；清單外不猜測。
+讀完能做的判斷：能用工具找出主要網域並說明限制。
+來源：§2.8.1；§6 B4；qr_python 2.0.0 lab_core.main_domain</p></div><div class="bespoke-marp-note" data-index="25" tabindex="0"><p>page-id: Q2-P21</p><p>問題：怎樣確認修正不只解決眼前一例？
+概念：student/my_url_policy.py 與本課固定允許政策。
+讀完能做的判斷：通過只代表符合這份結構政策，不驗證網站無害。
+來源：§2.8、§6 B4 設計段、qr_python/design_tasks.py</p></div><div class="bespoke-marp-note" data-index="27" tabindex="0"><p>page-id: Q2-P22</p><p>問題：圖檔存了 table=13，能證明店家替十三桌接單嗎？
+概念：B5 合成模型與可信 S12 店桌綁定。
+讀完能做的判斷：圖檔、弱模型與改善模型結果分別保存。
+來源：§1.3 案例十一、§4.10、§4.10.1–4.10.7、§6 B5 體驗段一、§4.10.4–4.10.5</p></div><div class="bespoke-marp-note" data-index="28" tabindex="0"><p>page-id: Q2-P23</p><p>問題：桌號、店家、價格與付款狀態如何分開驗證？
+概念：弱模型相信外部欄位，改善模型依可信資料。
+讀完能做的判斷：記錄商品 301 一份 580 與拒絕錯店錯桌自訂狀態。
+來源：§1.3 案例十一、§4.10、§4.10.1–4.10.7、§6 B5、qr_python/app.py ORDER_EXAMPLES</p></div><div class="bespoke-marp-note" data-index="29" tabindex="0"><p>page-id: Q2-P24</p><p>問題：同一筆訂單重試時，系統應新增還是回原結果？
+概念：R001 去重、同識別異內容與關閉 S12。
+讀完能做的判斷：依具體回應說明模型生命週期範圍。
+來源：§4.10.8–4.10.10、§4.10.9、§6 B5、qr_python/app.py</p></div><div class="bespoke-marp-note" data-index="30" tabindex="0"><p>page-id: Q2-P25</p><p>問題：離線模型的結果如何與實際本機回應比較？
+概念：本機 API、固定 S12 與 received/improved 紀錄。
+讀完能做的判斷：不把合成本機請求當商業交易測試。
+來源：§4.10.8–4.10.10、§5.6、§6 B5 體驗段三</p></div><div class="bespoke-marp-note" data-index="31" tabindex="0"><p>page-id: Q2-P26</p><p>問題：規則還漏了哪些授權或狀態條件？
+概念：從一項可重現失敗依可信資料修正create，再逐項驗證八測試。
+讀完能做的判斷：能保存修前後結果並以資料來源解釋規則修正。
+來源：§1.3 案例十一、§4.10、§6 B5 設計段</p></div><div class="bespoke-marp-note" data-index="33" tabindex="0"><p>page-id: Q2-P27</p><p>問題：AI 提供的程式為什麼仍須檢查？
+概念：B6 刻意錯誤練習與正式 tests/ 分開。
+讀完能做的判斷：確認四個測試方法的預期失敗並保存輸出。
+來源：§1.3 案例十二、§4.8、§5.4、§6 B6、qr_python/exercises/test_buggy.py</p></div><div class="bespoke-marp-note" data-index="34" tabindex="0"><p>page-id: Q2-P28</p><p>問題：如何知道修改符合需求，而不只是消除錯誤訊息？
+概念：四函式各有需求，修正須重跑相同四方法並以人工理由評估AI建議。
+讀完能做的判斷：能逐項解釋需求與修改，且不為湊AI紀錄捏造失敗。
+來源：§2.9、§5.4、§6 B6、§8.4</p></div><div class="bespoke-marp-note" data-index="35" tabindex="0"><p>page-id: Q2-P29</p><p>問題：換一個人操作，能得到相同結果嗎？
+概念：同儕重現需相同輸入/條件；B6四方法只覆蓋已列需求而非全部輸入。
+讀完能做的判斷：能指出四方法的範圍及不一致先查什麼。
+來源：§6 B6 同儕測試、§5.5</p></div><div class="bespoke-marp-note" data-index="36" tabindex="0"><p>page-id: Q2-P30</p><p>問題：最後的結論是否有對應的觀察？
+概念：成果逐項對原預測及測試條件作證據範圍判讀，不以未測或前提不同稱推翻。
+讀完能做的判斷：能區分觀察支持、預測不符與未能驗證，並交齊PNG/JSON/CSV。
+來源：§4.12、§6.0、§6.1、§8.1–8.2</p></div><script>/*!! License: https://unpkg.com/@marp-team/marp-cli@4.5.1/lib/bespoke.js.LICENSE.txt */
+!function(){"use strict";function e(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}var t,n,r=(n||(n=1,t={from:function(e,t){var n,r=1===(e.parent||e).nodeType?e.parent||e:document.querySelector(e.parent||e),o=[].filter.call("string"==typeof e.slides?r.querySelectorAll(e.slides):e.slides||r.children,function(e){return"SCRIPT"!==e.nodeName}),i={},a=function(e,t){return(t=t||{}).index=o.indexOf(e),t.slide=e,t},s=function(e,t){i[e]=(i[e]||[]).filter(function(e){return e!==t})},l=function(e,t){return(i[e]||[]).reduce(function(e,n){return e&&!1!==n(t)},!0)},c=function(e,t){o[e]&&(n&&l("deactivate",a(n,t)),n=o[e],l("activate",a(n,t)))},d=function(e,t){var r=o.indexOf(n)+e;l(e>0?"next":"prev",a(n,t))&&c(r,t)},u={off:s,on:function(e,t){return(i[e]||(i[e]=[])).push(t),s.bind(null,e,t)},fire:l,slide:function(e,t){if(!arguments.length)return o.indexOf(n);l("slide",a(o[e],t))&&c(e,t)},next:d.bind(null,1),prev:d.bind(null,-1),parent:r,slides:o,destroy:function(e){l("destroy",a(n,e)),i={}}};return(t||[]).forEach(function(e){e(u)}),n||c(0),u}}),t),o=e(r);const i=document.body,a=(...e)=>history.replaceState(...e),s="",l="presenter",c="next",d="overview",u=["",l,d,c],f="bespoke-marp-",m=`data-${f}`,g=(e,{protocol:t,host:n,pathname:r,hash:o}=location)=>{const i=e.toString();return`${t}//${n}${r}${i?"?":""}${i}${o}`},p=()=>i.dataset.bespokeView,v=e=>new URLSearchParams(location.search).get(e),h=(e,t={})=>{const n={location,setter:a,...t},r=new URLSearchParams(n.location.search);for(const t of Object.keys(e)){const n=e[t];"string"==typeof n?r.set(t,n):r.delete(t)}try{n.setter({...window.history.state??{}},"",g(r,n.location))}catch(e){console.error(e)}},w=(()=>{const e="bespoke-marp";try{return localStorage.setItem(e,e),localStorage.removeItem(e),!0}catch{return!1}})(),y=e=>{try{return localStorage.getItem(e)}catch{return null}},b=(e,t)=>{try{return localStorage.setItem(e,t),!0}catch{return!1}},k=e=>{try{return localStorage.removeItem(e),!0}catch{return!1}},x=(e,t)=>{const n="aria-hidden";t?e.setAttribute(n,"true"):e.removeAttribute(n)},E=e=>{e.parent.classList.add(`${f}parent`),e.slides.forEach(e=>e.classList.add(`${f}slide`)),e.on("activate",t=>{const n=`${f}active`,r=t.slide,o=r.classList,i=!o.contains(n);if(e.slides.forEach(e=>{e.classList.remove(n),x(e,!0)}),o.add(n),x(r,!1),i){const e=`${n}-ready`;o.add(e),document.body.clientHeight,o.remove(e)}})},$=e=>{let t=0,n=0;Object.defineProperty(e,"fragments",{enumerable:!0,value:e.slides.map(e=>[null,...e.querySelectorAll("[data-marpit-fragment]")])});const r=r=>void 0!==e.fragments[t][n+r],o=(r,o)=>{t=r,n=o,e.fragments.forEach((e,t)=>{e.forEach((e,n)=>{if(null==e)return;const i=t<r||t===r&&n<=o;e.setAttribute(`${m}fragment`,(i?"":"in")+"active");const a=`${m}current-fragment`;t===r&&n===o?e.setAttribute(a,"current"):e.removeAttribute(a)})}),e.fragmentIndex=o;const i={slide:e.slides[r],index:r,fragments:e.fragments[r],fragmentIndex:o};e.fire("fragment",i)};e.on("next",({fragment:i=!0})=>{if(i){if(r(1))return o(t,n+1),!1;const i=t+1;e.fragments[i]&&o(i,0)}else{const r=e.fragments[t].length;if(n+1<r)return o(t,r-1),!1;const i=e.fragments[t+1];i&&o(t+1,i.length-1)}}),e.on("prev",({fragment:i=!0})=>{if(r(-1)&&i)return o(t,n-1),!1;const a=t-1;e.fragments[a]&&o(a,e.fragments[a].length-1)}),e.on("slide",({index:t,fragment:n})=>{let r=0;if(void 0!==n){const o=e.fragments[t];if(o){const{length:e}=o;r=-1===n?e-1:Math.min(Math.max(n,0),e-1)}}o(t,r)}),o(0,0)},L=document,S=()=>!(!L.fullscreenEnabled&&!L.webkitFullscreenEnabled),P=()=>!(!L.fullscreenElement&&!L.webkitFullscreenElement),_=e=>{e.fullscreen=()=>{S()&&(async()=>{P()?(L.exitFullscreen||L.webkitExitFullscreen)?.call(L):((e=L.body)=>{(e.requestFullscreen||e.webkitRequestFullscreen)?.call(e)})()})()},document.addEventListener("keydown",t=>{"f"!==t.key&&"F11"!==t.key||t.altKey||t.ctrlKey||t.metaKey||!S()||(e.fullscreen(),t.preventDefault())})},O=`${f}inactive`,T=(e=2e3)=>({parent:t,fire:n})=>{const r=t.classList,o=e=>n(`marp-${e?"":"in"}active`);let i;const a=()=>{i&&clearTimeout(i),i=setTimeout(()=>{r.add(O),o()},e),r.contains(O)&&(r.remove(O),o(!0))};for(const e of["mousedown","mousemove","touchend"])document.addEventListener(e,a);setTimeout(a,0)},I=["AUDIO","BUTTON","INPUT","SELECT","TEXTAREA","VIDEO"],M=e=>{e.parent.addEventListener("keydown",e=>{if(!e.target)return;const t=e.target;(I.includes(t.nodeName)||"true"===t.contentEditable)&&e.stopPropagation()})},A=e=>{window.addEventListener("load",()=>{for(const t of e.slides){const e=t.querySelector("marp-auto-scaling, [data-auto-scaling], [data-marp-fitting]");t.setAttribute(`${m}load`,e?"":"hideable")}})},C=({interval:e=250}={})=>t=>{document.addEventListener("keydown",e=>{if(" "===e.key&&e.shiftKey)t.prev();else if("ArrowLeft"===e.key||"ArrowUp"===e.key||"PageUp"===e.key)t.prev({fragment:!e.shiftKey});else if(" "!==e.key||e.shiftKey)if("ArrowRight"===e.key||"ArrowDown"===e.key||"PageDown"===e.key)t.next({fragment:!e.shiftKey});else if("End"===e.key)t.slide(t.slides.length-1,{fragment:-1});else{if("Home"!==e.key)return;t.slide(0)}else t.next();e.preventDefault()});let n,r,o=0;t.parent.addEventListener("wheel",i=>{let a=!1;const s=(e,t)=>{e&&(a=a||((e,t)=>((e,t)=>{const n="X"===t?"Width":"Height";return e[`client${n}`]<e[`scroll${n}`]})(e,t)&&((e,t)=>{const{overflow:n}=e,r=e[`overflow${t}`];return"auto"===n||"scroll"===n||"auto"===r||"scroll"===r})(getComputedStyle(e),t))(e,t)),e?.parentElement&&s(e.parentElement,t)};if(0!==i.deltaX&&s(i.target,"X"),0!==i.deltaY&&s(i.target,"Y"),a)return;i.preventDefault();const l=Math.sqrt(i.deltaX**2+i.deltaY**2);if(void 0!==i.wheelDelta){if(void 0===i.webkitForce&&Math.abs(i.wheelDelta)<40)return;if(i.deltaMode===i.DOM_DELTA_PIXEL&&l<4)return}else if(i.deltaMode===i.DOM_DELTA_PIXEL&&l<12)return;r&&clearTimeout(r),r=setTimeout(()=>{n=0},e);const c=Date.now()-o<e,d=l<=n;if(n=l,c||d)return;let u;(i.deltaX>0||i.deltaY>0)&&(u="next"),(i.deltaX<0||i.deltaY<0)&&(u="prev"),u&&(t[u](),o=Date.now())})},D=(e=`.${f}osc`)=>{const t=document.querySelector(e);if(!t)return()=>{};const n=(e,n)=>{t.querySelectorAll(`[${m}osc=${JSON.stringify(e)}]`).forEach(n)};if(S()||n("fullscreen",e=>e.style.display="none"),!w){const e=(e,t)=>{e.disabled=!0,e.title=`${t} is disabled due to restricted localStorage.`};n("presenter",t=>e(t,"Presenter view")),n("overview",t=>e(t,"Overview view"))}return e=>{t.addEventListener("click",t=>{if(t.target instanceof HTMLElement){const{bespokeMarpOsc:n}=t.target.dataset;n&&t.target.blur();const r={fragment:!t.shiftKey};"next"===n?e.next(r):"prev"===n?e.prev(r):"fullscreen"===n?e?.fullscreen():"presenter"===n?e.openPresenterView():"overview"===n&&e.toggleOverviewView()}}),e.parent.appendChild(t),e.on("activate",({index:t})=>{n("page",n=>n.textContent=`Page ${t+1} of ${e.slides.length}`)}),e.on("fragment",({index:t,fragments:r,fragmentIndex:o})=>{n("prev",e=>e.disabled=0===t&&0===o),n("next",n=>n.disabled=t===e.slides.length-1&&o===r.length-1)}),e.on("marp-active",()=>x(t,!1)),e.on("marp-inactive",()=>x(t,!0)),S()&&(e=>{for(const t of["","webkit"])L.addEventListener(t+"fullscreenchange",e)})(()=>n("fullscreen",e=>e.classList.toggle("exit",S()&&P())))}},N=e=>{if(e.syncKey&&"string"==typeof e.syncKey)return!0;throw new Error("The current instance of Bespoke.js is incompatible with Marp bespoke sync plugin.")},B=(e={})=>{const t=e.key||window.history.state?.marpBespokeSyncKey||Math.random().toString(36).slice(2),n=`bespoke-marp-sync-${t}`;var r;r={marpBespokeSyncKey:t},h({},{setter:(e,...t)=>a({...e,...r},...t)});const o=()=>{const e=y(n);return e?JSON.parse(e):Object.create(null)},i=e=>{const t=o(),r={...t,...e(t)};return b(n,JSON.stringify(r)),r},s=()=>{window.removeEventListener("pageshow",s),i(e=>({reference:(e.reference||0)+1}))};return e=>{s(),Object.defineProperty(e,"syncKey",{value:t,enumerable:!0});let r=!0;setTimeout(()=>{e.on("fragment",e=>{r&&i(()=>({index:e.index,fragmentIndex:e.fragmentIndex}))})},0),window.addEventListener("storage",t=>{if(t.key===n&&t.oldValue&&t.newValue){const n=JSON.parse(t.oldValue),o=JSON.parse(t.newValue);if(n.index!==o.index||n.fragmentIndex!==o.fragmentIndex)try{r=!1,e.slide(o.index,{fragment:o.fragmentIndex,forSync:!0})}finally{r=!0}}});const a=()=>{const{reference:e}=o();void 0===e||e<=1?k(n):i(()=>({reference:e-1}))};window.addEventListener("pagehide",e=>{e.persisted&&window.addEventListener("pageshow",s),a()}),e.on("destroy",a)}},K=e=>{w&&document.addEventListener("keydown",t=>{("o"!==t.key||t.altKey||t.ctrlKey||t.metaKey)&&"Escape"!==t.key||(t.preventDefault(),e())})};let q=null;const V=({closeOnSelect:e=!0}={})=>t=>{N(t);const n=n=>{const r=(()=>{if(!q||!q.isConnected){q=document.createElement("div"),q.className=`${f}overview`,q.inert=!0;const n=document.createElement("iframe");n.src=(()=>{const n=new URLSearchParams(location.search);return n.set("view","overview"),n.set("sync",t.syncKey),e&&n.set("closeOnSelect","1"),g(n)})(),q.append(n),document.body.append(q)}return q})(),o=n??!r.dataset.open;setTimeout(()=>{if(r.dataset.open=o?"1":"",r.inert=!o,t.skipTransition=o,o){const e=r.querySelector("iframe");try{e?.contentWindow?.focus()}catch{e?.focus()}}else window.focus()},0)};Object.defineProperties(t,{toggleOverviewView:{enumerable:!0,value:n}}),window.addEventListener("message",e=>{e.origin===window.origin&&"closeOverview"===e.data&&n(!1)}),K(n)},j=e=>{const{title:t}=document;document.title="[Overview]"+(t?` - ${t}`:"");const n=!!v("closeOnSelect"),r=()=>{window.parent.postMessage("closeOverview","null"===window.origin?"*":window.origin)};if(e.slides.forEach((t,o)=>{t.tabIndex=0;const i=()=>{e.slide(o,{fragment:-1}),n&&r()};t.addEventListener("click",i),t.addEventListener("keydown",e=>{"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),i())})}),window.addEventListener("keydown",t=>{const n=e.slide(),r=t=>{const r=t=>{const n=e.slides[t].getBoundingClientRect();return[Math.round((n.left+n.right)/2),Math.round((n.top+n.bottom)/2)]};let o=null,i=n;do{const e=r(i);if(o){if(Math.abs(e[0]-o[0])<2)return i}else o=e;i+=t}while(i>=0&&i<e.slides.length);return n};if("ArrowLeft"===t.key)e.slide(Math.max(n-1,0),{fragment:-1});else if("ArrowRight"===t.key)e.slide(Math.min(n+1,e.slides.length-1),{fragment:-1});else if("ArrowUp"===t.key)e.slide(r(-1),{fragment:-1});else if("ArrowDown"===t.key)e.slide(r(1),{fragment:-1});else if("End"===t.key)e.slide(e.slides.length-1,{fragment:-1});else{if("Home"!==t.key)return;e.slide(0,{fragment:-1})}t.preventDefault();const o=e.slide();e.slides[o]?.focus?.(),e.slides[o]?.scrollIntoView?.({behavior:"smooth",block:"nearest"})}),e.on("slide",({index:t})=>{e.slides[t]?.scrollIntoView?.({behavior:"smooth",block:"nearest"})}),window.parent!==window){K(r);const e=document.createElement("header");e.className=`${f}overview-header`;const t=document.createElement("button");t.className=`${f}overview-close`,t.type="button",t.title="Close overview",t.textContent=t.title,t.addEventListener("click",r),e.append(t),document.body.prepend(e)}},F=()=>{const e=p();return{[s]:V(),[l]:V({closeOnSelect:!1}),[d]:j}[e]},U=e=>{window.addEventListener("message",t=>{if(t.origin!==window.origin)return;const[n,r]=t.data.split(":");if("navigate"===n){const[t,n]=r.split(",");let o=Number.parseInt(t,10),i=Number.parseInt(n,10)+1;i>=e.fragments[o].length&&(o+=1,i=0),e.slide(o,{fragment:i})}})};var R,X,H,W,J,Y,z,G={exports:{}},Q=(R||(R=1,G.exports=(X=["area","base","br","col","command","embed","hr","img","input","keygen","link","meta","param","source","track","wbr"],H=function(e){return String(e).replace(/[&<>"']/g,function(e){return"&"+W[e]+";"})},W={"&":"amp","<":"lt",">":"gt",'"':"quot","'":"apos"},J="dangerouslySetInnerHTML",Y={className:"class",htmlFor:"for"},z={},function(e,t){var n=[],r="";t=t||{};for(var o=arguments.length;o-- >2;)n.push(arguments[o]);if("function"==typeof e)return t.children=n.reverse(),e(t);if(e){if(r+="<"+e,t)for(var i in t)!1!==t[i]&&null!=t[i]&&i!==J&&(r+=" "+(Y[i]?Y[i]:H(i))+'="'+H(t[i])+'"');r+=">"}if(-1===X.indexOf(e)){if(t[J])r+=t[J].__html;else for(;n.length;){var a=n.pop();if(a)if(a.pop)for(var s=a.length;s--;)n.push(a[s]);else r+=!0===z[a]?a:H(a)}r+=e?"</"+e+">":""}return z[r]=!0,r})),G.exports),Z=e(Q);const ee=({children:e})=>Z(null,null,...e),te=`${f}presenter-`,ne={container:`${te}container`,dragbar:`${te}dragbar-container`,next:`${te}next`,nextContainer:`${te}next-container`,noteContainer:`${te}note-container`,noteWrapper:`${te}note-wrapper`,noteButtons:`${te}note-buttons`,infoContainer:`${te}info-container`,infoPageArea:`${te}info-page-area`,infoPage:`${te}info-page`,infoPagePrev:`${te}info-page-prev`,infoPageNext:`${te}info-page-next`,noteButtonsBigger:`${te}note-bigger`,noteButtonsSmaller:`${te}note-smaller`,infoTime:`${te}info-time`,infoTimer:`${te}info-timer`},re=e=>{const{title:t}=document;document.title="[Presenter view]"+(t?` - ${t}`:"");const n={},r=e=>(n[e]=n[e]||document.querySelector(`.${e}`),n[e]);document.body.appendChild((e=>{const t=document.createElement("div");return t.className=ne.container,t.appendChild(e),t.insertAdjacentHTML("beforeend",Z(ee,null,Z("div",{class:ne.nextContainer},Z("iframe",{class:ne.next,src:"?view=next"})),Z("div",{class:ne.dragbar}),Z("div",{class:ne.noteContainer},Z("div",{class:ne.noteWrapper}),Z("div",{class:ne.noteButtons},Z("button",{class:ne.noteButtonsSmaller,tabindex:"-1",title:"Smaller notes font size"},"Smaller notes font size"),Z("button",{class:ne.noteButtonsBigger,tabindex:"-1",title:"Bigger notes font size"},"Bigger notes font size"))),Z("div",{class:ne.infoContainer},Z("div",{class:ne.infoPageArea},Z("button",{class:ne.infoPagePrev,tabindex:"-1",title:"Previous"},"Previous"),Z("button",{class:ne.infoPage}),Z("button",{class:ne.infoPageNext,tabindex:"-1",title:"Next"},"Next")),Z("time",{class:ne.infoTime,title:"Current time"}),Z("time",{class:ne.infoTimer,title:"Timer"})))),t})(e.parent)),(e=>{let t=!1;r(ne.dragbar).addEventListener("mousedown",()=>{t=!0,r(ne.dragbar).classList.add("active")}),window.addEventListener("mouseup",()=>{t=!1,r(ne.dragbar).classList.remove("active")}),window.addEventListener("mousemove",e=>{if(!t)return;const n=e.clientX/document.documentElement.clientWidth*100;r(ne.container).style.setProperty("--bespoke-marp-presenter-split-ratio",`${Math.max(0,Math.min(100,n))}%`)}),r(ne.nextContainer).addEventListener("click",()=>e.next());const n=r(ne.next),o=(i=n,(e,t)=>i.contentWindow?.postMessage(`navigate:${e},${t}`,"null"===window.origin?"*":window.origin));var i;n.addEventListener("load",()=>{r(ne.nextContainer).classList.add("active"),o(e.slide(),e.fragmentIndex),e.on("fragment",({index:e,fragmentIndex:t})=>o(e,t))});const a=document.querySelectorAll(".bespoke-marp-note");a.forEach(e=>{e.addEventListener("keydown",e=>e.stopPropagation()),r(ne.noteWrapper).appendChild(e)}),e.on("activate",()=>a.forEach(t=>t.classList.toggle("active",t.dataset.index==e.slide())));let s=0;const l=e=>{s=Math.max(-5,s+e),r(ne.noteContainer).style.setProperty("--bespoke-marp-note-font-scale",(1.2**s).toFixed(4))},c=()=>l(1),d=()=>l(-1),u=r(ne.noteButtonsBigger),f=r(ne.noteButtonsSmaller);u.addEventListener("click",()=>{u.blur(),c()}),f.addEventListener("click",()=>{f.blur(),d()}),document.addEventListener("keydown",e=>{"+"===e.key&&c(),"-"===e.key&&d()},!0);const m=r(ne.infoPage);e.on("activate",({index:t})=>{m.textContent=`${t+1} / ${e.slides.length}`}),m.addEventListener("click",()=>{m.blur(),e.toggleOverviewView()});const g=r(ne.infoPagePrev),p=r(ne.infoPageNext);g.addEventListener("click",t=>{g.blur(),e.prev({fragment:!t.shiftKey})}),p.addEventListener("click",t=>{p.blur(),e.next({fragment:!t.shiftKey})}),e.on("fragment",({index:t,fragments:n,fragmentIndex:r})=>{g.disabled=0===t&&0===r,p.disabled=t===e.slides.length-1&&r===n.length-1});let v=new Date;const h=()=>{const e=new Date,t=e=>`${Math.floor(e)}`.padStart(2,"0"),n=e.getTime()-v.getTime(),o=t(n/1e3%60),i=t(n/1e3/60%60),a=t(n/36e5%24);r(ne.infoTime).textContent=e.toLocaleTimeString(),r(ne.infoTimer).textContent=`${a}:${i}:${o}`};h(),setInterval(h,250),r(ne.infoTimer).addEventListener("click",()=>{v=new Date})})(e)},oe=e=>{N(e),Object.defineProperties(e,{openPresenterView:{enumerable:!0,value:ie},presenterUrl:{enumerable:!0,get:ae}}),w&&document.addEventListener("keydown",t=>{"p"!==t.key||t.altKey||t.ctrlKey||t.metaKey||(t.preventDefault(),e.openPresenterView())})};function ie(){const{max:e,floor:t}=Math,n=e(t(.85*window.innerWidth),640),r=e(t(.85*window.innerHeight),360);return window.open(this.presenterUrl,te+this.syncKey,`width=${n},height=${r},menubar=no,toolbar=no`)}function ae(){const e=new URLSearchParams(location.search);return e.set("view","presenter"),e.set("sync",this.syncKey),g(e)}const se=e=>{const t=p();return t===c&&e.appendChild(document.createElement("span")),{[s]:oe,[l]:re,[c]:U}[t]},le=e=>{e.on("activate",t=>{document.querySelectorAll(".bespoke-progress-parent > .bespoke-progress-bar").forEach(n=>{n.style.flexBasis=100*t.index/(e.slides.length-1)+"%"})})},ce=e=>{const t=Number.parseInt(e,10);return Number.isNaN(t)?null:t},de=(e={})=>{const t={history:!0,...e};return e=>{let n=!0;const r=e=>{const t=n;try{return n=!0,e()}finally{n=t}},o=(t={fragment:!0})=>{let n=t.fragment?ce(v("f")||""):null;((t,n)=>{const{min:r,max:o}=Math,{fragments:i,slides:a}=e,s=o(0,r(t,a.length-1)),l=o(0,r(n||0,i[s].length-1));s===e.slide()&&l===e.fragmentIndex||e.slide(s,{fragment:l})})((()=>{if(location.hash){const[t]=location.hash.slice(1).split(":~:");if(/^\d+$/.test(t))return(ce(t)??1)-1;const r=document.getElementById(t)||document.querySelector(`a[name="${CSS.escape(t)}"]`);if(r){const{length:t}=e.slides;for(let o=0;o<t;o+=1)if(e.slides[o].contains(r)){const t=e.fragments?.[o],i=r.closest("[data-marpit-fragment]");if(t&&i){const e=t.indexOf(i);e>=0&&(n=e)}return o}}}return 0})(),n)};e.on("fragment",({index:e,fragmentIndex:r})=>{n||h({f:0===r||r.toString()},{location:{...location,hash:`#${e+1}`},setter:(...e)=>t.history?history.pushState(...e):history.replaceState(...e)})}),setTimeout(()=>{o(),window.addEventListener("hashchange",()=>r(()=>{o({fragment:!1}),h({f:void 0})})),window.addEventListener("popstate",()=>{n||r(()=>o())}),n=!1},0)}},{PI:ue,abs:fe,sqrt:me,atan2:ge}=Math,pe={passive:!0},ve=({slope:e=-.7,swipeThreshold:t=30}={})=>n=>{let r;const o=n.parent,i=e=>{const t=o.getBoundingClientRect();return{x:e.pageX-(t.left+t.right)/2,y:e.pageY-(t.top+t.bottom)/2}};o.addEventListener("touchstart",({touches:e})=>{r=1===e.length?i(e[0]):void 0},pe),o.addEventListener("touchmove",e=>{if(r)if(1===e.touches.length){e.preventDefault();const t=i(e.touches[0]),n=t.x-r.x,o=t.y-r.y;r.delta=me(fe(n)**2+fe(o)**2),r.radian=ge(n,o)}else r=void 0}),o.addEventListener("touchend",o=>{if(r){if(r.delta&&r.delta>=t&&r.radian){const t=(r.radian-e+ue)%(2*ue)-ue;n[t<0?"next":"prev"](),o.stopPropagation()}r=void 0}},pe)},he=new Map;he.clear(),he.set("none",{backward:{both:void 0,incoming:void 0,outgoing:void 0},forward:{both:void 0,incoming:void 0,outgoing:void 0}});const we={both:"",outgoing:"outgoing-",incoming:"incoming-"},ye={forward:"",backward:"-backward"},be=e=>`--marp-bespoke-transition-animation-${e}`,ke=e=>`--marp-transition-${e}`,xe=be("name"),Ee=be("duration"),$e=e=>new Promise(t=>{const n={},r=document.createElement("div"),o=e=>{r.remove(),t(e)};r.addEventListener("animationstart",()=>o(n)),Object.assign(r.style,{animationName:e,animationDuration:"1s",animationFillMode:"both",animationPlayState:"paused",position:"absolute",pointerEvents:"none"}),document.body.appendChild(r);const i=getComputedStyle(r).getPropertyValue(ke("duration"));i&&Number.parseFloat(i)>=0&&(n.defaultDuration=i),((e,t)=>{requestAnimationFrame(()=>{e.style.animationPlayState="running",requestAnimationFrame(()=>t(void 0))})})(r,o)}),Le=async e=>he.has(e)?he.get(e):(e=>{const t={},n=[];for(const[r,o]of Object.entries(we))for(const[i,a]of Object.entries(ye)){const s=`marp-${o}transition${a}-${e}`;n.push($e(s).then(e=>{t[i]=t[i]||{},t[i][r]=e?{...e,name:s}:void 0}))}return Promise.all(n).then(()=>t)})(e).then(t=>(he.set(e,t),t)),Se=e=>Object.values(e).flatMap(Object.values).every(e=>!e),Pe=(e,{type:t,backward:n})=>{const r=e[n?"backward":"forward"],o=(()=>{const e=r[t],n=e=>({[xe]:e.name});if(e)return n(e);if(r.both){const e=n(r.both);return"incoming"===t&&(e[be("direction")]="reverse"),e}})();return!o&&n?Pe(e,{type:t,backward:!1}):o||{[xe]:"__bespoke_marp_transition_no_animation__"}},_e=e=>{if(e)try{const t=JSON.parse(e);if((e=>{if("object"!=typeof e)return!1;const t=e;return"string"==typeof t.name&&(void 0===t.duration||"string"==typeof t.duration)})(t))return t}catch{}},Oe="_tSId",Te="_tA",Ie="bespoke-marp-transition-warming-up",Me=window.matchMedia("(prefers-reduced-motion: reduce)"),Ae="__bespoke_marp_transition_reduced_outgoing__",Ce="__bespoke_marp_transition_reduced_incoming__",De={forward:{both:void 0,incoming:{name:Ce},outgoing:{name:Ae}},backward:{both:void 0,incoming:{name:Ce},outgoing:{name:Ae}}},Ne=e=>{if(!document.startViewTransition)return;const t=t=>(void 0!==t&&(e._tD=t),e._tD);let n;t(!1),((...e)=>{CSS.registerProperty({name:ke("duration"),syntax:"<time>",inherits:!0,initialValue:"-1s"});const t=[...new Set(e).values()];return Promise.all(t.map(e=>Le(e))).then()})(...Array.from(document.querySelectorAll("section[data-transition], section[data-transition-back]")).flatMap(e=>[e.dataset.transition,e.dataset.transitionBack].flatMap(e=>{const t=_e(e);return[t?.name,t?.builtinFallback?`__builtin__${t.name}`:void 0]}).filter(e=>!!e))).then(()=>{document.querySelectorAll("style").forEach(e=>{e.innerHTML=e.innerHTML.replace(/--marp-transition-duration:[^;}]*[;}]/g,e=>e.slice(0,-1)+"!important"+e.slice(-1))})});const r=(n,{back:r,cond:o})=>i=>{const a=t();if(a)return!!i[Te]||!("object"!=typeof a||(a.skipTransition(),!i.forSync));if(e.skipTransition)return!0;if(!o(i))return!0;const s=e.slides[e.slide()],l=()=>i.back??r,c="data-transition"+(l()?"-back":""),d=s.querySelector(`section[${c}]`);if(!d)return!0;const u=_e(d.getAttribute(c)??void 0);return!u||((async(e,{builtinFallback:t=!0}={})=>{let n=await Le(e);if(Se(n)){if(!t)return;return n=await Le(`__builtin__${e}`),Se(n)?void 0:n}return n})(u.name,{builtinFallback:u.builtinFallback}).then(e=>{if(!e){t(!0);try{n(i)}finally{t(!1)}return}let r=e;Me.matches&&(console.warn("Use a constant animation to transition because preferring reduced motion by viewer has detected."),r=De);const o=document.getElementById(Oe);o&&o.remove();const a=document.createElement("style");a.id=Oe,document.head.appendChild(a),((e,t)=>{const n=[`:root{${ke("direction")}:${t.backward?-1:1};}`,":root:has(.bespoke-marp-inactive){cursor:none;}"],r=t=>{const n=e[t].both?.defaultDuration||e[t].outgoing?.defaultDuration||e[t].incoming?.defaultDuration;return"forward"===t?n:n||r("forward")},o=t.duration||r(t.backward?"backward":"forward");void 0!==o&&n.push(`::view-transition-group(*){${Ee}:${o};}`);const i=e=>Object.entries(e).map(([e,t])=>`${e}:${t};`).join("");return n.push(`::view-transition-old(root){${i(Pe(e,{...t,type:"outgoing"}))}}`,`::view-transition-new(root){${i(Pe(e,{...t,type:"incoming"}))}}`),n})(r,{backward:l(),duration:u.duration}).forEach(e=>a.sheet?.insertRule(e));const s=document.documentElement.classList;s.add(Ie);let c=!1;const d=()=>{c||(n(i),c=!0,s.remove(Ie))},f=()=>{t(!1),a.remove(),s.remove(Ie)};try{t(!0);const e=document.startViewTransition(d);t(e),e.finished.finally(f)}catch(e){console.error(e),d(),f()}}),!1)};e.on("prev",r(t=>e.prev({...t,[Te]:!0}),{back:!0,cond:e=>e.index>0&&!((e.fragment??1)&&n.fragmentIndex>0)})),e.on("next",r(t=>e.next({...t,[Te]:!0}),{cond:t=>t.index+1<e.slides.length&&!(n.fragmentIndex+1<n.fragments.length)})),setTimeout(()=>{e.on("slide",r(t=>e.slide(t.index,{...t,[Te]:!0}),{cond:t=>{const n=e.slide();return t.index!==n&&(t.back=t.index<n,!0)}}))},0),e.on("fragment",e=>{n=e})};let Be;const Ke=()=>(void 0===Be&&(Be="wakeLock"in navigator&&navigator.wakeLock),Be),qe=async()=>{const e=Ke();if(e)try{return await e.request("screen")}catch(e){console.warn(e)}return null},Ve=async()=>{if(!Ke())return;let e;const t=()=>{e&&"visible"===document.visibilityState&&qe()};for(const e of["visibilitychange","fullscreenchange"])document.addEventListener(e,t);return e=await qe(),e};((e=document.getElementById(":$p"))=>{(()=>{const e=v("view");i.dataset.bespokeView=u.some(t=>t&&t===e)?e:""})();const t=(e=>{const t=v(e);return h({[e]:void 0}),t})("sync")||void 0;o.from(e,((...e)=>{const t=u.findIndex(e=>p()===e);return e.map(([e,n])=>e[t]&&n).filter(e=>e)})([[1,1,1,0],B({key:t})],[[1,1,0,1],se(e)],[[1,1,0,0],M],[[1,1,1,1],E],[[1,0,0,0],T()],[[1,1,1,1],A],[[1,1,1,1],de({history:!1})],[[1,1,0,0],C()],[[1,1,1,0],_],[[1,0,0,0],le],[[1,1,0,0],ve()],[[1,0,0,0],D()],[[1,1,1,0],F()],[[1,0,0,0],Ne],[[1,1,1,1],$],[[1,1,1,0],Ve]))})()}();</script><script>
+// 互動簡報共用行為（b08，Marp bespoke 模板）：選擇題、揭曉按鈕、焦點處理。
+// 換頁、片段（逐步揭示）、總覽（o）、講者模式（p）、全螢幕（f）由 Marp 提供。
+(() => {
+  // 頁面底部進度條：依頁碼設定 --progress（靜態，不做動畫）。分隔頁沿用下一頁的位置。
+  const secs = [...document.querySelectorAll('section[id]')];
+  secs.forEach((s, i) => s.style.setProperty('--progress', ((i + 1) / secs.length * 100).toFixed(2) + '%'));
+  document.querySelectorAll('.quiz').forEach(q => {
+    q.querySelectorAll('.opts button').forEach(b => b.addEventListener('click', () => {
+      q.querySelectorAll('.opts button').forEach(x => x.classList.remove('right', 'wrong'));
+      b.classList.add(b.dataset.k === q.dataset.answer ? 'right' : 'wrong');
+      q.querySelectorAll('.fb').forEach(f => f.classList.toggle('show', f.dataset.k === b.dataset.k || f.dataset.k === '*'));
+    }));
+  });
+  document.querySelectorAll('[data-reveal]').forEach(b => {
+    b.dataset.label = b.textContent;
+    b.addEventListener('click', () => {
+      const t = document.getElementById(b.dataset.reveal);
+      t.classList.toggle('show');
+      b.textContent = t.classList.contains('show') ? (b.dataset.hide || '隱藏') : b.dataset.label;
+    });
+  });
+  // Marp 會把按鈕、勾選框、下拉選單上的按鍵留給元件本身；操作完就放開焦點，方向鍵與空白鍵才能繼續換頁。
+  // 文字輸入框保留焦點（方向鍵用來移動游標），按 Esc 放開。
+  const release = () => { const a = document.activeElement; if (a && a !== document.body) a.blur(); };
+  document.addEventListener('click', e => { if (e.target.closest('button')) release(); });
+  document.addEventListener('change', e => { if (e.target.matches('input[type=checkbox], input[type=radio], select')) release(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && e.target.matches('input, textarea, select')) release(); }, true);
+  // 換頁後，焦點若還留在已離開畫面的元件上就放開。
+  new MutationObserver(() => {
+    const a = document.activeElement;
+    if (a && a !== document.body && !a.closest('.bespoke-marp-active')) a.blur();
+  }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+})();
+
+</script>
+<script>
+// QR 互動簡報的互動元件。全部在瀏覽器內計算：不連網、不開啟網址。
+// 輸出一律用 textContent 建立，使用者輸入只當文字顯示，不當 HTML。
+(() => {
+  const $ = id => document.getElementById(id);
+  const el = (tag, text, cls) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; };
+  const verdict = (text, kind) => el('span', text, `verdict ${kind}`);
+  const hex = bytes => [...bytes].map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' ');
+  function table(rows, head) {
+    const t = el('table');
+    if (head) { const tr = el('tr'); head.forEach(h => tr.append(el('th', h))); t.append(tr); }
+    rows.forEach(r => { const tr = el('tr'); r.forEach(c => { const td = el('td'); if (c instanceof Node) td.append(c); else td.textContent = c; tr.append(td); }); t.append(tr); });
+    return t;
+  }
+  const bindPresets = (attr, input, run) => document.querySelectorAll(`[${attr}]`).forEach(b => b.addEventListener('click', () => { input.value = b.getAttribute(attr); run(); }));
+
+  // module 與像素：把真正的 HELLO-IOT 矩陣（V1、M、21×21）用不同像素數畫出，再放大顯示每個像素。
+  if ($('px-view')) {
+    const BITS = '111111101000101111111100000101001001000001101110100011001011101101110101111101011101101110100101001011101100000100001101000001111111101010101111111000000001101100000000101101110011101001011110001000011111101111110110100101000000100010100011111001010110111010101100100100100000000001111001010110111111101001100001011100000101010000010100101110100100111000011101110101101001110110101110101100101100100100000100010010010000111111101010010001010';
+    const N = 21, Q = 4, W = N + 2 * Q;
+    const big = document.createElement('canvas'); big.width = big.height = W * 10;
+    const bg = big.getContext('2d'); bg.fillStyle = '#fff'; bg.fillRect(0, 0, big.width, big.height); bg.fillStyle = '#000';
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) if (BITS[r * N + c] === '1') bg.fillRect((c + Q) * 10, (r + Q) * 10, 10, 10);
+    const view = $('px-view'), vctx = view.getContext('2d');
+    let scale = 8;
+    const draw = () => {
+      // 先縮成「每格 scale 個像素」的實際圖檔大小（瀏覽器會平均相鄰像素），再放大到 290 像素顯示。
+      const px = Math.max(1, Math.round(W * scale));
+      const small = document.createElement('canvas'); small.width = small.height = px;
+      const sctx = small.getContext('2d'); sctx.imageSmoothingEnabled = true; sctx.imageSmoothingQuality = 'high';
+      sctx.drawImage(big, 0, 0, px, px);
+      vctx.imageSmoothingEnabled = false; vctx.clearRect(0, 0, 290, 290); vctx.drawImage(small, 0, 0, 290, 290);
+      if ($('px-grid').checked) {
+        vctx.strokeStyle = 'rgba(29,78,216,.55)'; vctx.lineWidth = 1;
+        for (let i = 0; i <= W; i++) { const x = Math.round(i * 290 / W) + .5; vctx.beginPath(); vctx.moveTo(x, 0); vctx.lineTo(x, 290); vctx.stroke(); vctx.beginPath(); vctx.moveTo(0, x); vctx.lineTo(290, x); vctx.stroke(); }
+      }
+      const data = sctx.getImageData(0, 0, px, px).data;
+      let grey = 0; for (let i = 0; i < data.length; i += 4) if (data[i] > 40 && data[i] < 215) grey++;
+      $('px-out').textContent = `每格 ${scale} 個像素 → 整張圖 ${W} 格 × ${scale} ≈ ${px} 像素寬\n` +
+        (scale < 1 ? `⚠ 一格分不到 1 個像素：${Math.round(grey / (px * px) * 100)}% 的像素變成灰色，黑白邊界混在一起` : `每格 module 由 ${scale}×${scale} 個像素畫成，邊界清楚`);
+    };
+    [0.5, 0.75, 1, 2, 4, 8, 16].forEach(v => {
+      const b = el('button', `${v} 像素`); b.addEventListener('click', () => { scale = v; document.querySelectorAll('#px-btns button').forEach(x => x.classList.toggle('pick', x === b)); draw(); });
+      if (v === 8) b.classList.add('pick'); $('px-btns').append(b);
+    });
+    $('px-grid').addEventListener('change', draw); draw();
+  }
+
+  // UTF-8：每個字元變成哪些 bytes。
+  if ($('u8-in')) {
+    const run = () => {
+      const text = $('u8-in').value, out = $('u8-out'); out.textContent = '';
+      const enc = new TextEncoder(), lines = [...text].slice(0, 12).map(ch => `${ch}  →  ${hex(enc.encode(ch))}`);
+      const total = enc.encode(text).length;
+      out.textContent = (text ? lines.join('\n') + ([...text].length > 12 ? '\n…' : '') + '\n' : '') + `共 ${[...text].length} 個字元，${total} UTF-8 bytes`;
+    };
+    $('u8-in').addEventListener('input', run); bindPresets('data-u8', $('u8-in'), run); run();
+  }
+
+  // query 與 fragment：同一個值放在 ? 後或 # 後，伺服器收到的請求行不同（瀏覽器組請求時會拿掉 # 之後）。
+  if ($('qf-id')) {
+    let where = 'query';
+    const run = () => {
+      const id = encodeURIComponent($('qf-id').value);
+      const url = where === 'query' ? `https://event.example/checkin?id=${id}` : `https://event.example/checkin#id=${id}`;
+      const u = new URL(url);
+      $('qf-url').textContent = url;
+      $('qf-req').textContent = `GET ${u.pathname}${u.search} HTTP/1.1`;
+      $('qf-bar').textContent = u.href;
+      $('qf-note').textContent = where === 'query'
+        ? '合成請求行帶出報名編號；實際服務是否保存到日誌，要另外核對。此互動沒有發出請求。'
+        : 'fragment 不在這段初始 HTTP 請求內，仍存在完整網址；頁面程式可能讀取或另送。此互動沒有發出請求。';
+    };
+    ['query', 'fragment'].forEach(w => {
+      const b = el('button', w === 'query' ? '寫法一：放在 ? 後（query）' : '寫法二：放在 # 後（fragment）');
+      b.addEventListener('click', () => { where = w; document.querySelectorAll('#qf-btns button').forEach(x => x.classList.toggle('pick', x === b)); run(); });
+      if (w === 'query') b.classList.add('pick'); $('qf-btns').append(b);
+    });
+    $('qf-id').addEventListener('input', run); run();
+  }
+
+  // URL 欄位：用瀏覽器內建解析器拆欄位，並並排兩種主機規則。
+  if ($('url-in')) {
+    const run = () => {
+      const out = $('url-out'); out.textContent = '';
+      const raw = $('url-in').value.trim();
+      let u;
+      try { u = new URL(raw); } catch { out.append(el('p', '無法解析成網址；保留原字串，不猜。', 'box warn')); return; }
+      if (!['http:', 'https:'].includes(u.protocol)) { out.append(el('p', `scheme 是 ${u.protocol.replace(':', '')}，不是 HTTP(S)：只顯示分類，不啟動。`, 'box warn')); return; }
+      let userinfo;
+      try { userinfo = (u.username || u.password) ? decodeURIComponent(u.username) + (u.password ? ':***' : '') : '（無）'; }
+      catch { out.append(el('p', 'userinfo 含無效的百分比編碼：保留原字串，不能繼續作主機政策比較。', 'box warn')); return; }
+      const rows = [['scheme', u.protocol.replace(':', '')], ['userinfo', userinfo], ['hostname（實際主機）', u.hostname], ['port', u.port || ((raw.match(/^[a-z]+:\/\/[^\/?#]*:(\d+)(?=[\/?#]|$)/i) || [])[1] ? `${raw.match(/^[a-z]+:\/\/[^\/?#]*:(\d+)(?=[\/?#]|$)/i)[1]}（${u.protocol.replace(':', '')} 預設埠，解析器顯示時省略）` : '（預設）')], ['path', u.pathname], ['query', u.search ? u.search.slice(1) : '（無）'], ['fragment', u.hash ? u.hash.slice(1) : '（無）']];
+      out.append(table(rows, ['欄位', '值']));
+      if (u.hostname.split('.').some(l => l.startsWith('xn--'))) out.append(el('p', '主機含非 ASCII 字元，實際名稱已轉成 xn--；外觀相同不代表同一主機。', 'box warn'));
+      const sub = raw.toLowerCase().includes('school.example'), exact = u.hostname === 'school.example';
+      const p = el('p'); p.append('「包含 school.example」規則：', verdict(sub ? '允許' : '拒絕', sub ? 'warn' : 'ok'), '　完整主機比對：', verdict(exact ? '允許' : '拒絕', exact ? 'ok' : 'bad'));
+      if (sub !== exact) p.append(el('span', '　← 子字串規則誤判', 'hot'));
+      out.append(p, el('p', '這兩欄只比較主機政策。完整主機匹配仍未驗證網站內容、登入要求或後續轉址。', 'small'));
+    };
+    $('url-in').addEventListener('input', run); bindPresets('data-url', $('url-in'), run); run();
+  }
+
+  // query：先拆欄位，每個值只解碼一次（與 Python parse_qs 相同的順序）。
+  if ($('pct-in')) {
+    const run = () => {
+      const out = $('pct-out'); out.textContent = '';
+      const raw = $('pct-in').value, fields = {};
+      try {
+        raw.split('&').filter(Boolean).forEach(pair => {
+          const [k, ...rest] = pair.split('=');
+          const dec = s => decodeURIComponent(s.replace(/\+/g, ' '));
+          (fields[dec(k)] ||= []).push(dec(rest.join('=')));
+        });
+      } catch { out.append(el('p', '有無效的百分比編碼；明確報錯，不猜。', 'box bad')); return; }
+      out.append(table(Object.entries(fields).map(([k, v]) => [k, JSON.stringify(v)]), ['欄位', '解析一次後的值']));
+      Object.entries(fields).forEach(([k, v]) => {
+        if (v.length > 1) out.append(el('p', `${k} 出現 ${v.length} 次：單值欄位有歧義，應明確拒絕，不悄悄挑一個。`, 'box warn'));
+        if (v.some(x => /%[0-9A-Fa-f]{2}/.test(x))) out.append(el('p', `${k} 解析一次後仍有 %xx：保留原狀，不自動再解一次。`, 'box'));
+      });
+    };
+    $('pct-in').addEventListener('input', run); bindPresets('data-pct', $('pct-in'), run); run();
+  }
+
+  // Base64 逐組展示：每 3 bytes → 4 個 6 位元組 → 查表；不足時補 0 與 =。
+  const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  if ($('b64t-in')) {
+    const run = () => {
+      const out = $('b64t-out'); out.textContent = '';
+      const bytes = [...new TextEncoder().encode($('b64t-in').value)];
+      if (!bytes.length) { out.append(el('p', '（空白：沒有 bytes 可以轉換）', 'small')); return; }
+      const rows = [];
+      for (let i = 0; i < bytes.length && rows.length < 4; i += 3) {
+        const chunk = bytes.slice(i, i + 3);
+        const bits = chunk.map(b => b.toString(2).padStart(8, '0')).join('');
+        const padded = bits.padEnd(Math.ceil(bits.length / 6) * 6, '0');
+        const groups = padded.match(/.{6}/g);
+        const chars = groups.map(g => ALPHA[parseInt(g, 2)]).join('') + '='.repeat(3 - chunk.length);
+        rows.push([hex(chunk), bits.match(/.{1,8}/g).join(' '), groups.join(' ') + (padded.length > bits.length ? '（補 0）' : ''), chars]);
+      }
+      out.append(table(rows, ['bytes', '位元', '6 位元一組', 'Base64']));
+      const full = btoa(String.fromCharCode(...bytes));
+      if (bytes.length > 12) out.append(el('p', '（只列出前 4 組）', 'small'));
+      out.append(el('div', `${bytes.length} bytes → ${full.length} 個字元：${full}`, 'out'));
+    };
+    $('b64t-in').addEventListener('input', run); bindPresets('data-b64t', $('b64t-in'), run); run();
+  }
+
+  // Base64 展開一層：要求 B64: 前綴、合法字元與補齊、有效 UTF-8。
+  if ($('b64-dec-in')) {
+    const dec = () => {
+      const v = $('b64-dec-in').value.trim(), out = $('b64-dec');
+      if (!v.startsWith('B64:')) { out.textContent = '✗ 沒有本課的 B64: 前綴：不猜格式。'; return; }
+      const body = v.slice(4);
+      if (!body || body.length % 4 || !/^[A-Za-z0-9+/]+={0,2}$/.test(body)) { out.textContent = '✗ 有不在對照表裡的字元，或補齊不正確：明確報錯。'; return; }
+      const bytes = Uint8Array.from(atob(body), c => c.charCodeAt(0));
+      try { out.textContent = `✓ ${new TextDecoder('utf-8', { fatal: true }).decode(bytes)}\n（bytes：${hex(bytes)}；只用公開的表，沒有金鑰）`; }
+      catch { out.textContent = `✗ 還原出 bytes ${hex(bytes)}，但不是有效的 UTF-8 文字：不當作原文。`; }
+    };
+    $('b64-dec-in').addEventListener('input', dec); bindPresets('data-b64', $('b64-dec-in'), dec); dec();
+  }
+
+  // JSON：同一段內容的三種畫面（原文、只顯示 message 的摘要、完整欄位）。
+  if ($('js-in')) {
+    const flatten = (obj, prefix = '') => Object.entries(obj).flatMap(([k, v]) =>
+      v && typeof v === 'object' && !Array.isArray(v) ? flatten(v, `${prefix}${k}.`) : [[`${prefix}${k}`, JSON.stringify(v)]]);
+    const run = () => {
+      const out = $('js-out'); out.textContent = '';
+      let data;
+      try { data = JSON.parse($('js-in').value); } catch { out.append(el('p', '不是有效的 JSON：保留原字串，不猜。', 'box warn')); return; }
+      if (!data || typeof data !== 'object' || Array.isArray(data)) { out.append(el('p', '這段 JSON 不是物件，沒有欄位可以列出。', 'box warn')); return; }
+      const fields = flatten(data);
+      // The full input remains visible in the textarea; avoid repeating it below.
+      const message = !Object.hasOwn(data, 'message') ? '（沒有 message 欄位）' : typeof data.message === 'string' ? data.message : JSON.stringify(data.message);
+      out.append(el('div', `② App 摘要畫面：${message}`, 'out'));
+      const omitted = flatten(Object.fromEntries(Object.entries(data).filter(([k]) => k !== 'message'))).map(([k]) => k);
+      out.append(el('p', `③ 完整解析：共 ${fields.length} 個欄位${omitted.length ? `，範例摘要省略：${omitted.join('、')}` : ''}`, 'hot'));
+      out.append(table(fields, ['自訂欄位', '值']), el('p', '本頁解析示例文字；PNG 往返見「還原附加欄位」活動。全部欄位可讀，只挑 message 是摘要選擇，並非保密。', 'small'));
+    };
+    $('js-in').value = '{"message":"HELLO","note":"LAB-ONLY"}';
+    $('js-in').addEventListener('input', run);
+    document.querySelectorAll('[data-json]').forEach(b => b.addEventListener('click', () => { $('js-in').value = b.dataset.json; run(); }));
+    run();
+  }
+
+  // Wi-Fi 配網：與 Python wifi_escape／parse_wifi 相同的跳脫規則。
+  if ($('wf-s')) {
+    const esc = s => [...s].map(c => '\\;,:"'.includes(c) ? '\\' + c : c).join('');
+    function parse(p) {
+      const fields = {}; let key = '', value = '', escaped = false, readingKey = true;
+      for (const c of p.slice(5, -1)) {
+        if (escaped) { value += c; escaped = false; }
+        else if (c === '\\') escaped = true;
+        else if (readingKey && c === ':') { key = value; value = ''; readingKey = false; }
+        else if (c === ';') { fields[key] = value; key = ''; value = ''; readingKey = true; }
+        else value += c;
+      }
+      return fields;
+    }
+    const run = () => {
+      const s = $('wf-s').value, p = $('wf-p').value;
+      const payload = `WIFI:T:WPA;S:${esc(s)};P:${esc(p)};;`, f = parse(payload);
+      $('wf-out').textContent = `${payload}\n\n解析回來：\nT（Wi-Fi 安全類型）= ${f.T}\nS（網路名稱）= ${f.S}\nP（密碼）= ${f.P}\n\n⚠ Wi-Fi 的安全類型不會加密這段 QR 文字；取得完整字串者可讀到 P。`;
+    };
+    ['wf-s', 'wf-p'].forEach(id => $(id).addEventListener('input', run)); run();
+  }
+
+  // 中介網址：把原網址編碼進 to，外層主機變成中介。
+  if ($('rl-orig')) {
+    const run = () => {
+      const out = $('rl-out'); out.textContent = '';
+      const orig = $('rl-orig').value.trim(), camp = $('rl-camp').value;
+      let inner; try { inner = new URL(orig); if (!['http:', 'https:'].includes(inner.protocol)) throw 0; } catch { out.append(el('p', '原始網址須是完整的 HTTP(S) 網址。', 'box warn')); return; }
+      const payload = `https://relay.example/go?to=${encodeURIComponent(orig)}&campaign=${encodeURIComponent(camp)}`;
+      const outer = new URL(payload);
+      out.append(el('pre', payload));
+      out.append(table([
+        ['外層主機（首站）', outer.hostname],
+        ['to（解析一次）', outer.searchParams.get('to')],
+        ['候選目的地主機', inner.hostname],
+        ['campaign', outer.searchParams.get('campaign')],
+        ['實際最終去向', '未驗證：要看中介怎麼回應'],
+      ], ['觀察', '本例的值']));
+    };
+    ['rl-orig', 'rl-camp'].forEach(id => $(id).addEventListener('input', run)); run();
+  }
+
+  // 點餐：與 Python OrderModel 相同的規則（S12 綁定店家 1028、桌 12；商品 301 單價 580）。
+  if ($('od-btns')) {
+    class OrderModel {
+      constructor() { this.session = { store: 1028, table: 12, active: true }; this.orders = []; this.requests = {}; }
+      create(rid, body) {
+        const s = this.session;
+        if (!s.active) throw '工作階段無效或已關閉。';
+        if (body.store_id !== s.store || body.table_id !== s.table) throw '店家或桌次不符合工作階段。';
+        if ('status' in body) throw '顧客不能指定訂單／付款狀態。';
+        let total = 0;
+        for (const it of body.items) {
+          if (!Number.isInteger(it.quantity) || it.quantity < 1 || it.quantity > 20) throw '商品／數量格式或範圍不符。';
+          if (it.product_id !== 301) throw '此店沒有可供應的商品。';
+          total += 580 * it.quantity;
+        }
+        const fp = JSON.stringify(body);
+        if (rid in this.requests) {
+          const [old, id] = this.requests[rid];
+          if (old !== fp) throw '同請求識別的內容不同。';
+          return { retry: true, order: this.orders.find(o => o.id === id) };
+        }
+        const order = { id: `O${1201 + this.orders.length}`, table: s.table, total, payment: 'unpaid' };
+        this.orders.push(order); this.requests[rid] = [fp, order.id];
+        return { retry: false, order };
+      }
+    }
+    const base = () => ({ store_id: 1028, table_id: 12, items: [{ product_id: 301, quantity: 1, price: 10 }], total: 10 });
+    const cases = {
+      '價格被改成 10': { body: base() },
+      '桌號改成 13': { body: { ...base(), table_id: 13 } },
+      '改成其他店家': { body: { ...base(), store_id: 2048 } },
+      '自稱已付款': { body: { ...base(), status: 'paid' } },
+      '同一請求重試': { body: base(), before: m => m.create('R001', base()) },
+      '同識別改數量': { body: { ...base(), items: [{ product_id: 301, quantity: 2, price: 10 }], total: 20 }, before: m => m.create('R001', base()) },
+      '用餐結束後加單': { body: base(), before: m => { m.session.active = false; } },
+    };
+    const run = name => {
+      document.querySelectorAll('#od-btns button').forEach(b => b.classList.toggle('pick', b.textContent === name));
+      const c = cases[name], m = new OrderModel();
+      if (c.before) c.before(m);
+      $('od-req').textContent = `POST /order　X-Request-Id: R001\n${JSON.stringify(c.body)}`;
+      $('od-weak').textContent = `接受　桌號 ${c.body.table_id}、總額 ${c.body.total}、狀態 ${c.body.status || 'unpaid'}\n（直接採用可編輯的欄位）`;
+      try {
+        const r = m.create('R001', c.body);
+        $('od-good').textContent = `${r.retry ? '重試：回傳既有' : '建立'}訂單 ${r.order.id}\n桌號 ${r.order.table}、正式總額 ${r.order.total}、未付款${r.retry ? '\n（沒有新增第二筆）' : ''}`;
+      } catch (reason) { $('od-good').textContent = `拒絕：${reason}`; }
+    };
+    Object.keys(cases).forEach(name => { const b = el('button', name); b.addEventListener('click', () => run(name)); $('od-btns').append(b); });
+    run('價格被改成 10');
+  }
+
+
+  // Base64 與加密的對照：AES-GCM（Web Crypto），金鑰由 PBKDF2 推導；只在瀏覽器內計算。
+  if ($('ek-text')) {
+    const enc = new TextEncoder(), dec = new TextDecoder();
+    const toB64 = bytes => btoa(String.fromCharCode(...bytes));
+    const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+    const salt = enc.encode('SEC_IoT-teaching-salt');
+    const deriveKey = async pass => {
+      const base = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']);
+      return crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+    };
+    let sealed = null, runId = 0;
+    const tryDecrypt = async () => {
+      if (!sealed) return;
+      try {
+        const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: sealed.iv }, await deriveKey($('ek-try').value), sealed.data);
+        $('ek-plain').textContent = `✓ 密語與驗證資料相符，還原：${dec.decode(plain)}`;
+      } catch { $('ek-plain').textContent = '✗ 解密驗證失敗：密語、密文或參數不符；本例可先核對兩欄密語'; }
+    };
+    const run = async () => {
+      const text = $('ek-text').value, b64 = toB64(enc.encode(text));
+      $('ek-b64').textContent = b64 || '（空白）';
+      try { $('ek-b64-back').textContent = `任何人都能展開 → ${dec.decode(fromB64(b64))}（不需要金鑰）`; } catch { $('ek-b64-back').textContent = ''; }
+      if (!window.crypto || !crypto.subtle) { $('ek-cipher').textContent = '這個瀏覽器環境不提供 Web Crypto，無法示範加密。'; return; }
+      const id = ++runId;
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const data = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, await deriveKey($('ek-key').value), enc.encode(text));
+      if (id !== runId) return;
+      sealed = { iv, data };
+      $('ek-cipher').textContent = `${toB64(new Uint8Array(data))}\n（每次加密都用新的隨機值，所以同一段文字的密文會不同）`;
+      tryDecrypt();
+    };
+    ['ek-text', 'ek-key'].forEach(id => $(id).addEventListener('input', run));
+    $('ek-try').addEventListener('input', tryDecrypt);
+    run();
+  }
+
+  if ($('html-text')) $('html-text').textContent = '<b>LAB</b>';
+})();
+
+</script>
+</body></html>

@@ -1,0 +1,43 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>案例十二模擬：簽到頁</title><link rel="stylesheet" href="../lab.css"></head><body>
+<main>
+<h1>社團簽到（教學模擬）</h1>
+<p>QR Code 裡讀到的文字：</p>
+<div class="out mono" id="raw"></div>
+<div class="two">
+  <div class="card"><span class="tag system">有漏洞的寫法</span><h2>把文字當成網頁內容</h2><div class="out" id="bad"></div></div>
+  <div class="card"><span class="tag contrast">修正後</span><h2>把文字當成純文字</h2><div class="out" id="good"></div></div>
+</div>
+<div class="card">
+  <h2>發生了什麼？</h2>
+  <p>QR Code 只是裝著一段文字，掃描器不會執行它。左邊的簽到頁把這段文字當成網頁的一部分放進畫面，<code>&lt;b&gt;</code> 這類標籤就被瀏覽器照著處理，字變粗了；右邊把它當純文字，標籤原樣顯示。</p>
+  <p>真正有漏洞的頁面，連會執行的程式碼（JavaScript）也會照做，例如跳出假的登入框。這叫<b>跨站腳本（XSS）</b>。<b>本模擬只放行粗體、斜體、底線、刪除線、螢光這五種格式</b>，其他標籤一律丟掉，所以不會執行任何程式。</p>
+  <p>試試其他名字：</p>
+  <form id="f" autocomplete="off"><input type="text" id="t" placeholder="例如：<i>小安</i> 或 <mark>小安</mark>"><button>重新簽到</button></form>
+  <p><b>社團</b>：讀到的內容一律當純文字顯示。問題不在 QR Code，而在接收資料的程式；換成鍵盤輸入也一樣。</p>
+  <p class="hint">對照講義 §1.3 案例十二、§4.8；實作篇 B6。</p>
+</div>
+<a class="back" href="../index.html">← 回掃碼體驗室</a>
+</main>
+<script src="../lab.js"></script><script>
+LAB.banner('..');
+const ALLOWED = new Set(['B', 'I', 'U', 'S', 'MARK']);
+// 模擬「被當成網頁內容」：只重建允許的格式標籤與文字節點，其他元素與所有屬性都丟棄。
+function looseRender(text, target) {
+  const doc = new DOMParser().parseFromString('<body>' + text, 'text/html');
+  const copy = (src, dst) => src.childNodes.forEach(n => {
+    if (n.nodeType === Node.TEXT_NODE) dst.append(n.textContent);
+    else if (n.nodeType === Node.ELEMENT_NODE && ALLOWED.has(n.tagName)) { const e = document.createElement(n.tagName); copy(n, e); dst.append(e); }
+    else if (n.nodeType === Node.ELEMENT_NODE && !['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT'].includes(n.tagName)) copy(n, dst);
+  });
+  target.replaceChildren(); copy(doc.body, target);
+}
+function show(text) {
+  document.getElementById('raw').textContent = text;
+  looseRender(text, document.getElementById('bad'));
+  document.getElementById('good').textContent = '歡迎 ' + text;
+  document.getElementById('bad').prepend('歡迎 ');
+}
+show(LAB.param('name', '<b>小安</b>').slice(0, 120));
+document.getElementById('f').addEventListener('submit', e => { e.preventDefault(); show(document.getElementById('t').value.slice(0, 120)); });
+</script></body></html>

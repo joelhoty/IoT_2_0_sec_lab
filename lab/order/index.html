@@ -1,0 +1,38 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>案例十一模擬：點餐系統</title><link rel="stylesheet" href="../lab.css"></head><body>
+<main>
+<div class="card fake"><div class="org">示範麵店 線上點餐（虛構）</div>
+<h1>第 <span id="t0"></span> 桌｜你的訂單</h1>
+<p>桌牌的 QR Code 網址帶著 <code id="q"></code>。按下送出時，手機會把下面這些資料送給店家系統；懂網頁工具的人可以先改掉再送。這裡直接讓你改：</p>
+<form id="f" autocomplete="off">
+<div class="two"><div><label>桌號（table）</label><input type="text" id="table" inputmode="numeric"></div>
+<div><label>鍋燒意麵單價（price）</label><input type="text" id="price" inputmode="numeric"></div></div>
+<label>店家系統的寫法</label>
+<select id="mode"><option value="trust">有漏洞：直接相信手機送來的桌號與價格</option><option value="check">修正後：桌號看這一桌的點餐工作階段，價格依商品表重算</option></select>
+<button>送出訂單</button></form></div>
+<section id="r" class="reveal card"><span class="tag system">系統設計</span><h2>店家系統怎麼處理？</h2><div id="out"></div>
+<p><b>店家</b>：桌號依店家發給這一桌的工作階段判斷，價格依商品表重算，付款狀態只採信金流紀錄。問題不在 QR Code，而在店家系統是否照單全收。</p>
+<p class="hint">對照講義 §1.3 案例十一、§4.10；實作篇 B5（本機版可觀察真實的請求與回應）。</p></section>
+<a class="back" href="../index.html">← 回掃碼體驗室</a></main>
+<script src="../lab.js"></script><script>
+LAB.banner('..');
+const MENU = {price: 90}, SESSION_TABLE = (LAB.param('table', '12').match(/^\d{1,3}$/) || ['12'])[0];
+document.getElementById('t0').textContent = SESSION_TABLE;
+document.getElementById('q').textContent = 'table=' + SESSION_TABLE;
+document.getElementById('table').value = SESSION_TABLE;
+document.getElementById('price').value = MENU.price;
+document.getElementById('f').addEventListener('submit', e => {
+  e.preventDefault();
+  const table = document.getElementById('table').value.trim(), price = Number(document.getElementById('price').value);
+  const trust = document.getElementById('mode').value === 'trust';
+  const rows = [];
+  if (trust) {
+    rows.push({text: `訂單記在第 ${table} 桌`, note: table !== SESSION_TABLE ? `你其實坐在第 ${SESSION_TABLE} 桌：帳記到別桌了` : '桌號正確', state: table !== SESSION_TABLE ? 'harm' : 'done'});
+    rows.push({text: `收款 NT$ ${isFinite(price) ? price : '？'}`, note: price !== MENU.price ? `商品表是 NT$ ${MENU.price}：店家少收（或多收）了錢` : '價格正確', state: price !== MENU.price ? 'harm' : 'done'});
+  } else {
+    rows.push({text: table === SESSION_TABLE ? `訂單記在第 ${SESSION_TABLE} 桌` : '拒絕這筆訂單', note: table === SESSION_TABLE ? '與這一桌的工作階段相符' : `送來的桌號 ${table} 與這一桌的工作階段（${SESSION_TABLE}）不符`, state: 'stop'});
+    rows.push({text: `收款 NT$ ${MENU.price}`, note: price !== MENU.price ? `送來的價格 ${price} 被忽略，依商品表重算` : '依商品表計價', state: 'stop'});
+  }
+  LAB.steps(document.getElementById('out'), rows); LAB.show('r');
+});
+</script></body></html>

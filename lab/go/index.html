@@ -1,0 +1,23 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>轉址中…</title><link rel="stylesheet" href="../lab.css"></head><body>
+<main>
+<div class="card"><h1>轉址服務（教學模擬）</h1>
+<p>這張 QR Code 裡寫的是轉址網址，不是最後的目的地。目的地由轉址服務的設定決定，印好的 QR Code 不必重印就能改。</p>
+<p>代號：<code id="id"></code><br>目前設定的目的地：<code id="to">讀取中…</code></p>
+<p class="hint" id="msg">2 秒後前往。</p>
+<button id="now">立即前往</button></div>
+<a class="back" href="../index.html">← 回掃碼體驗室</a>
+</main>
+<script src="../lab.js"></script><script>
+LAB.banner('..');
+const id = LAB.param('id', 'flyer');
+document.getElementById('id').textContent = id;
+fetch('targets.json', {cache: 'no-store'}).then(r => r.json()).then(t => {
+  const to = (t[id] || t.flyer).to;
+  if (!/^\.\.\/[a-z]+\/$/.test(to)) throw new Error('只允許站內目的地');   // 不做開放轉址
+  document.getElementById('to').textContent = new URL(to, location.href).pathname;
+  const go = () => location.replace(to);
+  document.getElementById('now').onclick = go;
+  setTimeout(go, 2000);
+}).catch(e => { document.getElementById('msg').textContent = '無法讀取設定：' + e.message; });
+</script></body></html>

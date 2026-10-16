@@ -1,0 +1,38 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>案例六模擬：收款碼被換掉</title><link rel="stylesheet" href="../lab.css"></head><body>
+<main>
+<div class="card fake">
+  <div class="org">示範支付（虛構 App 畫面）</div>
+  <h1>確認付款</h1>
+  <table><tr><th>付款給</th><td id="name"></td></tr><tr><th>帳戶類型</th><td id="kind"></td></tr><tr><th>金額</th><td>NT$ 65</td></tr></table>
+  <button id="pay">確認付款</button><button class="ghost" id="stop">取消，先問店員</button>
+</div>
+<section id="r" class="reveal card">
+  <span class="tag social">社交工程</span>
+  <h2 id="rt"></h2><div id="rs"></div>
+  <h2>怎麼防</h2>
+  <p><b>你</b>：按下付款前，核對「付款給」是不是櫃台上那家店的名稱。<br>
+     <b>店家</b>：收款碼放在店員看得到的地方，每天開店先掃一次自己的碼確認名稱。</p>
+  <p class="hint">對照講義 §1.3 案例六；簡報基礎篇「案例六」。</p>
+</section>
+<a class="back" href="../index.html">← 回掃碼體驗室</a>
+</main>
+<script src="../lab.js"></script><script>
+LAB.banner('..');
+const swapped = LAB.param('to') === 'swap';
+document.getElementById('name').textContent = swapped ? '陳○○' : '小林早餐店';
+document.getElementById('kind').textContent = swapped ? '個人帳戶' : '店家收款帳戶';
+const finish = paid => {
+  const harm = paid && swapped;
+  document.getElementById('rt').textContent = !swapped ? (paid ? '這張是店家原本的收款碼，錢付給了小林早餐店' : '這張其實是真的；不過先核對再付，習慣是對的')
+    : harm ? '錢付給了陳○○，不是早餐店' : '你發現收款人不對，沒有付出去';
+  LAB.steps(document.getElementById('rs'), [
+    {text: '掃描櫃台上的收款碼', note: swapped ? '這張是被人貼上去的另一張收款碼' : '這張是店家自己的收款碼', state: 'done'},
+    {text: '付款 App 顯示收款人名稱', note: '這是最後的核對點：「' + document.getElementById('name').textContent + '」', state: 'done'},
+    harm ? {text: '按下確認付款', note: '損害成立：顧客沒有交出任何密碼，錢卻付給了別人；店家也沒收到', state: 'harm'}
+         : {text: paid ? '按下確認付款' : '取消並詢問店員', note: paid ? '收款人正確' : '核對後再決定', state: 'stop'}]);
+  LAB.show('r');
+};
+document.getElementById('pay').onclick = () => finish(true);
+document.getElementById('stop').onclick = () => finish(false);
+</script></body></html>
