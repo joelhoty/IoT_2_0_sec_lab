@@ -52,3 +52,11 @@ th{color:var(--muted);font-weight:600}
 .station img{width:120px;height:120px;background:#fff;border-radius:10px;padding:6px;border:1px solid var(--line)}
 @media (max-width:420px){.station{grid-template-columns:1fr}.station img{width:150px;height:150px}}
 .back{display:inline-block;margin-top:18px}
+/* 首頁課程大綱（收合） */
+details.outline{border-top:1px solid var(--line);margin-top:12px;padding-top:8px}
+details.outline summary{cursor:pointer;color:var(--accent);font-weight:600}
+details.outline h3{font-size:17px;margin:1.1em 0 .3em}
+details.outline h4{font-size:15px;margin:.9em 0 .2em;color:var(--ink)}
+details.outline ol,details.outline ul{margin:.2em 0 .6em;padding-left:2.2em;font-size:15px;line-height:1.55}
+details.outline li{margin:.15em 0}
+details.outline .hint{font-weight:400}
