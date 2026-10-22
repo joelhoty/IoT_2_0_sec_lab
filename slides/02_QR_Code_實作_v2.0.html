@@ -566,7 +566,7 @@ uv run --locked python send_order.py --status paid
         vctx.strokeStyle = 'rgba(29,78,216,.9)'; vctx.lineWidth = 3;
         for (let i = 0; i <= ZN; i++) { const x = Math.round(i * VS / ZN); line(vctx, x, 0, x, VS); line(vctx, 0, x, VS, x); }
       }
-      $('px-out').textContent = `每格 module ＝ ${scale}×${scale}＝${scale * scale} 個像素\n整張圖寬：(4＋21＋4) 格 × ${scale} 像素 ＝ ${px} 像素` +
+      $('px-out').textContent = `每格 module ＝ ${scale}×${scale}＝${scale * scale} 個像素\n整張圖寬與高：(4＋21＋4) 格 × ${scale} 像素 ＝ ${px} 像素` +
         (scale === 1 ? '\n已是最小：再縮小，一個像素就要蓋住好幾格，黑白混成灰色，讀碼器分不清。' : '');
     };
     [1, 2, 4, 8, 16].forEach(v => {
